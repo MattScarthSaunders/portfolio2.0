@@ -1,65 +1,125 @@
 <script setup lang="ts">
 import { TypeFlow } from 'typeflow-vue'
+import axios from 'axios'
 import backendButtonVue from './backendButton.vue'
+import { onMounted, ref, watchEffect } from 'vue'
+import { handleBoardgameRequests } from '../utils/api'
+import BackendLink from './backendLink.vue'
 
-const props = defineProps<{ project: { [key: string]: any } }>()
-// let str = JSON.stringify(
-//   {
-//     content:
-//       'This is some placeholder content. Imagine its a big impressive paragraph that has a load of interesting data about something cool.',
-//     img: 'ducksinarow.jpg',
-//     votes: 0,
-//     timestamp: new Date()
-//   },
-//   ['content', 'img', 'votes', 'timestamp'],
-//   4
-// )
+export interface ProjectProps {
+  id: number
+  name: string
+  about: string
+  aboutFull: string
+  github: string
+  hosted: string
+  img: string
+  tech: string[]
+}
+const props = defineProps<{
+  project?: ProjectProps
+  isProjectSelected: Boolean
+}>()
 
-let str = [
-  {
-    content:
-      'This is some placeholder content. Imagine its a big impressive paragraph that has a load of interesting data about something cool.',
-    img: 'ducksinarow.jpg',
-    votes: '0',
-    timestamp: String(new Date())
+const commands = ref<string[][]>([['', '']])
+const fetchedData = ref<{ [key: string]: any } | string | null>(null)
+const isInteractorFetching = ref(false)
+const isInteractorErrored = ref(false)
+const isAPIFetching = ref(false)
+
+watchEffect(async () => {
+  if (props.project) {
+    try {
+      const res = await axios.get(props.project.hosted)
+      isInteractorFetching.value = false
+      commands.value = Object.keys(res.data).map((key) => {
+        return key.split(' ')
+      })
+    } catch (err) {
+      isInteractorFetching.value = false
+      isInteractorErrored.value = true
+    }
   }
-]
+})
 
-console.log(JSON.stringify(str[0], Object.keys(str[0]), 4))
+const handleClick = async (command: string, endpoint: string) => {
+  if (props.project) {
+    const urlStub = props.project.hosted
+    isAPIFetching.value = true
+    await handleBoardgameRequests(command, endpoint, urlStub, fetchedData, isAPIFetching)
+  }
+}
 </script>
 
 <template>
+  <section class="projectInfoWrapper" v-if="isProjectSelected">
+    <BackendLink :link="props.project ? props.project.hosted : ''">Hosted</BackendLink>
+    <section class="projectInfo">
+      <p class="projectDescription">{{ props.project?.aboutFull }}</p>
+      <p class="stack">Stack: {{ props.project ? props.project.tech.join(', ') : '' }}</p>
+    </section>
+  </section>
   <section class="backendContainer">
     <section class="apiInteractor">
-      <ul class="apiCommandList">
-        <li v-for="(command, i) in props.project.commands" v-bind:key="command[i]">
-          <backendButtonVue :name="command[0]" :projectIndex="i"></backendButtonVue>
+      <TypeFlow v-if="isInteractorFetching && props.isProjectSelected" :charDelay="100"
+        ><p>LOADING...</p>
+      </TypeFlow>
+      <TypeFlow v-else-if="isInteractorErrored && props.isProjectSelected" :charDelay="10">
+        <p>ERROR: Could not retrieve API request data, please try again.</p>
+      </TypeFlow>
+      <ul v-else-if="props.isProjectSelected" class="apiCommandList">
+        <li v-for="(command, i) in commands" v-bind:key="command[i]">
+          <backendButtonVue
+            :name="command[0]"
+            :projectIndex="i"
+            @click="handleClick(command[0], command[1])"
+          ></backendButtonVue>
           <label class="apiButtonLabel">{{ command[1] }}</label>
         </li>
       </ul>
     </section>
     <section class="apiVisualiser">
-      <div v-for="item in str" v-bind:key="item.timestamp">
-        <TypeFlow :charDelay="10"
-          ><p>{{ JSON.stringify(item, Object.keys(item), 4) }}</p></TypeFlow
-        >
-      </div>
-      <br />
+      <TypeFlow v-if="isAPIFetching" :charDelay="100"><p>LOADING...</p></TypeFlow>
+      <TypeFlow v-else :charDelay="2">
+        <p class="visualisedApi">
+          {{ fetchedData }}
+        </p></TypeFlow
+      >
     </section>
   </section>
 </template>
 
 <style scoped>
+.projectInfo {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+}
+.projectDescription {
+  color: green;
+  font-size: 1.25rem;
+  margin-bottom: 0.25rem;
+}
+.projectInfoWrapper {
+  display: flex;
+  margin-top: 1rem;
+}
+
+.stack {
+  color: green;
+  font-size: 1.25rem;
+  margin-top: 0.25rem;
+}
+
 .apiInteractor,
 .apiVisualiser {
-  min-width: 45vw;
+  width: 45vw;
   border: 1px solid green;
   color: green;
   padding: 1rem;
-}
-
-.apiInteractor {
-  height: max-content;
+  height: 60vh;
+  overflow-y: scroll;
+  scrollbar-color: green rgb(11, 46, 22);
 }
 
 .apiVisualiser {
@@ -80,10 +140,13 @@ console.log(JSON.stringify(str[0], Object.keys(str[0]), 4))
 }
 
 .backendContainer {
-  padding-top: 2rem;
+  padding-top: 1rem;
   display: flex;
   gap: 2rem;
-  overflow: visible;
-  font-size: 2rem;
+  font-size: 1.5rem;
+}
+
+.visualisedApi {
+  white-space: pre-wrap;
 }
 </style>
