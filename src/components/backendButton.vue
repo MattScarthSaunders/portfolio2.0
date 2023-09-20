@@ -14,8 +14,8 @@ const props = defineProps<{ name: string; projectIndex: number }>()
   background-color: rgb(3, 12, 3);
   border: 1px solid green;
   padding: 1rem;
-  font-size: 1.5rem;
-  animation: textShadow 1.6s infinite;
+  font-size: 1.25rem;
+  animation: textShadow 10.6s infinite;
 }
 
 .projectButton:hover,

@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import BackendButton from '@/components/backendButton.vue'
-import ProjectContainer, { type ProjectProps } from '@/components/projectContainer.vue'
+import ProjectContainer, { type Project } from '@/components/projectContainer.vue'
 import { TypeFlow } from 'typeflow-vue'
 import { ref } from 'vue'
 
 const buttonPressedId = ref(0)
 const isProjectSelected = ref(false)
 
-const portfolioProjects: { [key: string]: any }[] = [
+const portfolioProjects: Project[] = [
   {
     id: 1,
     name: 'BG-Reviews Backend',
@@ -24,14 +24,6 @@ const portfolioProjects: { [key: string]: any }[] = [
 
 <template>
   <main class="crt">
-    <section class="description">
-      <TypeFlow :charDelay="15"
-        ><p class="description">
-          To inspect an api, select one from the list below. You can either use the built-in
-          explorer to interact with it, or use the link provided to visit the hosted versions.
-        </p></TypeFlow
-      >
-    </section>
     <nav class="backendNav">
       <BackendButton
         v-for="(proj, i) in portfolioProjects"
@@ -83,7 +75,7 @@ main {
   z-index: 2;
   pointer-events: none;
   animation: flicker 0.15s infinite;
-  box-shadow: inset 0 0 10rem 5rem black;
+  box-shadow: inset 0 0 10rem black;
 }
 .crt::before {
   content: ' ';
@@ -102,17 +94,11 @@ main {
   pointer-events: none;
 }
 .crt {
-  animation: textShadow 1.6s infinite;
+  animation: textShadow 10.6s infinite;
 }
 
 .backendNav {
   display: flex;
   gap: 1rem;
-}
-
-.description {
-  font-size: 1.5rem;
-  height: 5rem;
-  color: green;
 }
 </style>

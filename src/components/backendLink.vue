@@ -13,10 +13,11 @@ const props = defineProps<{ link: string }>()
   color: green;
   background-color: rgb(3, 12, 3);
   border: 1px solid green;
-  padding: 1rem;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
+  padding: 0.25rem;
   text-decoration: none;
   height: max-content;
+  width: max-content;
 }
 
 .projectLink:hover,

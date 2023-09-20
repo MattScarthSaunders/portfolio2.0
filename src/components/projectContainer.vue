@@ -6,7 +6,7 @@ import { onMounted, ref, watchEffect } from 'vue'
 import { handleBoardgameRequests } from '../utils/api'
 import BackendLink from './backendLink.vue'
 
-export interface ProjectProps {
+export interface Project {
   id: number
   name: string
   about: string
@@ -17,7 +17,7 @@ export interface ProjectProps {
   tech: string[]
 }
 const props = defineProps<{
-  project?: ProjectProps
+  project?: Project
   isProjectSelected: Boolean
 }>()
 
@@ -53,10 +53,10 @@ const handleClick = async (command: string, endpoint: string) => {
 
 <template>
   <section class="projectInfoWrapper" v-if="isProjectSelected">
-    <BackendLink :link="props.project ? props.project.hosted : ''">Hosted</BackendLink>
     <section class="projectInfo">
       <p class="projectDescription">{{ props.project?.aboutFull }}</p>
       <p class="stack">Stack: {{ props.project ? props.project.tech.join(', ') : '' }}</p>
+      <BackendLink :link="props.project ? props.project.hosted : ''">Visit Hosted</BackendLink>
     </section>
   </section>
   <section class="backendContainer">
@@ -94,11 +94,11 @@ const handleClick = async (command: string, endpoint: string) => {
   display: flex;
   flex-direction: column;
   padding: 0.5rem;
+  gap: 0.5rem;
 }
 .projectDescription {
   color: green;
   font-size: 1.25rem;
-  margin-bottom: 0.25rem;
 }
 .projectInfoWrapper {
   display: flex;
@@ -123,7 +123,7 @@ const handleClick = async (command: string, endpoint: string) => {
 }
 
 .apiVisualiser {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 }
 
 .apiCommandList {
@@ -143,10 +143,47 @@ const handleClick = async (command: string, endpoint: string) => {
   padding-top: 1rem;
   display: flex;
   gap: 2rem;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 }
 
 .visualisedApi {
   white-space: pre-wrap;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+::-webkit-scrollbar-thumb {
+  background: #00940a;
+  animation: textShadow 1.6s infinite;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00b30c;
+  animation: textShadow 1.6s infinite;
+}
+::-webkit-scrollbar-thumb:active {
+  background: #0ba300;
+  animation: textShadow 1.6s infinite;
+}
+::-webkit-scrollbar-track {
+  background: #0a3305;
+  animation: textShadow 1.6s infinite;
+}
+::-webkit-scrollbar-track:hover {
+  background: #0a3305;
+  animation: textShadow 1.6s infinite;
+}
+::-webkit-scrollbar-track:active {
+  background: #0a3305;
+  animation: textShadow 1.6s infinite;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+  animation: textShadow 1.6s infinite;
 }
 </style>
