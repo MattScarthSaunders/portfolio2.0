@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import BackendHomeView from './views/BackendHomeView.vue'
+// import BackendHomeView from './views/BackendHomeView.vue'
+import FrontendHomeView from './views/FrontendHomeView.vue'
 </script>
 
 <template>
   <div class="base">
-    <BackendHomeView />
+    <!-- <BackendHomeView /> -->
+    <FrontendHomeView />
   </div>
 </template>
 
