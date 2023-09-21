@@ -1,10 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <section class="frontendBase">
-    <div class="fade-overlay"></div>
-    <div>frontend!</div>
-  </section>
+  <section class="frontendBase"></section>
 </template>
 
 <style scoped>
@@ -19,14 +16,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.fade-overlay {
-  height: 100%;
-  width: 100%;
-  background: black;
-  opacity: 0;
-  transition: opacity 4s ease;
 }
 
 @keyframes gradient {
