@@ -23,43 +23,47 @@ const portfolioProjects: Project[] = [
 </script>
 
 <template>
-  <main class="crt">
-    <nav class="backendNav">
-      <BackendButton
-        v-for="(proj, i) in portfolioProjects"
-        v-bind:key="proj.name"
-        :name="proj.name"
-        :projectIndex="i"
-        @projName="
-          () => {
-            buttonPressedId = i
-            isProjectSelected = true
-          }
-        "
-      ></BackendButton>
-    </nav>
-    <ProjectContainer
-      v-if="!isProjectSelected"
-      :isProjectSelected="isProjectSelected"
-    ></ProjectContainer>
-    <ProjectContainer
-      v-else
-      :project="portfolioProjects[buttonPressedId]"
-      :isProjectSelected="isProjectSelected"
-    ></ProjectContainer>
-  </main>
+  <section class="backendBase">
+    <div class="crt">
+      <nav class="backendNav">
+        <BackendButton
+          v-for="(proj, i) in portfolioProjects"
+          v-bind:key="proj.name"
+          :name="proj.name"
+          :projectIndex="i"
+          @projName="
+            () => {
+              buttonPressedId = i
+              isProjectSelected = true
+            }
+          "
+        ></BackendButton>
+      </nav>
+      <ProjectContainer
+        v-if="!isProjectSelected"
+        :isProjectSelected="isProjectSelected"
+      ></ProjectContainer>
+      <ProjectContainer
+        v-else
+        :project="portfolioProjects[buttonPressedId]"
+        :isProjectSelected="isProjectSelected"
+      ></ProjectContainer>
+    </div>
+  </section>
 </template>
 
 <style>
-main {
+.backendBase {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  padding: 5rem 20rem;
+  justify-content: center;
+  align-items: center;
+  padding: 5rem 0;
   background: rgb(6, 17, 1);
   height: 100%;
   overflow: hidden;
+  position: relative;
+  width: 100vw;
 }
 
 .crt::after {

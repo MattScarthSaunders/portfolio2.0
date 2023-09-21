@@ -2,7 +2,7 @@
 import { TypeFlow } from 'typeflow-vue'
 import axios from 'axios'
 import backendButtonVue from './backendButton.vue'
-import { onMounted, ref, watchEffect } from 'vue'
+import { computed, onMounted, ref, watchEffect } from 'vue'
 import { handleBoardgameRequests } from '../utils/api'
 import BackendLink from './backendLink.vue'
 
@@ -23,7 +23,7 @@ const props = defineProps<{
 
 const commands = ref<string[][]>([['', '']])
 const fetchedData = ref<{ [key: string]: any } | string | null>(null)
-const isInteractorFetching = ref(false)
+const isInteractorFetching = ref(props.isProjectSelected)
 const isInteractorErrored = ref(false)
 const isAPIFetching = ref(false)
 
