@@ -73,17 +73,11 @@ export const handleBoardgameRequests = async (
       fetchedData.value = res.data
     }
     if (command === 'DELETE') {
-      fetchedData.value = `
-        .-""""""-.
-     .'           '.       I'm afraid I can't
-    /   /\\     /\\   \\    Let you Do that.
-   :                 :     Have a lovely day!
-   |                 |
-   :  ',          ,' :
-    \\   '-......-'  /
-     '.           .'
-       '-...... -'
-       `
+      fetchedData.value = {
+        deleted: {
+          comment_id: Math.ceil(Math.random() * 10)
+        }
+      }
     }
     isAPIFetching.value = false
   } catch (err) {

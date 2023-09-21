@@ -2,8 +2,8 @@
 import { TypeFlow } from 'typeflow-vue'
 import axios from 'axios'
 import backendButtonVue from './backendButton.vue'
-import { computed, onMounted, ref, watchEffect } from 'vue'
-import { handleBoardgameRequests } from '../utils/api'
+import { computed, onMounted, ref, watch, watchEffect } from 'vue'
+import { handleBoardgameRequests } from '../../utils/api'
 import BackendLink from './backendLink.vue'
 
 export interface Project {
@@ -27,11 +27,26 @@ const isInteractorFetching = ref(props.isProjectSelected)
 const isInteractorErrored = ref(false)
 const isAPIFetching = ref(false)
 
+const interactorWidth = ref('0vw')
+const interactorHeight = ref('0vh')
+const interactorOverflow = ref('hidden')
+const interactorPadding = ref('0rem')
+const interactorBorder = ref('none')
+
+const visualiserWidth = ref('0vw')
+const visualiserHeight = ref('0vh')
+const visualiserOverflow = ref('hidden')
+const visualiserPadding = ref('0rem')
+const visualiserBorder = ref('none')
+
+const instructionToUser = ref('[admin] </guest/instruction> load instruction-to-user...')
+
 watchEffect(async () => {
   if (props.project) {
     try {
       const res = await axios.get(props.project.hosted)
       isInteractorFetching.value = false
+
       commands.value = Object.keys(res.data).map((key) => {
         return key.split(' ')
       })
@@ -42,10 +57,38 @@ watchEffect(async () => {
   }
 })
 
+watch(isInteractorFetching, (prev, current) => {
+  if (current) {
+    interactorWidth.value = '30vw'
+    interactorHeight.value = '60vh'
+    interactorOverflow.value = 'scroll'
+    interactorPadding.value = '3rem 1rem'
+    interactorBorder.value = '1px solid green'
+
+    setTimeout(() => {}, 4000)
+    setTimeout(() => {
+      instructionToUser.value =
+        '[admin] </guest/instruction> Click the buttons below to use the api...'
+    }, 4000)
+    setTimeout(() => {
+      if (!fetchedData.value)
+        instructionToUser.value =
+          '[admin] </guest/encouragement> Go ahead, it wont hurt, I promise!'
+    }, 60000)
+  }
+})
+
 const handleClick = async (command: string, endpoint: string) => {
   if (props.project) {
     const urlStub = props.project.hosted
     isAPIFetching.value = true
+
+    visualiserWidth.value = '60vw'
+    visualiserHeight.value = '60vh'
+    visualiserOverflow.value = 'scroll'
+    visualiserPadding.value = '1rem'
+    visualiserBorder.value = '1px solid green'
+
     await handleBoardgameRequests(command, endpoint, urlStub, fetchedData, isAPIFetching)
   }
 }
@@ -54,17 +97,26 @@ const handleClick = async (command: string, endpoint: string) => {
 <template>
   <section class="projectInfoWrapper" v-if="isProjectSelected">
     <section class="projectInfo">
-      <p class="projectDescription">{{ props.project?.aboutFull }}</p>
-      <p class="stack">Stack: {{ props.project ? props.project.tech.join(', ') : '' }}</p>
+      <TypeFlow :char-delay="10" class="projectDescription"
+        ><p>[api] &lt;/project/description&#62; {{ props.project?.aboutFull }}</p></TypeFlow
+      >
+      <TypeFlow :char-delay="10"
+        ><p class="stack">
+          [api] &lt;/project/stack&#62; {{ props.project ? props.project.tech.join(' | ') : '' }}
+        </p></TypeFlow
+      >
       <BackendLink :link="props.project ? props.project.hosted : ''">Visit Hosted</BackendLink>
     </section>
   </section>
   <section class="backendContainer">
+    <TypeFlow v-if="isInteractorFetching && props.isProjectSelected" :charDelay="100"
+      ><p>LOADING...</p>
+    </TypeFlow>
     <section class="apiInteractor">
-      <TypeFlow v-if="isInteractorFetching && props.isProjectSelected" :charDelay="100"
-        ><p>LOADING...</p>
-      </TypeFlow>
-      <TypeFlow v-else-if="isInteractorErrored && props.isProjectSelected" :charDelay="10">
+      <TypeFlow
+        ><p class="subtleInstruction">{{ instructionToUser }}</p></TypeFlow
+      >
+      <TypeFlow v-if="isInteractorErrored && props.isProjectSelected" :charDelay="10">
         <p>ERROR: Could not retrieve API request data, please try again.</p>
       </TypeFlow>
       <ul v-else-if="props.isProjectSelected" class="apiCommandList">
@@ -90,15 +142,25 @@ const handleClick = async (command: string, endpoint: string) => {
 </template>
 
 <style scoped>
+.subtleInstruction {
+  position: absolute;
+  font-size: 0.9rem;
+  top: 1.5rem;
+  left: 1rem;
+  color: green;
+}
 .projectInfo {
   display: flex;
   flex-direction: column;
   padding: 0.5rem;
   gap: 0.5rem;
+  width: 100%;
+  margin-bottom: 0.5rem;
 }
 .projectDescription {
   color: green;
   font-size: 1.25rem;
+  width: 100%;
 }
 .projectInfoWrapper {
   display: flex;
@@ -109,21 +171,33 @@ const handleClick = async (command: string, endpoint: string) => {
   color: green;
   font-size: 1.25rem;
   margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .apiInteractor,
 .apiVisualiser {
-  width: 45vw;
-  border: 1px solid green;
   color: green;
-  padding: 1rem;
-  height: 60vh;
-  overflow-y: scroll;
   scrollbar-color: green rgb(11, 46, 22);
+  transition-property: width, height, padding;
+  transition-duration: 0.5s, 1s, 0s;
+  transition-delay: 0s, 0.5s, 0.5s;
 }
 
 .apiVisualiser {
-  font-size: 1.25rem;
+  width: v-bind(visualiserWidth);
+  height: v-bind(visualiserHeight);
+  overflow-y: v-bind(visualiserOverflow);
+  padding: v-bind(visualiserPadding);
+  border: v-bind(visualiserBorder);
+}
+
+.apiInteractor {
+  width: v-bind(interactorWidth);
+  height: v-bind(interactorHeight);
+  overflow-y: v-bind(interactorOverflow);
+  padding: v-bind(interactorPadding);
+  border: v-bind(interactorBorder);
+  position: relative;
 }
 
 .apiCommandList {

@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import BackendHomeView from './views/BackendHomeView.vue'
 import FrontendHomeView from './views/FrontendHomeView.vue'
+import backendFEbutton from './components/backend/backendFEbutton.vue'
 import { computed, onMounted, ref } from 'vue'
+import FrontendBEbutton from './components/frontend/frontendBEbutton.vue'
+import { TypeFlow } from 'typeflow-vue'
 
 const offset = ref(0)
 const screenWidth = ref(0)
@@ -12,6 +15,8 @@ const feBeTrig = ref(0)
 const beFeTrig = ref(0)
 const beBeTrig = ref(1)
 const overlayOpacity = ref(1)
+const crtVisibility = ref('block')
+const backendChosen = ref(false)
 
 onMounted(() => {
   screenWidth.value = window.innerWidth
@@ -54,51 +59,52 @@ const moveOneScreenWidth = (direction: string) => {
       >
         frontend
       </button>
-      <button
-        class="frontend-BE-trigger"
-        @click="
+      <FrontendBEbutton
+        :feBeTrig="feBeTrig"
+        @feBEtriggered="
           () => {
             moveOneScreenWidth('backward')
             feBeTrig = 0
             beFeTrig = 1
           }
         "
-      >
-        backend
-      </button>
+      ></FrontendBEbutton>
     </div>
     <div class="view-container">
+      <div class="crt1"></div>
       <div class="overlayBE"></div>
-      <BackendHomeView />
-      <button
-        class="backend-BE-trigger"
-        @click="
-          () => {
-            moveOneScreenWidth('backward')
-            feFeTrig = 0
-            beBeTrig = 0
-            beFeTrig = 1
-            overlayOpacity = 0
-          }
-        "
-      >
-        backend
-      </button>
-      <button
-        class="backend-FE-trigger"
-        @click="
+      <BackendHomeView :backendChosen="backendChosen" />
+      <TypeFlow
+        ><button
+          class="backend-BE-trigger"
+          @click="
+            () => {
+              moveOneScreenWidth('backward')
+              feFeTrig = 0
+              beBeTrig = 0
+              beFeTrig = 1
+              overlayOpacity = 0
+              crtVisibility = 'none'
+              backendChosen = true
+            }
+          "
+        >
+          backend...
+        </button>
+      </TypeFlow>
+      <TypeFlow>
+        <p class="label-be">APIs/Data/Cloud</p>
+      </TypeFlow>
+      <backendFEbutton
+        @beFEtriggered="
           () => {
             moveOneScreenWidth('forward')
             beFeTrig = 0
             feBeTrig = 1
           }
         "
-      >
-        <span class="a1">&lt;</span><span class="a2">&lt;</span><span class="a3">&lt;</span
-        ><span class="f">f</span><span class="r">r</span><span class="o">o</span
-        ><span class="n">n</span><span class="t">t</span><span class="e">e</span
-        ><span class="n2">n</span><span class="d">d</span>
-      </button>
+        :beFeTrig="beFeTrig"
+      ></backendFEbutton>
     </div>
   </main>
 </template>
@@ -136,7 +142,40 @@ const moveOneScreenWidth = (direction: string) => {
 }
 
 .overlayBE {
+  background-color: rgb(7, 14, 5);
   z-index: 2;
+}
+
+.crt1::after {
+  content: ' ';
+  display: v-bind(crtVisibility);
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(18, 16, 16, 0.1);
+  opacity: 0;
+  z-index: 4;
+  pointer-events: none;
+  animation: flicker 0.15s infinite;
+  box-shadow: inset 0 0 10rem black;
+}
+.crt1::before {
+  content: ' ';
+  display: v-bind(crtVisibility);
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+    linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 4;
+  background-size:
+    100% 2px,
+    3px 100%;
+  pointer-events: none;
 }
 
 .frontend-FE-trigger {
@@ -151,111 +190,12 @@ const moveOneScreenWidth = (direction: string) => {
   cursor: pointer;
   transition: opacity 1s ease;
 }
-.frontend-BE-trigger {
-  position: absolute;
-  top: 10%;
-  right: 5%;
-  opacity: v-bind(feBeTrig);
-}
 
-@font-face {
-  src: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/86186/terminal_copy.ttf);
-  font-family: 'Terminal';
-}
-.backend-FE-trigger {
-  position: absolute;
-  bottom: 3%;
-  left: 2%;
-  opacity: v-bind(beFeTrig);
-  background: none;
-  border: none;
-  color: -webkit-linear-gradient(green, pink);
-  transition: opacity 2s ease;
-  transition-delay: 1s;
-}
-
-@keyframes blinking {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-.backend-FE-trigger > span {
-  font-size: 2rem;
-  font-family: 'Terminal';
-  color: green;
-  cursor: pointer;
-  opacity: var(beFeTrig);
-}
-
-.backend-FE-trigger:hover > span {
-  animation: blinking 1s infinite;
-  color: white;
-  transition: color 1s ease;
-}
-.backend-FE-trigger:hover > .a1 {
-  color: teal;
-  animation-delay: 0.1s;
-  transition-delay: 0.1s;
-}
-
-.backend-FE-trigger:hover > .a2 {
-  color: aqua;
-  animation-delay: 0.2s;
-  transition-delay: 0.2s;
-}
-.backend-FE-trigger:hover > .a3 {
-  color: white;
-  transition-delay: 0.3s;
-  animation-delay: 0.3s;
-}
-.backend-FE-trigger:hover > .f {
-  color: white;
-  transition-delay: 0.4s;
-  animation-delay: 0.4s;
-}
-.backend-FE-trigger:hover > .r {
-  color: rgb(0, 255, 249);
-  transition-delay: 0.5s;
-  animation-delay: 0.5s;
-}
-.backend-FE-trigger:hover > .o {
-  color: rgb(0, 184, 255);
-  transition-delay: 0.6s;
-  animation-delay: 0.6s;
-}
-.backend-FE-trigger:hover > .n {
-  color: rgb(73, 0, 255);
-  transition-delay: 0.7s;
-  animation-delay: 0.7s;
-}
-.backend-FE-trigger:hover > .t {
-  color: rgb(150, 0, 255);
-  transition-delay: 0.8s;
-  animation-delay: 0.8s;
-}
-.backend-FE-trigger:hover > .e {
-  color: rgb(255, 0, 193);
-  transition-delay: 0.9s;
-  animation-delay: 0.9s;
-}
-.backend-FE-trigger:hover > .n2 {
-  color: rgb(251, 184, 248);
-  transition-delay: 1s;
-  animation-delay: 1s;
-}
-.backend-FE-trigger:hover > .d {
-  color: white;
-  transition-delay: 1.1s;
-  animation-delay: 1.1s;
-}
 .backend-BE-trigger {
   position: absolute;
   opacity: v-bind(beBeTrig);
   top: 10%;
-  left: 30%;
+  left: 28%;
   background: none;
   color: white;
   border: none;
@@ -263,5 +203,18 @@ const moveOneScreenWidth = (direction: string) => {
   cursor: pointer;
   transition: opacity 1s ease;
   z-index: 3;
+  color: green;
+  animation: textShadow 1.6s infinite;
+}
+
+.label-be {
+  font-size: 1rem;
+  opacity: v-bind(beBeTrig);
+  position: absolute;
+  top: 18%;
+  left: 28%;
+  z-index: 3;
+  animation: textShadow 1.6s infinite;
+  color: green;
 }
 </style>

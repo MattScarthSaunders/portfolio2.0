@@ -1,11 +1,17 @@
 <script setup lang="ts">
-import BackendButton from '@/components/backendButton.vue'
-import ProjectContainer, { type Project } from '@/components/projectContainer.vue'
+import BackendButton from '@/components/backend/backendButton.vue'
+import navDock from '../components/navDock.vue'
+import ProjectContainer, { type Project } from '@/components/backend/projectContainer.vue'
 import { TypeFlow } from 'typeflow-vue'
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
+import { useNavStore } from '@/stores/nav'
+
+const store = useNavStore()
+const props = defineProps<{ backendChosen: boolean }>()
 
 const buttonPressedId = ref(0)
 const isProjectSelected = ref(false)
+const navSelected = ref(false)
 
 const portfolioProjects: Project[] = [
   {
@@ -20,6 +26,27 @@ const portfolioProjects: Project[] = [
     tech: ['Javascript', 'Express.js', 'Node.js', 'PostgreSQL', 'Jest']
   }
 ]
+
+const date = new Date()
+const date2 = new Date()
+const date3 = new Date()
+date2.setSeconds(date2.getSeconds() + 3)
+date3.setSeconds(date3.getSeconds() + 6)
+
+const greeting = `
+${date.toLocaleString('en-GB')} [admin] </guest/greeting> Welcome to the backend section of my site!
+${date2.toLocaleString(
+  'en-GB'
+)} [admin] </guest/explanation> If you want to view a particular project, click on one of the buttons at the top...
+${date3.toLocaleString('en-GB')} [admin] </guest/signoff> Thanks for stopping by!
+`
+
+watchEffect(() => {
+  if ((store.aboutSelected || store.cvSelected || store.contactSelected) && store.type === 'be') {
+    isProjectSelected.value = false
+    navSelected.value = true
+  }
+})
 </script>
 
 <template>
@@ -39,31 +66,45 @@ const portfolioProjects: Project[] = [
           "
         ></BackendButton>
       </nav>
+      <TypeFlow v-if="!isProjectSelected && backendChosen && !navSelected" :char-delay="15">
+        <pre class="greeting">{{ greeting }}</pre>
+      </TypeFlow>
       <ProjectContainer
-        v-if="!isProjectSelected"
-        :isProjectSelected="isProjectSelected"
-      ></ProjectContainer>
-      <ProjectContainer
-        v-else
+        v-if="isProjectSelected"
         :project="portfolioProjects[buttonPressedId]"
         :isProjectSelected="isProjectSelected"
       ></ProjectContainer>
     </div>
+    <navDock :backendChosen="backendChosen"></navDock>
   </section>
 </template>
 
 <style>
+.greeting {
+  color: green;
+  font-size: 1.5rem;
+}
 .backendBase {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 5rem 0;
   background: rgb(6, 17, 1);
   height: 100%;
   overflow: hidden;
   position: relative;
   width: 100vw;
+}
+
+.crt {
+  animation: textShadow 10.6s infinite;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  height: 100%;
+  padding: 2rem 5rem;
 }
 
 .crt::after {
@@ -96,9 +137,6 @@ const portfolioProjects: Project[] = [
     100% 2px,
     3px 100%;
   pointer-events: none;
-}
-.crt {
-  animation: textShadow 10.6s infinite;
 }
 
 .backendNav {
