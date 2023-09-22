@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-const props = defineProps<{ feBeTrig: number }>()
+const props = defineProps<{ frontendBETrigger: number }>()
 </script>
 
 <template>
-  <button class="frontend-BE-trigger" @click="$emit('feBEtriggered')">Backend</button>
+  <button class="frontend-BE-trigger" @click="$emit('frontendBETriggergered')">Backend</button>
 </template>
 
 <style scoped>
@@ -14,7 +14,7 @@ const props = defineProps<{ feBeTrig: number }>()
   position: absolute;
   top: 10%;
   right: 5%;
-  opacity: v-bind(feBeTrig);
+  opacity: v-bind(frontendBETrigger);
   background: none;
   border: none;
   color: green;

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-const props = defineProps<{ beFeTrig: number }>()
+const props = defineProps<{ backendFETrigger: number }>()
 </script>
 <template>
-  <button class="backend-FE-trigger" @click="$emit('beFEtriggered')">
+  <button class="backend-FE-trigger" @click="$emit('backendFETriggergered')">
     <span class="a1">&lt;</span><span class="a2">&lt;</span><span class="a3">&lt;</span
     ><span class="f">f</span><span class="r">r</span><span class="o">o</span><span class="n">n</span
     ><span class="t">t</span><span class="e">e</span><span class="n2">n</span
@@ -20,7 +20,7 @@ const props = defineProps<{ beFeTrig: number }>()
   position: absolute;
   bottom: 3%;
   left: 2%;
-  opacity: v-bind(beFeTrig);
+  opacity: v-bind(backendFETrigger);
   background: none;
   border: none;
   color: -webkit-linear-gradient(green, pink);
@@ -41,7 +41,7 @@ const props = defineProps<{ beFeTrig: number }>()
   font-family: 'Terminal';
   color: green;
   cursor: pointer;
-  opacity: v-bind(beFeTrig);
+  opacity: v-bind(backendFETrigger);
   animation: textShadow 0.5s infinite;
 }
 

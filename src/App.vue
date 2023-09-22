@@ -6,16 +6,23 @@ import { computed, onMounted, ref } from 'vue'
 import FrontendBEbutton from './components/frontend/frontendBEbutton.vue'
 import { TypeFlow } from 'typeflow-vue'
 
+// sliding screen
 const offset = ref(0)
+const offsetpx = computed(() => offset.value + 'px')
 const screenWidth = ref(0)
 const containerWidth = ref(0)
-const offsetpx = computed(() => offset.value + 'px')
-const feFeTrig = ref(1)
-const feBeTrig = ref(0)
-const beFeTrig = ref(0)
-const beBeTrig = ref(1)
+
+// section selection buttons
+const frontendFETrigger = ref(1)
+const frontendBETrigger = ref(0)
+const backendFETrigger = ref(0)
+const backendBETrigger = ref(1)
+
+// other css effects
 const overlayOpacity = ref(1)
 const crtVisibility = ref('block')
+
+// control
 const backendChosen = ref(false)
 
 onMounted(() => {
@@ -50,9 +57,9 @@ const moveOneScreenWidth = (direction: string) => {
         @click="
           () => {
             moveOneScreenWidth('forward')
-            feFeTrig = 0
-            beBeTrig = 0
-            feBeTrig = 1
+            frontendFETrigger = 0
+            backendBETrigger = 0
+            frontendBETrigger = 1
             overlayOpacity = 0
           }
         "
@@ -60,12 +67,12 @@ const moveOneScreenWidth = (direction: string) => {
         frontend
       </button>
       <FrontendBEbutton
-        :feBeTrig="feBeTrig"
-        @feBEtriggered="
+        :frontendBETrigger="frontendBETrigger"
+        @frontendBETriggergered="
           () => {
             moveOneScreenWidth('backward')
-            feBeTrig = 0
-            beFeTrig = 1
+            frontendBETrigger = 0
+            backendFETrigger = 1
           }
         "
       ></FrontendBEbutton>
@@ -80,9 +87,9 @@ const moveOneScreenWidth = (direction: string) => {
           @click="
             () => {
               moveOneScreenWidth('backward')
-              feFeTrig = 0
-              beBeTrig = 0
-              beFeTrig = 1
+              frontendFETrigger = 0
+              backendBETrigger = 0
+              backendFETrigger = 1
               overlayOpacity = 0
               crtVisibility = 'none'
               backendChosen = true
@@ -96,14 +103,14 @@ const moveOneScreenWidth = (direction: string) => {
         <p class="label-be">APIs/Data/Cloud</p>
       </TypeFlow>
       <backendFEbutton
-        @beFEtriggered="
+        @backendFETriggergered="
           () => {
             moveOneScreenWidth('forward')
-            beFeTrig = 0
-            feBeTrig = 1
+            backendFETrigger = 0
+            frontendBETrigger = 1
           }
         "
-        :beFeTrig="beFeTrig"
+        :backendFETrigger="backendFETrigger"
       ></backendFEbutton>
     </div>
   </main>
@@ -180,7 +187,7 @@ const moveOneScreenWidth = (direction: string) => {
 
 .frontend-FE-trigger {
   position: absolute;
-  opacity: v-bind(feFeTrig);
+  opacity: v-bind(frontendFETrigger);
   bottom: 10%;
   right: 30%;
   background: none;
@@ -193,7 +200,7 @@ const moveOneScreenWidth = (direction: string) => {
 
 .backend-BE-trigger {
   position: absolute;
-  opacity: v-bind(beBeTrig);
+  opacity: v-bind(backendBETrigger);
   top: 10%;
   left: 28%;
   background: none;
@@ -209,7 +216,7 @@ const moveOneScreenWidth = (direction: string) => {
 
 .label-be {
   font-size: 1rem;
-  opacity: v-bind(beBeTrig);
+  opacity: v-bind(backendBETrigger);
   position: absolute;
   top: 18%;
   left: 28%;
