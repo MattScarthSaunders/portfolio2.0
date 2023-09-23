@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import BackendButton from '@/components/backend/backendButton.vue'
-import navDock from '../components/navDock.vue'
 import ProjectContainer, { type Project } from '@/components/backend/projectContainer.vue'
 import { TypeFlow } from 'typeflow-vue'
 import { ref, watchEffect } from 'vue'

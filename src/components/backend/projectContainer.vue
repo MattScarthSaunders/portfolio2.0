@@ -18,12 +18,12 @@ export interface Project {
 }
 const props = defineProps<{
   project?: Project
-  isProjectSelected: Boolean
+  isProjectSelected: boolean
 }>()
 
 const commands = ref<string[][]>([['', '']])
 const fetchedData = ref<{ [key: string]: any } | string | null>(null)
-const isInteractorFetching = ref(props.isProjectSelected)
+const isInteractorFetching = ref(false)
 const isInteractorErrored = ref(false)
 const isAPIFetching = ref(false)
 
@@ -42,6 +42,7 @@ const visualiserBorder = ref('none')
 const instructionToUser = ref('[admin] </guest/instruction> load instruction-to-user...')
 
 watchEffect(async () => {
+  isInteractorFetching.value = props.isProjectSelected
   if (props.project) {
     try {
       const res = await axios.get(props.project.hosted)
@@ -110,7 +111,7 @@ const handleClick = async (command: string, endpoint: string) => {
   </section>
   <section class="backendContainer">
     <TypeFlow v-if="isInteractorFetching && props.isProjectSelected" :charDelay="100"
-      ><p>LOADING...</p>
+      ><p class="loading">LOADING...</p>
     </TypeFlow>
     <section class="apiInteractor">
       <TypeFlow
@@ -142,6 +143,9 @@ const handleClick = async (command: string, endpoint: string) => {
 </template>
 
 <style scoped>
+.loading {
+  color: green;
+}
 .subtleInstruction {
   position: absolute;
   font-size: 0.9rem;
