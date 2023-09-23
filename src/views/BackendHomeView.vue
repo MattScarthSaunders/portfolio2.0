@@ -5,6 +5,7 @@ import ProjectContainer, { type Project } from '@/components/backend/projectCont
 import { TypeFlow } from 'typeflow-vue'
 import { ref, watchEffect } from 'vue'
 import { useNavStore } from '@/stores/nav'
+import BackendNavDock from '@/components/backend/backendNavDock.vue'
 
 const store = useNavStore()
 const props = defineProps<{ backendChosen: boolean }>()
@@ -75,7 +76,7 @@ watchEffect(() => {
         :isProjectSelected="isProjectSelected"
       ></ProjectContainer>
     </div>
-    <navDock :backendChosen="backendChosen"></navDock>
+    <BackendNavDock></BackendNavDock>
   </section>
 </template>
 

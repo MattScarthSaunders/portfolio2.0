@@ -45,11 +45,6 @@ ul {
   margin-bottom: 2rem;
 }
 
-@font-face {
-  src: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/86186/terminal_copy.ttf);
-  font-family: 'Terminal';
-}
-
 li {
   font-family: 'Terminal';
   font-size: 2rem;

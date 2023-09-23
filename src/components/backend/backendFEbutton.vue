@@ -12,10 +12,6 @@ const props = defineProps<{ backendFETrigger: number }>()
   </button>
 </template>
 <style scoped>
-@font-face {
-  src: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/86186/terminal_copy.ttf);
-  font-family: 'Terminal';
-}
 .backend-FE-trigger {
   position: absolute;
   bottom: 3%;
