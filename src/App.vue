@@ -2,13 +2,18 @@
 import BackendHomeView from './views/BackendHomeView.vue'
 import FrontendHomeView from './views/FrontendHomeView.vue'
 import backendFEbutton from './components/backend/backendFEbutton.vue'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch, watchEffect } from 'vue'
 import FrontendBEbutton from './components/frontend/frontendBEbutton.vue'
 import { TypeFlow } from 'typeflow-vue'
+import Landing from './components/landing.vue'
 
 // sliding screen
 const offset = ref(0)
+const dividerOffset = ref(0)
 const offsetpx = computed(() => offset.value + 'px')
+const dividerOffsetpx = computed(() => dividerOffset.value + 'px')
+
+const screenHeight = ref(0)
 const screenWidth = ref(0)
 const containerWidth = ref(0)
 
@@ -24,24 +29,54 @@ const crtVisibility = ref('block')
 
 // control
 const backendChosen = ref(false)
+const frontendChosen = ref(false)
+const sideChosen = ref(false)
 
-onMounted(() => {
+const dividerPosition = ref('')
+const dividerWidth = ref('')
+
+watchEffect(() => {
   screenWidth.value = window.innerWidth
+  screenHeight.value = window.innerHeight
+
   containerWidth.value = screenWidth.value * 2
   offset.value = (screenWidth.value - containerWidth.value) / 2
+
+  const dividerWidthNumeric = screenWidth.value / 6
+  dividerWidth.value = dividerWidthNumeric + 'px'
+  dividerPosition.value = screenWidth.value / 2 - dividerWidthNumeric / 2 + 'px'
 })
+
+onMounted(() => {
+  window.addEventListener('resize', onResize)
+})
+
+const onResize = () => {
+  screenHeight.value = window.innerHeight
+  screenWidth.value = window.innerWidth
+}
 
 const moveOneScreenWidth = (direction: string) => {
   if (direction === 'backward') {
     const maxOffset = screenWidth.value - containerWidth.value
     offset.value += screenWidth.value
+
     if (offset.value > maxOffset) {
       offset.value = maxOffset
     }
+    if (!sideChosen.value) {
+      dividerOffset.value -= screenWidth.value * 4
+      document.getElementsByClassName('divider')[0].classList.add('dividerSlideLeft')
+    }
   } else if (direction === 'forward') {
     offset.value -= screenWidth.value
+
     if (offset.value < 0) {
       offset.value = 0
+    }
+    if (!sideChosen.value) {
+      dividerOffset.value += screenWidth.value * 4
+      document.getElementsByClassName('divider')[0].classList.add('dividerSlideRight')
     }
   }
 }
@@ -61,6 +96,7 @@ const moveOneScreenWidth = (direction: string) => {
             backendBETrigger = 0
             frontendBETrigger = 1
             overlayOpacity = 0
+            sideChosen = true
           }
         "
       >
@@ -73,10 +109,13 @@ const moveOneScreenWidth = (direction: string) => {
             moveOneScreenWidth('backward')
             frontendBETrigger = 0
             backendFETrigger = 1
+            sideChosen = true
+            backendChosen = true
           }
         "
       ></FrontendBEbutton>
     </div>
+    <div class="divider"><Landing class="landingInfo" /></div>
     <div class="view-container">
       <div class="crt1"></div>
       <div class="overlayBE"></div>
@@ -93,6 +132,7 @@ const moveOneScreenWidth = (direction: string) => {
               overlayOpacity = 0
               crtVisibility = 'none'
               backendChosen = true
+              sideChosen = true
             }
           "
         >
@@ -108,6 +148,7 @@ const moveOneScreenWidth = (direction: string) => {
             moveOneScreenWidth('forward')
             backendFETrigger = 0
             frontendBETrigger = 1
+            sideChosen = true
           }
         "
         :backendFETrigger="backendFETrigger"
@@ -117,6 +158,34 @@ const moveOneScreenWidth = (direction: string) => {
 </template>
 
 <style scoped>
+.divider {
+  width: v-bind(dividerWidth);
+  height: 200vh;
+  background: white;
+  z-index: 5;
+  position: absolute;
+  top: -50%;
+  right: v-bind(dividerPosition);
+  transform: skew(15deg);
+  border: 10px solid black;
+  box-shadow: 0 0 10px black;
+  display: flex;
+  gap: 30px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.dividerSlideLeft {
+  animation: dividerSlideLeft 1s forwards;
+  transform: translateX(v-bind(dividerOffsetpx));
+  transition: transform 3s ease-in;
+}
+.dividerSlideRight {
+  animation: dividerSlideRight 1s forwards;
+  transform: translateX(v-bind(dividerOffsetpx));
+  transition: transform 3s ease-in;
+}
 .base {
   width: 100vw; /* Adjust as needed */
   height: 100vh;
@@ -189,13 +258,29 @@ const moveOneScreenWidth = (direction: string) => {
   position: absolute;
   opacity: v-bind(frontendFETrigger);
   bottom: 10%;
-  right: 30%;
+  right: 27%;
   background: none;
   color: white;
   border: none;
   font-size: 5rem;
   cursor: pointer;
-  transition: opacity 1s ease;
+  font-family: Tourney;
+  transition:
+    color 0.5s ease,
+    text-shadow 0.5s ease,
+    opacity 1s ease;
+}
+
+.frontend-FE-trigger:hover {
+  color: rgb(233, 152, 250);
+  text-shadow:
+    0 0 2px #ff6adf,
+    0 0 20px #df3ebc,
+    0 0 200px #ff00c8;
+  transition:
+    color 0.5s ease,
+    text-shadow 0.5s ease,
+    opacity 0.5s ease;
 }
 
 .backend-BE-trigger {
@@ -212,6 +297,9 @@ const moveOneScreenWidth = (direction: string) => {
   z-index: 3;
   color: green;
   animation: textShadow 1.6s infinite;
+  transition:
+    color 0.75s ease,
+    opacity 0.5s ease;
 }
 
 .label-be {
@@ -223,5 +311,11 @@ const moveOneScreenWidth = (direction: string) => {
   z-index: 3;
   animation: textShadow 1.6s infinite;
   color: green;
+}
+.backend-BE-trigger:hover {
+  color: rgb(0, 211, 0);
+  transition:
+    color 0.75s ease,
+    opacity 0.5s ease;
 }
 </style>

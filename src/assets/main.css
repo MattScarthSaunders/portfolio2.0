@@ -5,6 +5,30 @@
   font-family: 'Inconsolata', monospace;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Arizonia&family=Cormorant+Unicase:wght@300&family=Faustina:wght@300&family=Jacques+Francois+Shadow&family=Montserrat:wght@100;300;500;800&family=Raleway:wght@200;800&family=Tourney&display=swap');
+
+@font-face {
+  src: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/86186/terminal_copy.ttf);
+  font-family: 'Terminal';
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+    /* color: #23d5ab; */
+  }
+
+  50% {
+    background-position: 100% 50%;
+    /* color: #e73c7e; */
+  }
+
+  100% {
+    background-position: 0% 50%;
+    /* color: #23a6d5; */
+  }
+}
+
 @keyframes flicker {
   0% {
     opacity: 0.29861;
@@ -196,5 +220,17 @@
       2.6208764473832513px 0 1px rgba(0, 30, 125, 0.5),
       -2.6208764473832513px 0 1px rgba(255, 0, 30, 0.3),
       0 0 3px;
+  }
+}
+
+@keyframes dividerSlideLeft {
+  100% {
+    box-shadow: -1000px 0 1000px 1000px rgb(4, 18, 3);
+  }
+}
+
+@keyframes dividerSlideRight {
+  100% {
+    box-shadow: 1000px 0 1000px 800px rgb(4, 18, 3);
   }
 }
