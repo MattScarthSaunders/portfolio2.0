@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import BackendButton from '@/components/backend/backendButton.vue'
-import ProjectContainer, { type Project } from '@/components/backend/projectContainer.vue'
+import BackendButton from '@/components/backend/BackendButton.vue'
+import BackendProjectContainer, {
+  type Project
+} from '@/components/backend/BackendProjectContainer.vue'
 import { TypeFlow } from 'typeflow-vue'
 import { ref, watchEffect } from 'vue'
 import { useNavStore } from '@/stores/nav'
-import BackendNavDock from '@/components/backend/backendNavDock.vue'
+import BackendNavDock from '@/components/backend/BackendNavDock.vue'
 
 const store = useNavStore()
 const props = defineProps<{ backendChosen: boolean }>()
@@ -69,11 +71,11 @@ watchEffect(() => {
       <TypeFlow v-if="!isProjectSelected && backendChosen && !navSelected" :char-delay="15">
         <pre class="greeting">{{ greeting }}</pre>
       </TypeFlow>
-      <ProjectContainer
+      <BackendProjectContainer
         v-if="isProjectSelected"
         :project="portfolioProjects[buttonPressedId]"
         :isProjectSelected="isProjectSelected"
-      ></ProjectContainer>
+      ></BackendProjectContainer>
     </div>
     <BackendNavDock></BackendNavDock>
   </section>

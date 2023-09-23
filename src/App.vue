@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import BackendHomeView from './views/BackendHomeView.vue'
 import FrontendHomeView from './views/FrontendHomeView.vue'
-import backendFEbutton from './components/backend/backendFEbutton.vue'
-import { computed, onMounted, ref, watch, watchEffect } from 'vue'
-import FrontendBEbutton from './components/frontend/frontendBEbutton.vue'
+import backendFEbutton from './components/backend/BackendFEbutton.vue'
+import { computed, onMounted, ref, watchEffect } from 'vue'
+import FrontendBEbutton from './components/frontend/FrontendBEbutton.vue'
 import { TypeFlow } from 'typeflow-vue'
-import Landing from './components/landing.vue'
+import DividerSection from './components/DividerSection.vue'
 
 // sliding screen
 const offset = ref(0)
@@ -115,7 +115,12 @@ const moveOneScreenWidth = (direction: string) => {
         "
       ></FrontendBEbutton>
     </div>
-    <div class="divider"><Landing class="landingInfo" /></div>
+    <!-- <div class="divider"><Landing class="landingInfo" /></div> -->
+    <DividerSection
+      :dividerWidth="dividerWidth"
+      :dividerPosition="dividerPosition"
+      :dividerOffsetpx="dividerOffsetpx"
+    ></DividerSection>
     <div class="view-container">
       <div class="crt1"></div>
       <div class="overlayBE"></div>

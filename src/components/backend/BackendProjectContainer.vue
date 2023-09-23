@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { TypeFlow } from 'typeflow-vue'
 import axios from 'axios'
-import backendButtonVue from './backendButton.vue'
-import { computed, onMounted, ref, watch, watchEffect } from 'vue'
+import backendButtonVue from './BackendButton.vue'
+import { ref, watch, watchEffect } from 'vue'
 import { handleBoardgameRequests } from '../../utils/api'
-import BackendLink from './backendLink.vue'
+import BackendLink from './BackendLink.vue'
 
 export interface Project {
   id: number
