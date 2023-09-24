@@ -9,6 +9,7 @@ import DividerSection from './components/DividerSection.vue'
 import { getRecords } from './airtable'
 import type { AirtableProject } from './types'
 
+const initialLoad = ref(true)
 // projects
 const FEProj = ref<AirtableProject[]>([])
 const BEProj = ref<AirtableProject[]>([])
@@ -56,11 +57,17 @@ watchEffect(() => {
 })
 
 onMounted(async () => {
-  window.addEventListener('resize', onResize)
-
   const projects = await getRecords()
-  FEProj.value = projects.filter((proj) => proj.Type === 'Frontend')
-  BEProj.value = projects.filter((proj) => proj.Type.includes('Backend'))
+
+  if (projects) {
+    initialLoad.value = false
+    // setTimeout(() => {
+    // }, 1000)
+    window.addEventListener('resize', onResize)
+
+    FEProj.value = projects.filter((proj) => proj.Type === 'Frontend')
+    BEProj.value = projects.filter((proj) => proj.Type.includes('Backend'))
+  }
 })
 
 const onResize = () => {
@@ -97,85 +104,133 @@ const moveOneScreenWidth = (direction: string) => {
 </script>
 
 <template>
-  <main class="base">
-    <div class="view-container">
-      <div class="overlayFE"></div>
-      <FrontendHomeView :projects="FEProj" />
-      <button
-        class="frontend-FE-trigger"
-        @click="
-          () => {
-            moveOneScreenWidth('forward')
-            frontendFETrigger = 0
-            backendBETrigger = 0
-            frontendBETrigger = 1
-            overlayOpacity = 0
-            sideChosen = true
-          }
-        "
-      >
-        frontend
-      </button>
-      <FrontendBEbutton
-        :frontendBETrigger="frontendBETrigger"
-        @frontendBETriggergered="
-          () => {
-            moveOneScreenWidth('backward')
-            frontendBETrigger = 0
-            backendFETrigger = 1
-            sideChosen = true
-            backendChosen = true
-          }
-        "
-      ></FrontendBEbutton>
-    </div>
-    <DividerSection
-      :dividerWidth="dividerWidth"
-      :dividerPosition="dividerPosition"
-      :dividerOffsetpx="dividerOffsetpx"
-    ></DividerSection>
-    <div class="view-container">
-      <div class="crt1"></div>
-      <div class="overlayBE"></div>
-      <BackendHomeView :backendChosen="backendChosen" :projects="BEProj" />
-      <TypeFlow
-        ><button
-          class="backend-BE-trigger"
+  <Transition name="fade">
+    <main v-if="initialLoad" class="LoadingBase">
+      <TypeFlow><h1 class="loadingAnim">LOADING</h1></TypeFlow>
+    </main></Transition
+  >
+  <Transition name="main">
+    <main v-if="!initialLoad" class="base">
+      <div class="view-container">
+        <div class="overlayFE"></div>
+        <FrontendHomeView :projects="FEProj" />
+        <button
+          class="frontend-FE-trigger"
           @click="
             () => {
-              moveOneScreenWidth('backward')
+              moveOneScreenWidth('forward')
               frontendFETrigger = 0
               backendBETrigger = 0
-              backendFETrigger = 1
+              frontendBETrigger = 1
               overlayOpacity = 0
-              crtVisibility = 'none'
-              backendChosen = true
               sideChosen = true
             }
           "
         >
-          backend...
+          frontend
         </button>
-      </TypeFlow>
-      <TypeFlow>
-        <p class="label-be">APIs/Data/Cloud</p>
-      </TypeFlow>
-      <backendFEbutton
-        @backendFETriggergered="
-          () => {
-            moveOneScreenWidth('forward')
-            backendFETrigger = 0
-            frontendBETrigger = 1
-            sideChosen = true
-          }
-        "
-        :backendFETrigger="backendFETrigger"
-      ></backendFEbutton>
-    </div>
-  </main>
+        <FrontendBEbutton
+          :frontendBETrigger="frontendBETrigger"
+          @frontendBETriggergered="
+            () => {
+              moveOneScreenWidth('backward')
+              frontendBETrigger = 0
+              backendFETrigger = 1
+              sideChosen = true
+              backendChosen = true
+            }
+          "
+        ></FrontendBEbutton>
+      </div>
+      <DividerSection
+        :dividerWidth="dividerWidth"
+        :dividerPosition="dividerPosition"
+        :dividerOffsetpx="dividerOffsetpx"
+      ></DividerSection>
+      <div class="view-container">
+        <div class="crt1"></div>
+        <div class="overlayBE"></div>
+        <BackendHomeView :backendChosen="backendChosen" :projects="BEProj" />
+        <TypeFlow
+          ><button
+            class="backend-BE-trigger"
+            @click="
+              () => {
+                moveOneScreenWidth('backward')
+                frontendFETrigger = 0
+                backendBETrigger = 0
+                backendFETrigger = 1
+                overlayOpacity = 0
+                crtVisibility = 'none'
+                backendChosen = true
+                sideChosen = true
+              }
+            "
+          >
+            backend...
+          </button>
+        </TypeFlow>
+        <TypeFlow>
+          <p class="label-be">APIs/Data/Cloud</p>
+        </TypeFlow>
+        <backendFEbutton
+          @backendFETriggergered="
+            () => {
+              moveOneScreenWidth('forward')
+              backendFETrigger = 0
+              frontendBETrigger = 1
+              sideChosen = true
+            }
+          "
+          :backendFETrigger="backendFETrigger"
+        ></backendFEbutton>
+      </div>
+    </main>
+  </Transition>
 </template>
 
 <style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 1s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.main-enter-active,
+.main-leave-active {
+  transition: opacity 3s ease-in;
+}
+
+.main-enter-from,
+.main-leave-to {
+  opacity: 0;
+}
+
+.loadingAnim {
+  width: 10rem;
+  height: 10rem;
+  padding: 2rem;
+  font-size: 2rem;
+  background-color: ivory;
+  border-radius: 100%;
+  animation: loadingAnim 5s infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.LoadingBase {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+  color: black;
+}
 .dividerSlideLeft {
   animation: dividerSlideLeft 1s forwards;
   transform: translateX(v-bind(dividerOffsetpx));

@@ -18,7 +18,7 @@ export interface AirtableProject {
   Tech: string[]
   Type: string
   Github?: string
-  Id: 8
+  Id: number
   Hosted?: string
   Assets?: AirtableProjectAsset[]
 }

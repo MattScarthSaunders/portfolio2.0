@@ -7,7 +7,6 @@ const props = defineProps<{ projects: AirtableProject[] }>()
 const isActive = ref('')
 
 const handleClick = (projectTitle: string) => {
-  console.log('in the click', projectTitle)
   if (isActive.value === projectTitle) {
     isActive.value = ''
   } else {
@@ -20,17 +19,24 @@ const handleClick = (projectTitle: string) => {
   <section class="frontendBase">
     <div class="projectCarousel">
       <FrontendProjectContainer
-        :project="{
-          title: 'proj1',
-          projectDescription: 'This is a beautiful project isnt it just amazing'
-        }"
+        v-for="project in projects"
+        :key="project.Id"
+        :project="project"
         :isActive="isActive"
         @projectSelected="handleClick"
       ></FrontendProjectContainer>
       <FrontendProjectContainer
+        :key="999"
         :project="{
-          title: 'info',
-          projectDescription: 'Congrats you made it this far, click on some shit and get to it'
+          Name: 'info',
+          Description: '',
+          Synopsis:
+            'Hover over a card to see a synopsis of the project, and click on a card for full detail.',
+          Tech: [''],
+          Plurality: 'Solo',
+          Status: 'Done',
+          Type: 'info',
+          Id: 999
         }"
         :isActive="isActive"
         @projectSelected="handleClick"

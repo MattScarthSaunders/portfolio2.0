@@ -20,17 +20,23 @@
 @keyframes gradient {
   0% {
     background-position: 0% 50%;
-    /* color: #23d5ab; */
+    text-shadow:
+      0.5px 0.5px 0 rgba(0, 20, 12, 0.5),
+      -0.5px -2px 1px rgba(124, 255, 220, 0.289);
   }
 
   50% {
     background-position: 100% 50%;
-    /* color: #e73c7e; */
+    text-shadow:
+      0.5px 0.5px 0 rgba(14, 0, 20, 0.5),
+      -0.5px -1px 1px rgba(241, 169, 255, 0.534);
   }
 
   100% {
     background-position: 0% 50%;
-    /* color: #23a6d5; */
+    text-shadow:
+      0.5px 0.5px 0 rgba(0, 20, 20, 0.5),
+      -0.5px -2px 1px rgba(108, 253, 251, 0.289);
   }
 }
 
@@ -273,5 +279,65 @@
   }
   100% {
     transform: translateY(60vh);
+  }
+}
+
+@keyframes loadingAnim {
+  0% {
+    border-radius: 100%;
+    box-shadow:
+      0 0 5px green,
+      -15px -1px 100px hotpink;
+  }
+  15% {
+    border-top-left-radius: 70%;
+    box-shadow:
+      0 0 5px green,
+      -15px -1px 100px hotpink;
+  }
+  25% {
+    border-radius: 100%;
+    border-bottom-right-radius: 80%;
+    box-shadow:
+      5px 5px 5px green,
+      0 0 100px rgb(255, 162, 0);
+  }
+  40% {
+    border-bottom-left-radius: 80%;
+    box-shadow:
+      5px 5px 5px green,
+      0 0 100px rgb(255, 162, 0);
+  }
+  50% {
+    border-radius: 100%;
+    border-top-right-radius: 70%;
+    box-shadow:
+      -5px -5px 5px green,
+      0 0 100px rgb(105, 255, 218);
+  }
+  65% {
+    border-top-right-radius: 70%;
+    box-shadow:
+      -5px -5px 5px green,
+      0 0 100px rgb(105, 255, 218);
+  }
+  75% {
+    border-radius: 100%;
+    border-bottom-left-radius: 60%;
+    box-shadow:
+      0 0 5px green,
+      -15px -1px 100px rgb(4, 0, 255);
+  }
+  90% {
+    border-top-right-radius: 70%;
+    box-shadow:
+      0 0 5px green,
+      -15px -1px 100px rgb(4, 0, 255);
+  }
+  100% {
+    border-radius: 100%;
+    box-shadow:
+      0 0 5px green,
+      -15px -1px 100px hotpink;
   }
 }
