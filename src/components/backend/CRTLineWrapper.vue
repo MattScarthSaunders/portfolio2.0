@@ -14,7 +14,6 @@ const props = defineProps<{ lineNum?: number }>()
 <style scoped>
 .wrap {
   position: relative;
-  height: 60vh;
   animation: flickerLoad 10s infinite;
 }
 </style>

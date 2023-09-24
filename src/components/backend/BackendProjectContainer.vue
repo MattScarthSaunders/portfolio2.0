@@ -38,18 +38,27 @@ const props = defineProps<{
     :isProjectSelected="isProjectSelected"
     :project="project!"
   ></BackendAPITool>
-  <CRTLineWrapper v-if="props.project?.Type === 'BackendDataEng'" :lineNum="5">
-    <img class="dataEngDiagram" :src="props.project?.Assets![0].url"
+  <CRTLineWrapper
+    class="dataEngDiagram"
+    v-if="
+      (props.project?.Type === 'BackendDataEng' || props.project?.Type === 'BackendInfra') &&
+      props.project?.Assets
+    "
+    :lineNum="5"
+  >
+    <img class="dataEngImg" :src="props.project?.Assets![0].url"
   /></CRTLineWrapper>
 </template>
 
 <style scoped>
+.dataEngImg {
+  height: 60vh;
+}
 .dataEngDiagram {
   border: var(--BE-bg-border);
   box-shadow: var(--BE-bg-border-shadow);
   justify-self: center;
   align-self: center;
-  height: 60vh;
 }
 
 .linkWrapper {
