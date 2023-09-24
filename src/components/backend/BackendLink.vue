@@ -11,8 +11,9 @@ const props = defineProps<{ link: string }>()
 <style scoped>
 .projectLink {
   color: green;
-  background-color: rgb(3, 12, 3);
-  border: 1px solid green;
+  background-color: var(--BE-bg-color);
+  border: var(--BE-bg-border);
+  box-shadow: var(--BE-bg-border-shadow);
   font-size: 1.25rem;
   padding: 0.25rem;
   text-decoration: none;

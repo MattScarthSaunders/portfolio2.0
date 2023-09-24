@@ -7,7 +7,11 @@ import FrontendBEbutton from './components/frontend/FrontendBEbutton.vue'
 import { TypeFlow } from 'typeflow-vue'
 import DividerSection from './components/DividerSection.vue'
 import { getRecords } from './airtable'
+import type { AirtableProject } from './types'
 
+// projects
+const FEProj = ref<AirtableProject[]>([])
+const BEProj = ref<AirtableProject[]>([])
 // sliding screen
 const offset = ref(0)
 const dividerOffset = ref(0)
@@ -48,9 +52,12 @@ watchEffect(() => {
   dividerPosition.value = screenWidth.value / 2 - dividerWidthNumeric / 2 + 'px'
 })
 
-onMounted(() => {
+onMounted(async () => {
   window.addEventListener('resize', onResize)
-  getRecords()
+
+  const projects = await getRecords()
+  FEProj.value = projects.filter((proj) => proj.Type === 'Frontend')
+  BEProj.value = projects.filter((proj) => proj.Type.includes('Backend'))
 })
 
 const onResize = () => {
@@ -88,7 +95,7 @@ const moveOneScreenWidth = (direction: string) => {
   <main class="base">
     <div class="view-container">
       <div class="overlayFE"></div>
-      <FrontendHomeView />
+      <FrontendHomeView :projects="FEProj" />
       <button
         class="frontend-FE-trigger"
         @click="
@@ -126,7 +133,7 @@ const moveOneScreenWidth = (direction: string) => {
     <div class="view-container">
       <div class="crt1"></div>
       <div class="overlayBE"></div>
-      <BackendHomeView :backendChosen="backendChosen" />
+      <BackendHomeView :backendChosen="backendChosen" :projects="BEProj" />
       <TypeFlow
         ><button
           class="backend-BE-trigger"
@@ -225,7 +232,7 @@ const moveOneScreenWidth = (direction: string) => {
 }
 
 .overlayBE {
-  background-color: rgb(7, 14, 5);
+  background-color: var(--BE-bg-color);
   z-index: 2;
 }
 

@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import FrontendProjectContainer from '../components/frontend/FrontendProjectContainer.vue'
+import type { AirtableProject } from '@/types'
 
+const props = defineProps<{ projects: AirtableProject[] }>()
 const isActive = ref('')
 
 const handleClick = (projectTitle: string) => {

@@ -1,3 +1,5 @@
+<script setup lang="ts"></script>
+
 <template>
   <section>
     <img />
@@ -13,8 +15,6 @@
     </ul>
   </section>
 </template>
-
-<script setup lang="ts"></script>
 
 <style scoped>
 img {

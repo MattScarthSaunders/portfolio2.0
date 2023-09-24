@@ -1,33 +1,18 @@
 <script setup lang="ts">
 import BackendButton from '@/components/backend/BackendButton.vue'
-import BackendProjectContainer, {
-  type Project
-} from '@/components/backend/BackendProjectContainer.vue'
+import BackendProjectContainer from '@/components/backend/BackendProjectContainer.vue'
 import { TypeFlow } from 'typeflow-vue'
 import { ref, watchEffect } from 'vue'
 import { useNavStore } from '@/stores/nav'
 import BackendNavDock from '@/components/backend/BackendNavDock.vue'
+import type { AirtableProject } from '@/types'
 
 const store = useNavStore()
-const props = defineProps<{ backendChosen: boolean }>()
+const props = defineProps<{ backendChosen: boolean; projects: AirtableProject[] }>()
 
 const buttonPressedId = ref(0)
 const isProjectSelected = ref(false)
 const navSelected = ref(false)
-
-const portfolioProjects: Project[] = [
-  {
-    id: 1,
-    name: 'BG-Reviews Backend',
-    about: 'REST API backend for a boardgame reviews site.',
-    aboutFull:
-      'This was a project in which I built a REST API backend for a boardgame reviews site in order to later host data for the frontend component.',
-    github: 'https://github.com/MattScarthSaunders/boardgame-reviews',
-    hosted: 'https://boardgame-reviews.cyclic.app/api',
-    img: 'BGBE.png',
-    tech: ['Javascript', 'Express.js', 'Node.js', 'PostgreSQL', 'Jest']
-  }
-]
 
 const date = new Date()
 const date2 = new Date()
@@ -55,10 +40,11 @@ watchEffect(() => {
   <section class="backendBase">
     <div class="crt">
       <nav class="backendNav">
+        <TypeFlow v-if="!props.projects"><p>LOADING...</p></TypeFlow>
         <BackendButton
-          v-for="(proj, i) in portfolioProjects"
-          v-bind:key="proj.name"
-          :name="proj.name"
+          v-for="(proj, i) in props.projects"
+          v-bind:key="proj.Name"
+          :name="proj.Name"
           :projectIndex="i"
           @projName="
             () => {
@@ -73,7 +59,7 @@ watchEffect(() => {
       </TypeFlow>
       <BackendProjectContainer
         v-if="isProjectSelected"
-        :project="portfolioProjects[buttonPressedId]"
+        :project="props.projects[buttonPressedId]"
         :isProjectSelected="isProjectSelected"
       ></BackendProjectContainer>
     </div>
@@ -91,7 +77,7 @@ watchEffect(() => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: rgb(6, 17, 1);
+  background: var(--BE-bg-color);
   height: 100%;
   overflow: hidden;
   position: relative;
