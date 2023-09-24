@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, onMounted, ref, watchEffect } from 'vue'
 
 export interface FrontendProjectProps {
   projectDescription: string
@@ -9,6 +9,10 @@ export interface FrontendProjectProps {
 const props = defineProps<{ project: FrontendProjectProps; isActive: string }>()
 
 const isHovered = ref('')
+const flickerFrequency = ref(0)
+const flickerFrequencySeconds = computed(() => flickerFrequency.value + 's')
+
+const neonColor = ref('rgb(233, 152, 250)')
 
 const handleMouseOver = () => {
   isHovered.value = props.project.title
@@ -17,6 +21,18 @@ const handleMouseOver = () => {
 const handleMouseLeave = () => {
   isHovered.value = ''
 }
+
+onMounted(() => {
+  flickerFrequency.value = Math.random() * 10 + 5
+})
+
+watchEffect(() => {
+  if (isHovered.value) {
+    neonColor.value = 'rgb(244, 192, 255)'
+  } else {
+    neonColor.value = 'rgb(223, 132, 200)'
+  }
+})
 </script>
 
 <template>
@@ -136,5 +152,15 @@ const handleMouseLeave = () => {
   left: -8.5vw;
   width: 20vw;
   pointer-events: none;
+  font-family: 'Tourney';
+  color: v-bind(neonColor);
+  text-shadow:
+    0 0 2px #ff6adf,
+    0 0 10px #ff6adf,
+    0 0 20px #ff6adf;
+  transition:
+    color 0.5s ease,
+    opacity 0.5s ease;
+  animation: flickerLoad v-bind(flickerFrequencySeconds) infinite;
 }
 </style>

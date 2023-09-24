@@ -230,13 +230,13 @@
 
 @keyframes dividerSlideLeft {
   100% {
-    box-shadow: -1000px 0 1000px 1000px rgb(4, 18, 3);
+    box-shadow: -1000px 0 1000px 1000px var(--BE-bg-color);
   }
 }
 
 @keyframes dividerSlideRight {
   100% {
-    box-shadow: 1000px 0 1000px 800px rgb(4, 18, 3);
+    box-shadow: 1000px 0 1000px 800px var(--BE-bg-color);
   }
 }
 

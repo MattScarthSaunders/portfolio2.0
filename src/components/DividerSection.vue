@@ -16,7 +16,6 @@ const props = defineProps<{
 .divider {
   width: v-bind(dividerWidth);
   height: 200vh;
-  background: white;
   z-index: 5;
   position: absolute;
   top: -50%;
@@ -29,6 +28,7 @@ const props = defineProps<{
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: rgb(255, 255, 244);
 }
 
 .dividerSlideLeft {

@@ -25,8 +25,11 @@ const containerWidth = ref(0)
 // section selection buttons
 const frontendFETrigger = ref(1)
 const frontendBETrigger = ref(0)
+const frontendFETriggerPointer = ref('all')
+
 const backendFETrigger = ref(0)
 const backendBETrigger = ref(1)
+const backendBETriggerPointer = ref('all')
 
 // other css effects
 const overlayOpacity = ref(1)
@@ -69,6 +72,7 @@ const moveOneScreenWidth = (direction: string) => {
   if (direction === 'backward') {
     const maxOffset = screenWidth.value - containerWidth.value
     offset.value += screenWidth.value
+    backendBETriggerPointer.value = 'none'
 
     if (offset.value > maxOffset) {
       offset.value = maxOffset
@@ -79,6 +83,7 @@ const moveOneScreenWidth = (direction: string) => {
     }
   } else if (direction === 'forward') {
     offset.value -= screenWidth.value
+    frontendFETriggerPointer.value = 'none'
 
     if (offset.value < 0) {
       offset.value = 0
@@ -124,7 +129,6 @@ const moveOneScreenWidth = (direction: string) => {
         "
       ></FrontendBEbutton>
     </div>
-    <!-- <div class="divider"><Landing class="landingInfo" /></div> -->
     <DividerSection
       :dividerWidth="dividerWidth"
       :dividerPosition="dividerPosition"
@@ -172,24 +176,6 @@ const moveOneScreenWidth = (direction: string) => {
 </template>
 
 <style scoped>
-.divider {
-  width: v-bind(dividerWidth);
-  height: 200vh;
-  background: white;
-  z-index: 5;
-  position: absolute;
-  top: -50%;
-  right: v-bind(dividerPosition);
-  transform: skew(15deg);
-  border: 10px solid black;
-  box-shadow: 0 0 10px black;
-  display: flex;
-  gap: 30px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
 .dividerSlideLeft {
   animation: dividerSlideLeft 1s forwards;
   transform: translateX(v-bind(dividerOffsetpx));
@@ -225,10 +211,17 @@ const moveOneScreenWidth = (direction: string) => {
   position: absolute;
   top: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.557);
   pointer-events: none;
   opacity: v-bind(overlayOpacity);
   transition: opacity 1s ease;
+}
+.overlayFE {
+  background: linear-gradient(-45deg, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient 60s ease infinite;
+  height: 100vh;
+  box-shadow: inset 0 -30vh 250px 0 black;
+  z-index: 4;
 }
 
 .overlayBE {
@@ -271,6 +264,7 @@ const moveOneScreenWidth = (direction: string) => {
 .frontend-FE-trigger {
   position: absolute;
   opacity: v-bind(frontendFETrigger);
+  pointer-events: v-bind(frontendFETriggerPointer);
   bottom: 10%;
   right: 27%;
   background: none;
@@ -281,8 +275,8 @@ const moveOneScreenWidth = (direction: string) => {
   font-family: Tourney;
   transition:
     color 0.5s ease,
-    text-shadow 0.5s ease,
     opacity 1s ease;
+  z-index: 5;
 }
 
 .frontend-FE-trigger:hover {
@@ -293,13 +287,14 @@ const moveOneScreenWidth = (direction: string) => {
     0 0 200px #ff00c8;
   transition:
     color 0.5s ease,
-    text-shadow 0.5s ease,
     opacity 0.5s ease;
+  animation: flickerLoad 10s infinite;
 }
 
 .backend-BE-trigger {
   position: absolute;
   opacity: v-bind(backendBETrigger);
+  pointer-events: v-bind(backendBETriggerPointer);
   top: 10%;
   left: 28%;
   background: none;
