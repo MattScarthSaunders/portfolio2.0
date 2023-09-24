@@ -5,6 +5,7 @@ import { ref, watch, watchEffect } from 'vue'
 import backendButtonVue from './BackendButton.vue'
 import { handleBoardgameRequests } from '@/utils/api'
 import type { AirtableProject } from '@/types'
+import CRTLineWrapper from './CRTLineWrapper.vue'
 
 const props = defineProps<{
   isProjectSelected: boolean
@@ -90,32 +91,36 @@ watch(isInteractorFetching, (prev, current) => {
     <TypeFlow v-if="isInteractorFetching && props.isProjectSelected" :charDelay="100"
       ><p class="loading">LOADING...</p>
     </TypeFlow>
-    <section class="apiInteractor">
-      <TypeFlow
-        ><p class="subtleInstruction">{{ instructionToUser }}</p></TypeFlow
-      >
-      <TypeFlow v-if="isInteractorErrored && props.isProjectSelected" :charDelay="10">
-        <p>ERROR: Could not retrieve API request data, please try again.</p>
-      </TypeFlow>
-      <ul v-else-if="props.isProjectSelected" class="apiCommandList">
-        <li v-for="(command, i) in commands" v-bind:key="command[i]">
-          <backendButtonVue
-            :name="command[0]"
-            :projectIndex="i"
-            @click="handleClick(command[0], command[1])"
-          ></backendButtonVue>
-          <label class="apiButtonLabel">{{ command[1] }}</label>
-        </li>
-      </ul>
-    </section>
-    <section class="apiVisualiser">
-      <TypeFlow v-if="isAPIFetching" :charDelay="100"><p>LOADING...</p></TypeFlow>
-      <TypeFlow v-else :charDelay="2">
-        <p class="visualisedApi">
-          {{ fetchedData }}
-        </p></TypeFlow
-      >
-    </section>
+    <CRTLineWrapper :lineNum="5">
+      <section class="apiInteractor">
+        <TypeFlow
+          ><p class="subtleInstruction">{{ instructionToUser }}</p></TypeFlow
+        >
+        <TypeFlow v-if="isInteractorErrored && props.isProjectSelected" :charDelay="10">
+          <p>ERROR: Could not retrieve API request data, please try again.</p>
+        </TypeFlow>
+        <ul v-else-if="props.isProjectSelected" class="apiCommandList">
+          <li v-for="(command, i) in commands" v-bind:key="command[i]">
+            <backendButtonVue
+              :name="command[0]"
+              :projectIndex="i"
+              @click="handleClick(command[0], command[1])"
+            ></backendButtonVue>
+            <label class="apiButtonLabel">{{ command[1] }}</label>
+          </li>
+        </ul>
+      </section></CRTLineWrapper
+    >
+    <CRTLineWrapper :lineNum="5">
+      <section class="apiVisualiser">
+        <TypeFlow v-if="isAPIFetching" :charDelay="100"><p>LOADING...</p></TypeFlow>
+        <TypeFlow v-else :charDelay="2">
+          <p class="visualisedApi">
+            {{ fetchedData }}
+          </p></TypeFlow
+        >
+      </section>
+    </CRTLineWrapper>
   </section>
 </template>
 

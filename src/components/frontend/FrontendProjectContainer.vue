@@ -8,7 +8,7 @@ const isHovered = ref('')
 const flickerFrequency = ref(0)
 const flickerFrequencySeconds = computed(() => flickerFrequency.value + 's')
 
-const neonColor = ref('rgb(233, 152, 250)')
+const neonColor = ref('rgb(213, 152, 200)')
 
 const handleMouseOver = () => {
   isHovered.value = props.project.Name
@@ -23,10 +23,10 @@ onMounted(() => {
 })
 
 watchEffect(() => {
-  if (isHovered.value || props.isActive === props.project.Name) {
-    neonColor.value = 'rgb(244, 192, 255)'
+  if (isHovered.value === props.project.Name || props.isActive === props.project.Name) {
+    neonColor.value = 'rgb(224, 212, 255)'
   } else {
-    neonColor.value = 'rgb(223, 132, 200)'
+    neonColor.value = 'rgb(213, 152, 200)'
   }
 })
 </script>
@@ -36,9 +36,9 @@ watchEffect(() => {
     @mouseover="handleMouseOver"
     @mouseleave="handleMouseLeave"
     :class="{
-      info: props.isActive === props.project.Name && props.project.Type === 'info',
-      glassSlider: 'glassSlider',
-      showProject: props.isActive === props.project.Name && props.project.Type !== 'info',
+      info: props.project.Name === 'info' && isActive === 'info',
+      projectSlider: 'projectSlider',
+      showProject: props.isActive === props.project.Name,
       showHighlights: isHovered === props.project.Name
     }"
     @click="$emit('projectSelected', props.project.Name)"
@@ -48,7 +48,7 @@ watchEffect(() => {
       :class="{
         highlights: 'highlights',
         hideHighlights: isHovered !== props.project.Name || isActive === props.project.Name,
-        showHighlights: isHovered === props.project.Name
+        showHighlights: isHovered === props.project.Name && isActive !== props.project.Name
       }"
     >
       <p class="Synopsis">{{ props.project.Synopsis }}</p>
@@ -77,18 +77,35 @@ watchEffect(() => {
     <section
       :class="{
         fullProject: 'fullProject',
-        hideProjectData: props.isActive !== props.project.Name || isActive === props.project.Name,
+        hideProjectData: props.isActive !== props.project.Name,
         showProjectData: props.isActive === props.project.Name
       }"
     >
-      <img v-if="props.project?.Assets" class="projectImg" :src="props.project?.Assets![0].url" />
+      <a
+        class="imageLink"
+        @click.stop
+        :href="props.project.Hosted"
+        target="_blank"
+        rel="noopener noreferrer"
+        ><img v-if="props.project?.Assets" class="projectImg" :src="props.project?.Assets![0].url"
+      /></a>
+
       <div class="detailWrapper">
         <p
+          v-if="props.project.Name !== 'info'"
           :class="{
             projectData: 'projectData'
           }"
         >
-          {{ props.project.Type === 'info' ? props.project.Synopsis : props.project.Description }}
+          {{ props.project.Description }}
+        </p>
+        <p
+          v-if="props.project.Name === 'info'"
+          :class="{
+            infoData: 'infoData'
+          }"
+        >
+          {{ props.project.Synopsis }}
         </p>
         <ul class="techStack">
           <li v-for="tech in props.project.Tech">{{ tech }}</li>
@@ -119,21 +136,51 @@ watchEffect(() => {
 </template>
 
 <style scoped>
+.showProjectData > a {
+  pointer-events: all;
+}
+.hideProjectData > a {
+  pointer-events: none;
+}
+.imageLink {
+  height: max-content;
+}
+
+.imageLink:active > img {
+  box-shadow:
+    inset 0px 0px 75px rgba(0, 20, 20, 0.5),
+    -2px 2px 0px 1px rgba(0, 0, 0, 0.3),
+    -4px 4px 0px 1px rgba(0, 0, 0, 0.3);
+  transform: translateX(-0.5rem) translateY(0.5rem);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
 .projectLinks {
   display: flex;
   gap: 2rem;
+  justify-content: flex-end;
 }
 .projectLink {
   text-decoration: none;
   box-shadow:
-    inset 00px 0px 75px rgba(0, 20, 20, 0.5),
+    inset 0px 0px 75px rgba(0, 20, 20, 0.5),
     -2px 2px 0px 1px rgba(0, 0, 0, 0.3),
-    -8px 8px 0px 1px rgba(0, 0, 0, 0.3),
-    -16px 16px 0px 1px rgba(0, 0, 0, 0.3);
+    -6px 6px 0px 1px rgba(0, 0, 0, 0.3),
+    -12px 12px 0px 1px rgba(0, 0, 0, 0.3);
   color: white;
   width: max-content;
   padding: 0.25rem;
   border-radius: 5%;
+}
+
+.projectLink:hover {
+  box-shadow:
+    inset 0 0 2px 1px white,
+    inset 00px 0px 75px rgba(0, 20, 20, 0.5),
+    -2px 2px 0px 1px rgba(79, 79, 79, 0.3),
+    -6px 6px 0px 1px rgba(66, 66, 66, 0.3),
+    -12px 12px 0px 1px rgba(53, 53, 53, 0.3);
 }
 
 .projectLink:active {
@@ -141,10 +188,11 @@ watchEffect(() => {
     inset 00px 0px 75px rgba(0, 20, 20, 0.5),
     -2px 2px 0px 1px rgba(0, 0, 0, 0.3),
     -4px 4px 0px 1px rgba(0, 0, 0, 0.3);
-  transform: translateX(-1rem) translateY(1rem);
+  transform: translateX(-0.5rem) translateY(0.5rem);
   transition:
     transform 0.25s ease,
     box-shadow 0.25s ease;
+  animation: none;
 }
 
 .techStack,
@@ -152,8 +200,14 @@ watchEffect(() => {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   list-style: none;
+  color: v-bind(neonColor);
+  text-shadow:
+    0 0 2px #ff4ad8,
+    0 0 10px #ff4ad8,
+    0 0 20px #ff4ad8,
+    0 0 40px #ff4ad8;
 }
 
 .techStackMini {
@@ -174,14 +228,16 @@ watchEffect(() => {
     -8px 8px 0px 1px rgba(0, 0, 0, 0.3),
     -16px 16px 0px 1px rgba(0, 0, 0, 0.3);
   border-radius: 5%;
+  position: relative;
 }
 
 .fullProject {
   font-size: 1rem;
   display: flex;
   gap: 20px;
-  padding-left: 1rem;
+  padding-left: 1.5rem;
   width: 26.5vw;
+  padding-right: 0.75rem;
 }
 
 .highlights {
@@ -196,8 +252,8 @@ watchEffect(() => {
 }
 
 .showHighlights {
-  opacity: 1;
   width: 9vw;
+  opacity: 1;
 }
 
 .hideHighlights {
@@ -207,7 +263,13 @@ watchEffect(() => {
   font-size: 0;
 }
 
-.glassSlider {
+.hideHighlights > a {
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+.projectSlider {
   width: 2vw;
   height: 40vh;
   z-index: 3;
@@ -219,10 +281,7 @@ watchEffect(() => {
   padding: 3rem;
   animation: gradient 60s ease infinite;
   font-size: 2rem;
-  text-shadow:
-    0.5px 0.5px 0 rgba(0, 20, 20, 0.5),
-    -0.5px -1px 1px rgba(42, 255, 251, 0.289);
-  color: transparent;
+  color: black;
   background: linear-gradient(-45deg, #e73c7e, #23a6d5, #23d5ab);
   background-size: 400% 400%;
   font-family: 'Inconsolata';
@@ -235,7 +294,7 @@ watchEffect(() => {
   overflow: hidden;
 }
 
-.glassSlider:hover {
+.projectSlider:hover {
   width: 13vw;
   border-radius: 4%;
   transform: translateY(-20px) skew(15deg);
@@ -256,7 +315,6 @@ watchEffect(() => {
 
 .showProjectData {
   opacity: 1;
-  transition: opacity 0.75s ease;
 }
 
 .FEprojectName {
@@ -267,23 +325,30 @@ watchEffect(() => {
   width: 20vw;
   pointer-events: none;
   font-family: 'Tourney';
+  font-weight: 100;
   font-size: 2.5rem;
   color: v-bind(neonColor);
   text-shadow:
-    0 0 2px #ff6adf,
-    0 0 10px #ff6adf,
-    0 0 20px #ff6adf;
+    0 0 2px #ff4ad8,
+    0 0 10px #ff4ad8,
+    0 0 20px #ff4ad8,
+    0 0 40px #ff4ad8;
   transition:
     color 0.5s ease,
     opacity 0.5s ease;
   animation: flickerLoad v-bind(flickerFrequencySeconds) infinite;
 }
+
 .info,
 .info:hover {
-  width: 12vw;
+  width: 13vw;
   border-radius: 4%;
-  opacity: 1;
   transform: translateY(-20px) skew(15deg);
-  padding-right: 1rem;
+  padding-left: 1.3rem;
+  padding-right: 2rem;
+}
+
+.infoData {
+  width: 8vw;
 }
 </style>

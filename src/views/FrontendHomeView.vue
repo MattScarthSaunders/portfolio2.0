@@ -4,7 +4,7 @@ import FrontendProjectContainer from '../components/frontend/FrontendProjectCont
 import type { AirtableProject } from '@/types'
 
 const props = defineProps<{ projects: AirtableProject[] }>()
-const isActive = ref('')
+const isActive = ref('info')
 
 const handleClick = (projectTitle: string) => {
   if (isActive.value === projectTitle) {
