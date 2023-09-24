@@ -6,6 +6,7 @@ import { computed, onMounted, ref, watchEffect } from 'vue'
 import FrontendBEbutton from './components/frontend/FrontendBEbutton.vue'
 import { TypeFlow } from 'typeflow-vue'
 import DividerSection from './components/DividerSection.vue'
+import { getRecords } from './airtable'
 
 // sliding screen
 const offset = ref(0)
@@ -49,6 +50,7 @@ watchEffect(() => {
 
 onMounted(() => {
   window.addEventListener('resize', onResize)
+  getRecords()
 })
 
 const onResize = () => {
