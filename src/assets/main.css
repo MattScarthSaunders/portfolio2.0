@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Arizonia&family=Cormorant+Unicase:wght@300&family=Faustina:wght@300&family=Jacques+Francois+Shadow&family=Montserrat:wght@100;300;500;800&family=Raleway:wght@200;800&family=Tourney&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Arizonia&family=Cormorant+Unicase:wght@300&family=Faustina:wght@300&family=Jacques+Francois+Shadow&family=Montserrat:wght@100;300;500;800&family=Raleway:wght@200;800&family=Tourney:wght@100;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tourney:wght@100;400&display=swap');
 :root {
   --BE-bg-color: rgb(6, 17, 1);
   --BE-bg-border: 1px solid green;
   --BE-bg-border-shadow: 0 0 5px 0.5px rgba(0, 128, 0, 0.668);
+  --BE-color: rgb(1, 186, 1);
 }
 
 *,
@@ -40,6 +40,32 @@
     text-shadow:
       0.5px 0.5px 0 rgba(0, 20, 20, 0.5),
       -0.5px -2px 1px rgba(108, 253, 251, 0.289);
+  }
+}
+
+@keyframes FETitleGradient {
+  0% {
+    text-shadow:
+      0 0 2px #ff4ad8,
+      0 0 10px #ff4ad8,
+      0 0 20px #ff4ad8,
+      0 0 40px #ff4ad8;
+  }
+
+  50% {
+    text-shadow:
+      0 0 2px rgb(0, 255, 187),
+      0 0 10px rgb(0, 255, 187),
+      0 0 20px rgb(0, 255, 187),
+      0 0 40px rgb(0, 255, 187);
+  }
+
+  100% {
+    text-shadow:
+      0 0 2px rgb(0, 123, 255),
+      0 0 10px rgb(0, 123, 255),
+      0 0 20px rgb(0, 123, 255),
+      0 0 40px rgb(0, 123, 255);
   }
 }
 

@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { AirtableProject } from '@/types'
 import { computed, onMounted, ref, watchEffect } from 'vue'
-import FrontendLinkImage from './FrontendLinkImage.vue'
+
+import FrontendHighlightSection from './FrontendHighlightSection.vue'
+import FrontendActiveSection from './FrontendActiveSection.vue'
 
 const props = defineProps<{ project: AirtableProject; isActive: string }>()
 
@@ -9,7 +11,8 @@ const isHovered = ref('')
 const flickerFrequency = ref(0)
 const flickerFrequencySeconds = computed(() => flickerFrequency.value + 's')
 
-const neonColor = ref('rgb(213, 152, 200)')
+const neonColor = ref('rgba(255, 255, 255, 0.1)')
+const neonGlowColor = ref('rgba(255, 255, 255, 0.5)')
 
 const handleMouseOver = () => {
   isHovered.value = props.project.Name
@@ -25,9 +28,11 @@ onMounted(() => {
 
 watchEffect(() => {
   if (isHovered.value === props.project.Name || props.isActive === props.project.Name) {
-    neonColor.value = 'rgb(224, 212, 255)'
+    neonColor.value = 'rgba(255, 255, 255, 1)'
+    neonGlowColor.value = 'rgba(255, 255, 255, 1)'
   } else {
-    neonColor.value = 'rgb(213, 152, 200)'
+    neonColor.value = 'rgba(255, 255, 255, 0.1)'
+    neonGlowColor.value = 'rgba(255, 255, 255, 0.5)'
   }
 })
 </script>
@@ -45,204 +50,26 @@ watchEffect(() => {
     @click="$emit('projectSelected', props.project.Name)"
   >
     <h2 class="FEprojectName">{{ props.project.Name }}</h2>
-    <section
-      :class="{
-        highlights: 'highlights',
-        hideHighlights: isHovered !== props.project.Name || isActive === props.project.Name,
-        showHighlights: isHovered === props.project.Name && isActive !== props.project.Name
-      }"
-    >
-      <p class="Synopsis">{{ props.project.Synopsis }}</p>
-      <ul class="techStackMini">
-        <li v-for="tech in props.project.Tech">{{ tech }}</li>
-      </ul>
-      <a
-        @click.stop
-        class="projectLink"
-        :href="props.project.Github"
-        target="_blank"
-        rel="noopener noreferrer"
-        v-if="props.project.Github"
-        >Github</a
-      >
-      <a
-        @click.stop
-        class="projectLink"
-        :href="props.project.Hosted"
-        target="_blank"
-        rel="noopener noreferrer"
-        v-if="props.project.Hosted"
-        >Hosted</a
-      >
-    </section>
-    <section
-      :class="{
-        fullProject: 'fullProject',
-        hideProjectData: props.isActive !== props.project.Name,
-        showProjectData: props.isActive === props.project.Name
-      }"
-    >
-      <FrontendLinkImage
-        v-if="props.project?.Assets"
-        :imgSrc="props.project?.Assets![0].url"
-        :githubLink="props.project.Github"
-        :hostedLink="props.project.Hosted"
-      ></FrontendLinkImage>
-      <div class="detailWrapper">
-        <p
-          v-if="props.project.Name !== 'info'"
-          :class="{
-            projectData: 'projectData'
-          }"
-        >
-          {{ props.project.Description }}
-        </p>
-        <p
-          v-if="props.project.Name === 'info'"
-          :class="{
-            infoData: 'infoData'
-          }"
-        >
-          {{ props.project.Synopsis }}
-        </p>
-        <ul class="techStack">
-          <li v-for="tech in props.project.Tech">{{ tech }}</li>
-        </ul>
-        <div class="projectLinks">
-          <a
-            @click.stop
-            class="projectLink"
-            :href="props.project.Github"
-            target="_blank"
-            rel="noopener noreferrer"
-            v-if="props.project.Github"
-            >Github</a
-          >
-          <a
-            @click.stop
-            class="projectLink"
-            :href="props.project.Hosted"
-            target="_blank"
-            rel="noopener noreferrer"
-            v-if="props.project.Hosted"
-            >Hosted</a
-          >
-        </div>
-      </div>
-    </section>
+    <FrontendHighlightSection
+      :project="project"
+      :isActive="isActive"
+      :isHovered="isHovered"
+      :flickerFrequencySeconds="flickerFrequencySeconds"
+      :neonColor="neonColor"
+      :neonGlowColor="neonGlowColor"
+    ></FrontendHighlightSection>
+    <FrontendActiveSection
+      :project="project"
+      :isActive="isActive"
+      :isHovered="isHovered"
+      :flickerFrequencySeconds="flickerFrequencySeconds"
+      :neonColor="neonColor"
+      :neonGlowColor="neonGlowColor"
+    ></FrontendActiveSection>
   </div>
 </template>
 
 <style scoped>
-.showProjectData > a {
-  pointer-events: all;
-}
-.hideProjectData > a {
-  pointer-events: none;
-}
-
-.projectLinks {
-  display: flex;
-  gap: 2rem;
-  justify-content: flex-end;
-}
-.projectLink {
-  text-decoration: none;
-  box-shadow:
-    inset 0px 0px 75px rgba(0, 20, 20, 0.5),
-    -2px 2px 0px 1px rgba(0, 0, 0, 0.3),
-    -6px 6px 0px 1px rgba(0, 0, 0, 0.3),
-    -12px 12px 0px 1px rgba(0, 0, 0, 0.3);
-  color: white;
-  width: max-content;
-  padding: 0.25rem;
-  border-radius: 5%;
-}
-
-.projectLink:hover {
-  box-shadow:
-    inset 0 0 2px 1px white,
-    inset 00px 0px 75px rgba(0, 20, 20, 0.5),
-    -2px 2px 0px 1px rgba(79, 79, 79, 0.3),
-    -6px 6px 0px 1px rgba(66, 66, 66, 0.3),
-    -12px 12px 0px 1px rgba(53, 53, 53, 0.3);
-}
-
-.projectLink:active {
-  box-shadow:
-    inset 00px 0px 75px rgba(0, 20, 20, 0.5),
-    -2px 2px 0px 1px rgba(0, 0, 0, 0.3),
-    -4px 4px 0px 1px rgba(0, 0, 0, 0.3);
-  transform: translateX(-0.5rem) translateY(0.5rem);
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
-  animation: none;
-}
-
-.techStack,
-.techStackMini {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  list-style: none;
-  color: v-bind(neonColor);
-  text-shadow:
-    0 0 2px #ff4ad8,
-    0 0 10px #ff4ad8,
-    0 0 20px #ff4ad8,
-    0 0 40px #ff4ad8;
-}
-
-.techStackMini {
-  gap: 0.5rem;
-}
-
-.detailWrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.fullProject {
-  font-size: 1rem;
-  display: flex;
-  gap: 20px;
-  padding-left: 1.5rem;
-  width: 26.5vw;
-  padding-right: 0.75rem;
-}
-
-.highlights {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-size: 1rem;
-  gap: 1rem;
-  transition: opacity 0.5s ease;
-  padding-left: 1rem;
-}
-
-.showHighlights {
-  width: 9vw;
-  opacity: 1;
-}
-
-.hideHighlights {
-  opacity: 0;
-  width: 0;
-  height: 0;
-  font-size: 0;
-}
-
-.hideHighlights > a {
-  width: 0;
-  height: 0;
-  opacity: 0;
-}
-
 .projectSlider {
   width: 2vw;
   height: 40vh;
@@ -283,14 +110,6 @@ watchEffect(() => {
   padding-right: 1rem;
 }
 
-.hideProjectData {
-  opacity: 0;
-}
-
-.showProjectData {
-  opacity: 1;
-}
-
 .FEprojectName {
   rotate: 90deg;
   position: absolute;
@@ -303,10 +122,11 @@ watchEffect(() => {
   font-size: 2.5rem;
   color: v-bind(neonColor);
   text-shadow:
-    0 0 2px #ff4ad8,
-    0 0 10px #ff4ad8,
-    0 0 20px #ff4ad8,
-    0 0 40px #ff4ad8;
+    0 0 2px v-bind(neonGlowColor),
+    0 0 10px v-bind(neonGlowColor),
+    0 0 20px v-bind(neonGlowColor),
+    0 0 40px v-bind(neonGlowColor);
+
   transition:
     color 0.5s ease,
     opacity 0.5s ease;
@@ -320,9 +140,5 @@ watchEffect(() => {
   transform: translateY(-20px) skew(15deg);
   padding-left: 1.3rem;
   padding-right: 2rem;
-}
-
-.infoData {
-  width: 8vw;
 }
 </style>

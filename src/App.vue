@@ -389,11 +389,11 @@ const moveOneScreenWidth = (direction: string) => {
 }
 
 .frontend-FE-trigger:hover {
-  color: rgb(233, 152, 250);
+  color: white;
   text-shadow:
-    0 0 2px #ff6adf,
-    0 0 20px #df3ebc,
-    0 0 200px #ff00c8;
+    0 0 2px white,
+    0 0 20px white,
+    0 0 200px white;
   transition:
     color 0.5s ease,
     opacity 0.5s ease;
@@ -413,7 +413,7 @@ const moveOneScreenWidth = (direction: string) => {
   cursor: pointer;
   transition: opacity 1s ease;
   z-index: 3;
-  color: green;
+  color: var(--BE-color);
   animation: textShadow 1.6s infinite;
   transition:
     color 0.75s ease,
@@ -428,7 +428,7 @@ const moveOneScreenWidth = (direction: string) => {
   left: 28%;
   z-index: 3;
   animation: textShadow 1.6s infinite;
-  color: green;
+  color: var(--BE-color);
 }
 .backend-BE-trigger:hover {
   color: rgb(0, 211, 0);
