@@ -8,8 +8,11 @@ import { TypeFlow } from 'typeflow-vue'
 import DividerSection from './components/DividerSection.vue'
 import { getRecords } from './airtable'
 import type { AirtableProject } from './types'
+import SiteLoader from './components/SiteLoader.vue'
 
 const initialLoad = ref(true)
+const initialLoadError = ref('')
+const disableLoadError = ref(true)
 // projects
 const FEProj = ref<AirtableProject[]>([])
 const BEProj = ref<AirtableProject[]>([])
@@ -57,16 +60,23 @@ watchEffect(() => {
 })
 
 onMounted(async () => {
-  const projects = await getRecords()
+  try {
+    const projects = await getRecords()
+    if (projects) {
+      initialLoad.value = false
 
-  if (projects) {
-    initialLoad.value = false
-    // setTimeout(() => {
-    // }, 1000)
-    window.addEventListener('resize', onResize)
+      window.addEventListener('resize', onResize)
 
-    FEProj.value = projects.filter((proj) => proj.Type === 'Frontend')
-    BEProj.value = projects.filter((proj) => proj.Type.includes('Backend'))
+      FEProj.value = projects.filter((proj) => proj.Type === 'Frontend')
+      BEProj.value = projects.filter((proj) => proj.Type.includes('Backend'))
+    }
+  } catch (err) {
+    if (err) {
+      initialLoad.value = false
+      disableLoadError.value = false
+      initialLoadError.value =
+        'Unfortunately I was unable to fetch my portfolio projects at this time. Feel free to have a click around the site though! Refresh the page or Try again later to see my portfolio work.'
+    }
   }
 })
 
@@ -105,10 +115,40 @@ const moveOneScreenWidth = (direction: string) => {
 
 <template>
   <Transition name="fade">
-    <main v-if="initialLoad" class="LoadingBase">
-      <TypeFlow><h1 class="loadingAnim">LOADING</h1></TypeFlow>
-    </main></Transition
-  >
+    <SiteLoader v-if="initialLoad"></SiteLoader>
+  </Transition>
+  <Transition name="error">
+    <div
+      class="noPortfolio"
+      v-if="!disableLoadError"
+      :disabled="disableLoadError"
+      :display="disableLoadError ? 'none' : 'flex'"
+      @click="
+        () => {
+          disableLoadError = true
+        }
+      "
+    >
+      <p
+        @click="
+          () => {
+            disableLoadError = true
+          }
+        "
+      >
+        {{ initialLoadError }}
+      </p>
+      <p
+        @click="
+          () => {
+            disableLoadError = true
+          }
+        "
+      >
+        click here to dismiss
+      </p>
+    </div>
+  </Transition>
   <Transition name="main">
     <main v-if="!initialLoad" class="base">
       <div class="view-container">
@@ -190,6 +230,31 @@ const moveOneScreenWidth = (direction: string) => {
 </template>
 
 <style scoped>
+#app {
+  position: relative;
+  display: flex;
+}
+.noPortfolio {
+  width: 20vw;
+  height: 20vh;
+  overflow: hidden;
+  position: absolute;
+  top: 45%;
+  left: 40vw;
+  justify-self: center;
+  align-self: center;
+  z-index: 999;
+  background: white;
+  border: 4px solid black;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 1s ease;
@@ -197,6 +262,16 @@ const moveOneScreenWidth = (direction: string) => {
 
 .fade-enter-from,
 .fade-leave-to {
+  opacity: 0;
+}
+
+.error-enter-active,
+.error-leave-active {
+  transition: opacity 1s ease-in;
+}
+
+.error-enter-from,
+.error-leave-to {
   opacity: 0;
 }
 
@@ -210,27 +285,6 @@ const moveOneScreenWidth = (direction: string) => {
   opacity: 0;
 }
 
-.loadingAnim {
-  width: 10rem;
-  height: 10rem;
-  padding: 2rem;
-  font-size: 2rem;
-  background-color: ivory;
-  border-radius: 100%;
-  animation: loadingAnim 5s infinite;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.LoadingBase {
-  display: flex;
-  width: 100vw;
-  height: 100vh;
-  justify-content: center;
-  align-items: center;
-  z-index: 99;
-  color: black;
-}
 .dividerSlideLeft {
   animation: dividerSlideLeft 1s forwards;
   transform: translateX(v-bind(dividerOffsetpx));
@@ -242,7 +296,7 @@ const moveOneScreenWidth = (direction: string) => {
   transition: transform 3s ease-in;
 }
 .base {
-  width: 100vw; /* Adjust as needed */
+  width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: row;
