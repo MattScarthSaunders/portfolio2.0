@@ -75,7 +75,7 @@ const props = defineProps<{
   margin-bottom: 0.5rem;
 }
 .projectDescription {
-  color: green;
+  color: var(--BE-color);
   font-size: 1.25rem;
   width: 100%;
   height: 2.5rem;
@@ -86,7 +86,7 @@ const props = defineProps<{
 }
 
 .stack {
-  color: green;
+  color: var(--BE-color);
   font-size: 1.25rem;
   margin-top: 0.25rem;
   margin-bottom: 0.5rem;

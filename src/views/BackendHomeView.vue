@@ -69,7 +69,7 @@ watchEffect(() => {
 
 <style>
 .greeting {
-  color: green;
+  color: var(--BE-color);
   font-size: 1.5rem;
 }
 .backendBase {

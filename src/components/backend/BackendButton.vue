@@ -10,7 +10,7 @@ const props = defineProps<{ name: string; projectIndex: number }>()
 
 <style scoped>
 .projectButton {
-  color: green;
+  color: var(--BE-color);
   background-color: var(--BE-bg-color);
   border: var(--BE-bg-border);
   box-shadow: var(--BE-bg-border-shadow);

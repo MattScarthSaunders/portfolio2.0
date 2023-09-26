@@ -126,19 +126,19 @@ watch(isInteractorFetching, (prev, current) => {
 
 <style scoped>
 .loading {
-  color: green;
+  color: var(--BE-color);
 }
 .subtleInstruction {
   position: absolute;
   font-size: 0.9rem;
   top: 1.5rem;
   left: 1rem;
-  color: green;
+  color: var(--BE-color);
 }
 
 .apiInteractor,
 .apiVisualiser {
-  color: green;
+  color: var(--BE-color);
   scrollbar-color: green rgb(11, 46, 22);
   transition-property: width, height, padding;
   transition-duration: 0.5s, 1s, 0s;
@@ -172,7 +172,7 @@ watch(isInteractorFetching, (prev, current) => {
 }
 
 .apiButtonLabel {
-  color: green;
+  color: var(--BE-color);
   padding-left: 1rem;
 }
 

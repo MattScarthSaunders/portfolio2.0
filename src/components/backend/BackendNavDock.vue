@@ -48,7 +48,7 @@ ul {
 li {
   font-family: 'Terminal';
   font-size: 2rem;
-  color: green;
+  color: var(--BE-color);
   animation: textShadow 0.51s infinite;
 }
 

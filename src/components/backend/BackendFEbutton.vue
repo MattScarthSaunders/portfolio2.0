@@ -35,7 +35,7 @@ const props = defineProps<{ backendFETrigger: number }>()
 .backend-FE-trigger > span {
   font-size: 2rem;
   font-family: 'Terminal';
-  color: green;
+  color: var(--BE-color);
   cursor: pointer;
   opacity: v-bind(backendFETrigger);
   animation: textShadow 0.5s infinite;
