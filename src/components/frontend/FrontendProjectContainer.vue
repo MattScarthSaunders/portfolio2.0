@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { AirtableProject } from '@/types'
 import { computed, onMounted, ref, watchEffect } from 'vue'
+import FrontendLinkImage from './FrontendLinkImage.vue'
 
 const props = defineProps<{ project: AirtableProject; isActive: string }>()
 
@@ -81,15 +82,12 @@ watchEffect(() => {
         showProjectData: props.isActive === props.project.Name
       }"
     >
-      <a
-        class="imageLink"
-        @click.stop
-        :href="props.project.Hosted"
-        target="_blank"
-        rel="noopener noreferrer"
-        ><img v-if="props.project?.Assets" class="projectImg" :src="props.project?.Assets![0].url"
-      /></a>
-
+      <FrontendLinkImage
+        v-if="props.project?.Assets"
+        :imgSrc="props.project?.Assets![0].url"
+        :githubLink="props.project.Github"
+        :hostedLink="props.project.Hosted"
+      ></FrontendLinkImage>
       <div class="detailWrapper">
         <p
           v-if="props.project.Name !== 'info'"
@@ -142,20 +140,7 @@ watchEffect(() => {
 .hideProjectData > a {
   pointer-events: none;
 }
-.imageLink {
-  height: max-content;
-}
 
-.imageLink:active > img {
-  box-shadow:
-    inset 0px 0px 75px rgba(0, 20, 20, 0.5),
-    -2px 2px 0px 1px rgba(0, 0, 0, 0.3),
-    -4px 4px 0px 1px rgba(0, 0, 0, 0.3);
-  transform: translateX(-0.5rem) translateY(0.5rem);
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
-}
 .projectLinks {
   display: flex;
   gap: 2rem;
@@ -218,17 +203,6 @@ watchEffect(() => {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-}
-
-.projectImg {
-  height: 20vh;
-  box-shadow:
-    inset 00px 0px 75px rgba(0, 20, 20, 0.5),
-    -2px 2px 0px 1px rgba(0, 0, 0, 0.3),
-    -8px 8px 0px 1px rgba(0, 0, 0, 0.3),
-    -16px 16px 0px 1px rgba(0, 0, 0, 0.3);
-  border-radius: 5%;
-  position: relative;
 }
 
 .fullProject {
