@@ -63,7 +63,7 @@ onMounted(async () => {
   try {
     const projects = await getRecords()
     if (projects) {
-      initialLoad.value = false
+      initialLoad.value = true
 
       window.addEventListener('resize', onResize)
 

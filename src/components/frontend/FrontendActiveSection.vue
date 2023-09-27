@@ -90,7 +90,7 @@ onMounted(() => {
     -2px 2px 0px 1px rgba(0, 0, 0, 0.3);
   background: linear-gradient(-45deg, #e73c7e, #23a6d5, #23d5ab);
   background-size: 400% 400%;
-  animation: gradient 50s infinite;
+  animation: gradient 60s infinite;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

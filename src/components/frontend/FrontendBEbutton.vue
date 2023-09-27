@@ -27,6 +27,7 @@ const buttonContent = ref('...')
   font-size: 2rem;
   cursor: pointer;
   font-family: 'Tourney';
+  font-weight: 100;
   transition: opacity 3s ease;
 }
 
