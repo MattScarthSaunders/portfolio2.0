@@ -33,7 +33,7 @@ const props = defineProps<{ hostedLink?: string; githubLink?: string }>()
     -12px 12px 0px 1px rgba(0, 0, 0, 0.3);
   color: white;
   width: max-content;
-  padding: 0.25rem;
+  padding: 0.5rem;
   border-radius: 5%;
 }
 

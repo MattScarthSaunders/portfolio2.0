@@ -15,8 +15,9 @@ const props = defineProps<{ hostedLink?: string; githubLink?: string; imgSrc: st
 
 <style scoped>
 .imageLink {
-  height: 100%;
-  max-width: 50%;
+  height: 80%;
+  width: 100%;
+  border-radius: 5%;
 }
 
 .imageLink:active > img {
@@ -30,8 +31,8 @@ const props = defineProps<{ hostedLink?: string; githubLink?: string; imgSrc: st
     box-shadow 0.25s ease;
 }
 .projectImg {
-  height: 100%;
   max-width: 100%;
+  max-height: 30vh;
   box-shadow:
     inset 00px 0px 75px rgba(0, 20, 20, 0.5),
     -2px 2px 0px 1px rgba(0, 0, 0, 0.3),

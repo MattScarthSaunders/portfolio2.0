@@ -1,86 +1,72 @@
 <script setup lang="ts">
 import type { AirtableProject } from '@/types'
 import FrontendLinkButtons from './FrontendLinkButtons.vue'
+import { computed, onMounted, ref } from 'vue'
 
 const props = defineProps<{
   isHovered: string
   isActive: string
   project: AirtableProject
-  neonColor: string
-  neonGlowColor: string
-  flickerFrequencySeconds: string
 }>()
+
+const flickerFrequency = ref(0)
+const flickerFrequencySeconds = computed(() => flickerFrequency.value + 's')
+
+const scrollTime = computed(() => props.project.Tech.length * 2 + 's')
+
+onMounted(() => {
+  flickerFrequency.value = Math.random() * 10 + 5
+})
 </script>
 
 <template>
-  <section
-    :class="{
-      highlights: 'highlights',
-      hideHighlights: isHovered !== props.project.Name || isActive === props.project.Name,
-      showHighlights: isHovered === props.project.Name && isActive !== props.project.Name
-    }"
-  >
+  <section class="highlights">
     <p class="Synopsis">{{ props.project.Synopsis }}</p>
     <ul class="techStackMini">
       <li v-for="tech in props.project.Tech">{{ tech }}</li>
     </ul>
-    <div v-if="isHovered && !isActive" class="projectLinksMini">
-      <FrontendLinkButtons
-        :githubLink="props.project.Github"
-        :hostedLink="props.project.Hosted"
-      ></FrontendLinkButtons>
-    </div>
   </section>
 </template>
 
 <style scoped>
-.projectLinksMini {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-}
 .highlights {
+  position: absolute;
+  top: -3vw;
+  left: -15vh;
+  /* flex */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 1rem;
   gap: 1rem;
-  transition: opacity 0.5s ease;
-  padding-left: 1rem;
-}
-
-.showHighlights {
-  width: 9vw;
-  opacity: 1;
-}
-
-.hideHighlights {
-  opacity: 0;
-  width: 0;
-  height: 0;
-  font-size: 0;
-}
-
-.hideHighlights > a {
-  width: 0;
-  height: 0;
-  opacity: 0;
+  /* size/spacing */
+  padding: 1rem;
+  width: 13vw;
+  height: 10vh;
+  border-radius: 4%;
+  /* color */
+  box-shadow:
+    inset 00px 0px 75px rgba(0, 20, 20, 0.5),
+    -2px 2px 0px 1px rgba(0, 0, 0, 0.3);
+  transform: rotate(-90deg) skew(15deg) translateX(4vh);
+  overflow: hidden;
 }
 
 .techStackMini {
   display: flex;
   gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
   list-style: none;
-  color: v-bind(neonColor);
+  color: white;
   text-shadow:
-    0 0 2px v-bind(neonGlowColor),
-    0 0 10px v-bind(neonGlowColor),
-    0 0 20px v-bind(neonGlowColor),
-    0 0 40px v-bind(neonGlowColor);
-  animation: flickerLoad v-bind(flickerFrequencySeconds) infinite;
+    0 0 2px white,
+    0 0 10px white,
+    0 0 20px white,
+    0 0 40px white;
+  animation:
+    flickerLoad v-bind(flickerFrequencySeconds) infinite,
+    scrollText v-bind(scrollTime) infinite linear;
   gap: 0.5rem;
 }
 </style>
