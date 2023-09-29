@@ -171,7 +171,7 @@ const moveOneScreenWidth = (direction: string) => {
         </button>
         <FrontendBEbutton
           :frontendBETrigger="frontendBETrigger"
-          @frontendBETriggergered="
+          @frontendBETriggered="
             () => {
               moveOneScreenWidth('backward')
               frontendBETrigger = 0

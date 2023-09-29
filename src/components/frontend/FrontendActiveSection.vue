@@ -2,8 +2,7 @@
 import FrontendLinkImage from './FrontendLinkImage.vue'
 import FrontendLinkButtons from './FrontendLinkButtons.vue'
 import type { AirtableProject } from '@/types'
-import { computed, onMounted, ref } from 'vue'
-import CRTLineWrapper from '../backend/CRTLineWrapper.vue'
+import { computed } from 'vue'
 import FrontendDescriptionStack from './FrontendDescriptionStack.vue'
 
 const props = defineProps<{
@@ -27,27 +26,13 @@ const xTranslate = computed(() => props.yValue + 'vw')
         :githubLink="props.project.Github"
         :hostedLink="props.project.Hosted"
       ></FrontendLinkImage>
-      <FrontendLinkButtons
-        :githubLink="props.project.Github"
-        :hostedLink="props.project.Hosted"
-      ></FrontendLinkButtons>
+      <FrontendLinkButtons :project="project"></FrontendLinkButtons>
     </section>
     <FrontendDescriptionStack :project="project"></FrontendDescriptionStack>
   </section>
 </template>
 
 <style scoped>
-.projectData {
-  max-width: 50%;
-  max-height: 70%;
-}
-
-.projectLinks {
-  display: flex;
-  gap: 2rem;
-  justify-content: flex-end;
-}
-
 .fullProject {
   position: absolute;
   top: v-bind(leftValue);
@@ -78,9 +63,5 @@ const xTranslate = computed(() => props.yValue + 'vw')
   border-radius: 4%;
   gap: 2rem;
   flex-shrink: 4;
-}
-
-.infoData {
-  width: 8vw;
 }
 </style>

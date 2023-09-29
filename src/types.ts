@@ -21,4 +21,5 @@ export interface AirtableProject {
   Id: number
   Hosted?: string
   Assets?: AirtableProjectAsset[]
+  Downloadables?: AirtableProjectAsset[]
 }

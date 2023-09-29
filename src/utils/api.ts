@@ -89,3 +89,13 @@ export const handleBoardgameRequests = async (
     }
   }
 }
+
+export const handleDownloadFile = async (path: string) => {
+  try {
+    const res = await axios.get(path)
+
+    return true
+  } catch (err) {
+    if (err instanceof Error) return false
+  }
+}

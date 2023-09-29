@@ -1,5 +1,20 @@
 <script setup lang="ts">
-const props = defineProps<{ hostedLink?: string; githubLink?: string }>()
+import type { AirtableProject } from '@/types'
+import { handleDownloadFile } from '@/utils/api'
+import { ref } from 'vue'
+
+const props = defineProps<{ project: AirtableProject }>()
+
+const isDownloading = ref(false)
+const isErrored = ref(false)
+
+const handleClick = async () => {
+  isErrored.value = false
+  isDownloading.value = true
+  const isDownloaded = await handleDownloadFile(props.project.Downloadables![0].url)
+
+  isDownloaded ? (isErrored.value = false) : (isErrored.value = true)
+}
 </script>
 
 <template>
@@ -7,29 +22,35 @@ const props = defineProps<{ hostedLink?: string; githubLink?: string }>()
     <a
       @click.stop
       class="projectLink"
-      :href="props.githubLink"
+      :href="props.project.Github"
       target="_blank"
       rel="noopener noreferrer"
-      v-if="props.githubLink"
+      v-if="props.project.Github"
       >Github</a
     >
     <a
       @click.stop
       class="projectLink"
-      :href="props.hostedLink"
+      :href="props.project.Hosted"
       target="_blank"
       rel="noopener noreferrer"
-      v-if="props.hostedLink"
+      v-if="props.project.Hosted"
       >Hosted</a
     >
+    <a v-if="props.project.Downloadables?.length" @click.stop="handleClick" class="projectLink"
+      >Download</a
+    >
+    <div v-if="isDownloading">Fetching download...</div>
   </div>
 </template>
 
 <style scoped>
 .projectLinks {
+  width: 100%;
   display: flex;
-  gap: 2rem;
-  justify-content: flex-end;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
 }
 .projectLink {
   text-decoration: none;

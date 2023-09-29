@@ -7,7 +7,7 @@ const buttonContent = ref('...')
 </script>
 
 <template>
-  <button class="frontend-BE-trigger" @click="$emit('frontendBETriggergered')">Backend >>></button>
+  <button class="frontend-BE-trigger" @click="$emit('frontendBETriggered')">Backend >>></button>
 </template>
 
 <style scoped>

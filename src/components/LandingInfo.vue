@@ -8,10 +8,10 @@
       and other information
     </p>
     <ul>
-      <li><a>linkedIn</a></li>
-      <li><a>github</a></li>
-      <li><a>CV</a></li>
-      <li><a>email</a></li>
+      <li><a href="">linkedIn</a></li>
+      <li><a href="">github</a></li>
+      <li><a href="">CV</a></li>
+      <li><a href="">email</a></li>
     </ul>
   </section>
 </template>
