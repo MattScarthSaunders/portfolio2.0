@@ -341,3 +341,15 @@
     transform: translateX(-105%);
   }
 }
+
+@keyframes loadingFEPic {
+  0% {
+    box-shadow: inset 00px 0px 75px rgba(0, 20, 20, 0.5);
+  }
+  50% {
+    box-shadow: inset 00px 0px 75px 50px rgba(0, 20, 20, 0.5);
+  }
+  100% {
+    box-shadow: inset 00px 0px 75px rgba(0, 20, 20, 0.5);
+  }
+}

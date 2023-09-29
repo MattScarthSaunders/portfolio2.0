@@ -3,27 +3,34 @@ const props = defineProps<{ hostedLink?: string; githubLink?: string }>()
 </script>
 
 <template>
-  <a
-    @click.stop
-    class="projectLink"
-    :href="props.githubLink"
-    target="_blank"
-    rel="noopener noreferrer"
-    v-if="props.githubLink"
-    >Github</a
-  >
-  <a
-    @click.stop
-    class="projectLink"
-    :href="props.hostedLink"
-    target="_blank"
-    rel="noopener noreferrer"
-    v-if="props.hostedLink"
-    >Hosted</a
-  >
+  <div class="projectLinks">
+    <a
+      @click.stop
+      class="projectLink"
+      :href="props.githubLink"
+      target="_blank"
+      rel="noopener noreferrer"
+      v-if="props.githubLink"
+      >Github</a
+    >
+    <a
+      @click.stop
+      class="projectLink"
+      :href="props.hostedLink"
+      target="_blank"
+      rel="noopener noreferrer"
+      v-if="props.hostedLink"
+      >Hosted</a
+    >
+  </div>
 </template>
 
 <style scoped>
+.projectLinks {
+  display: flex;
+  gap: 2rem;
+  justify-content: flex-end;
+}
 .projectLink {
   text-decoration: none;
   box-shadow:
