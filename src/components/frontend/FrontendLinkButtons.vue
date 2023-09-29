@@ -44,6 +44,10 @@ const props = defineProps<{ hostedLink?: string; githubLink?: string }>()
     -2px 2px 0px 1px rgba(79, 79, 79, 0.3),
     -6px 6px 0px 1px rgba(66, 66, 66, 0.3),
     -12px 12px 0px 1px rgba(53, 53, 53, 0.3);
+
+  text-shadow:
+    0 0 2px white,
+    0 0 10px white;
 }
 
 .projectLink:active {
@@ -58,5 +62,8 @@ const props = defineProps<{ hostedLink?: string; githubLink?: string }>()
     transform 0.25s ease,
     box-shadow 0.25s ease;
   animation: none;
+  text-shadow:
+    0 0 2px white,
+    0 0 10px white;
 }
 </style>

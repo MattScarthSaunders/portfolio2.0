@@ -105,16 +105,17 @@ onMounted(() => {
 <style scoped>
 .full-enter-active {
   transition:
-    opacity 1s ease,
+    opacity 1.25s ease,
     height 1s ease,
-    transform 1s ease;
+    transform 0s ease;
+  transition-delay: 0.3s;
 }
 
 .full-leave-active {
   transition:
     opacity 0s,
     height 0.25s ease,
-    transform 0.25s ease;
+    transform 0s ease;
 }
 .full-enter-from,
 .full-leave-to {

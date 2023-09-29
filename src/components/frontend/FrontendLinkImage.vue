@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { AirtableProjectAsset } from '@/types'
-import { computed, onMounted, ref, vShow, watch, watchEffect } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+import { calculateAspectRatioUnitAgnostic } from '../../utils/calcs'
 
 const props = defineProps<{
   hostedLink?: string
@@ -9,38 +10,24 @@ const props = defineProps<{
   smImg: AirtableProjectAsset
 }>()
 
-const bgSmUrl = computed(() => `url("${props.smImg.url}")`)
+const imgUrl = new URL(`../../assets/images/${props.smImg.filename}`, import.meta.url).href
+
+const bgSmUrl = computed(() => `url('${imgUrl}')`)
 
 const height = ref('')
 const width = ref('')
 
-const calculateAspectRatioInVH = (width: number, height: number) => {
-  const maxWidthInVH = 40
-  const maxHeightInVH = 30
-
-  const aspectRatio = width / height
-
-  // Initialize the width and height in vh
-  let widthInVH = maxWidthInVH
-  let heightInVH = maxHeightInVH
-
-  // Check if the aspect ratio is wider than the maximum allowed
-  if (aspectRatio > maxWidthInVH / maxHeightInVH) {
-    widthInVH = maxWidthInVH
-    heightInVH = maxWidthInVH / aspectRatio
-  } else {
-    heightInVH = maxHeightInVH
-    widthInVH = maxHeightInVH * aspectRatio
-  }
-
-  return { widthInVH, heightInVH }
-}
-
 onMounted(() => {
-  const { widthInVH, heightInVH } = calculateAspectRatioInVH(props.img.width, props.img.height)
+  console.log(imgUrl)
+  const { newWidth, newHeight } = calculateAspectRatioUnitAgnostic(
+    props.img.width,
+    props.img.height,
+    40,
+    30
+  )
 
-  width.value = widthInVH + 'vh'
-  height.value = heightInVH + 'vh'
+  width.value = newWidth + 'vh'
+  height.value = newHeight + 'vh'
 })
 </script>
 
@@ -74,7 +61,7 @@ onMounted(() => {
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  filter: blur(10px);
+  filter: blur(5px);
   border-radius: 5%;
 }
 .projectImg {

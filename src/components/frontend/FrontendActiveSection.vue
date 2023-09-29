@@ -3,6 +3,7 @@ import FrontendLinkImage from './FrontendLinkImage.vue'
 import FrontendLinkButtons from './FrontendLinkButtons.vue'
 import type { AirtableProject } from '@/types'
 import { computed, onMounted, ref } from 'vue'
+import CRTLineWrapper from '../backend/CRTLineWrapper.vue'
 
 const props = defineProps<{
   isActive: string
@@ -122,6 +123,13 @@ onMounted(() => {
   box-shadow:
     inset 00px 0px 75px rgba(0, 20, 20, 0.5),
     -2px 2px 0px 1px rgba(0, 0, 0, 0.3);
+}
+
+.description {
+  color: white;
+  text-shadow:
+    0 0 2px white,
+    0 0 10px white;
 }
 
 .stackWrapper {
