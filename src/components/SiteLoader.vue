@@ -28,9 +28,6 @@ const ding = `   DING`
   justify-content: center;
   align-items: center;
 }
-.load {
-  padding-left: 1.5rem;
-}
 
 h2 {
   position: absolute;
@@ -42,9 +39,13 @@ h2 {
   justify-content: flex-start;
   align-items: center;
 }
-.loadingAnimFE {
+.load {
+  padding-left: 1.05rem;
   font-family: 'Tourney';
   font-weight: 100;
+  font-size: 1.8rem;
+}
+.loadingAnimFE {
   padding-left: 1px;
   color: white;
   text-shadow:

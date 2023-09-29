@@ -29,6 +29,7 @@ onMounted(() => {
       <FrontendLinkImage
         v-if="props.project?.Assets"
         :imgSrc="props.project?.Assets![0].url"
+        :bgSrc="props.project?.Assets![1].url"
         :githubLink="props.project.Github"
         :hostedLink="props.project.Hosted"
       ></FrontendLinkImage>
@@ -84,6 +85,7 @@ onMounted(() => {
 
 .imageLinks {
   padding: 1rem 2rem;
+  padding-right: 1rem;
   opacity: 1;
   box-shadow:
     inset 00px 0px 75px rgba(0, 20, 20, 0.5),
