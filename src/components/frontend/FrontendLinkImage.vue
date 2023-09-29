@@ -1,31 +1,46 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch, watchEffect } from 'vue'
+import type { AirtableProjectAsset } from '@/types'
+import { computed, onMounted, ref, vShow, watch, watchEffect } from 'vue'
 
 const props = defineProps<{
   hostedLink?: string
   githubLink?: string
-  imgSrc: string
-  bgSrc: string
+  img: AirtableProjectAsset
+  smImg: AirtableProjectAsset
 }>()
 
-const urlString = computed(() => `url('${props.bgSrc}')`)
-const loaded = ref(false)
-const sourceValue = ref(props.bgSrc)
+const bgSmUrl = computed(() => `url("${props.smImg.url}")`)
 
-function checkImageLoad() {
-  const imgElement = document.getElementById(props.imgSrc) as HTMLImageElement
-  if (imgElement) {
-    if (imgElement.complete) {
-      loaded.value = true
-      sourceValue.value = props.imgSrc
-    } else {
-      setTimeout(checkImageLoad, 100)
-    }
+const height = ref('')
+const width = ref('')
+
+const calculateAspectRatioInVH = (width: number, height: number) => {
+  const maxWidthInVH = 40
+  const maxHeightInVH = 30
+
+  const aspectRatio = width / height
+
+  // Initialize the width and height in vh
+  let widthInVH = maxWidthInVH
+  let heightInVH = maxHeightInVH
+
+  // Check if the aspect ratio is wider than the maximum allowed
+  if (aspectRatio > maxWidthInVH / maxHeightInVH) {
+    widthInVH = maxWidthInVH
+    heightInVH = maxWidthInVH / aspectRatio
+  } else {
+    heightInVH = maxHeightInVH
+    widthInVH = maxHeightInVH * aspectRatio
   }
+
+  return { widthInVH, heightInVH }
 }
 
 onMounted(() => {
-  checkImageLoad()
+  const { widthInVH, heightInVH } = calculateAspectRatioInVH(props.img.width, props.img.height)
+
+  width.value = widthInVH + 'vh'
+  height.value = heightInVH + 'vh'
 })
 </script>
 
@@ -37,15 +52,44 @@ onMounted(() => {
     target="_blank"
     rel="noopener noreferrer"
   >
-    <img :id="props.imgSrc" :class="{ loading: !loaded, projectImg: loaded }" :src="sourceValue" />
+    <div class="bg"></div>
+    <img class="projectImg" :src="props.img.url" />
   </a>
 </template>
 
 <style scoped>
 .imageLink {
-  height: 80%;
-  width: 100%;
+  position: relative;
   border-radius: 5%;
+  height: v-bind(height);
+  width: v-bind(width);
+}
+.bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: v-bind(height);
+  width: v-bind(width);
+  background-image: v-bind(bgSmUrl);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(10px);
+  border-radius: 5%;
+}
+.projectImg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: v-bind(height);
+  width: v-bind(width);
+  box-shadow:
+    inset 00px 0px 75px rgba(0, 20, 20, 0.5),
+    -2px 2px 0px 1px rgba(0, 0, 0, 0.3),
+    -8px 8px 0px 1px rgba(0, 0, 0, 0.3),
+    -16px 16px 0px 1px rgba(0, 0, 0, 0.3);
+  border-radius: 5%;
+  object-fit: contain;
 }
 
 .imageLink:active > img {
@@ -57,27 +101,5 @@ onMounted(() => {
   transition:
     transform 0.25s ease,
     box-shadow 0.25s ease;
-}
-.projectImg {
-  max-width: 100%;
-  max-height: 30vh;
-  box-shadow:
-    inset 00px 0px 75px rgba(0, 20, 20, 0.5),
-    -2px 2px 0px 1px rgba(0, 0, 0, 0.3),
-    -8px 8px 0px 1px rgba(0, 0, 0, 0.3),
-    -16px 16px 0px 1px rgba(0, 0, 0, 0.3);
-  border-radius: 5%;
-}
-
-.loading {
-  max-width: 100%;
-  max-height: 30vh;
-  box-shadow:
-    inset 00px 0px 75px rgba(0, 20, 20, 0.5),
-    -2px 2px 0px 1px rgba(0, 0, 0, 0.3),
-    -8px 8px 0px 1px rgba(0, 0, 0, 0.3),
-    -16px 16px 0px 1px rgba(0, 0, 0, 0.3);
-  border-radius: 5%;
-  filter: blur(10px);
 }
 </style>

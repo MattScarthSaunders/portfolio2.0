@@ -28,8 +28,8 @@ onMounted(() => {
     <section class="imageLinks">
       <FrontendLinkImage
         v-if="props.project?.Assets"
-        :imgSrc="props.project?.Assets![0].url"
-        :bgSrc="props.project?.Assets![1].url"
+        :img="props.project?.Assets![0]"
+        :smImg="props.project?.Assets![1]"
         :githubLink="props.project.Github"
         :hostedLink="props.project.Hosted"
       ></FrontendLinkImage>
