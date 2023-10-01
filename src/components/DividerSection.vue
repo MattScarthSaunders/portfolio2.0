@@ -17,7 +17,9 @@ import LandingInfo from './LandingInfo.vue'
   transform: skew(15deg);
   border-right: 10px solid black;
   border-left: 10px solid black;
-  box-shadow: 0 0 10px black;
+  box-shadow:
+    5px 0 10px rgba(0, 128, 0, 0.314),
+    0 0 10px black;
   display: flex;
   gap: 30px;
   flex-direction: column;

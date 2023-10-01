@@ -2,43 +2,91 @@
 
 <template>
   <section>
-    <img />
+    <a
+      class="linkedin"
+      href="https://www.linkedin.com/in/matthew-scarth-saunders/"
+      target="_blank"
+      rel="noreferrer"
+      ><img src="../assets/icons/linkedin.png"
+    /></a>
+    <a class="github" href="https://github.com/MattScarthSaunders" target="_blank" rel="noreferrer"
+      ><img src="../assets/icons/github.png"
+    /></a>
+    <a class="mail" href="mailto:m.scarsaund@gmail.com"><img src="../assets/icons/email.png" /></a>
+    <a class="cv" href="">CV</a>
+    <img src="../assets/images/profile.jpeg" />
     <p>Welcome! Pick a side to see my portfolio work. Use the links below to get in touch.</p>
-    <ul>
-      <li><a href="https://www.linkedin.com/in/matthew-scarth-saunders/">linkedIn</a></li>
-      <li><a href="https://github.com/MattScarthSaunders">github</a></li>
-      <li><a href="">CV</a></li>
-      <li><a href="">email</a></li>
-    </ul>
   </section>
 </template>
 
 <style scoped>
-img {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 100%;
-}
 section {
   display: flex;
+  position: relative;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 2rem;
-  margin-left: 1rem;
   transform: skew(-15deg);
 }
-ul {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  margin-left: 1rem;
-  width: 100%;
-  justify-content: center;
+
+img {
+  width: 8vw;
+  height: 8vw;
+  border-radius: 100%;
+  border: 6px solid black;
+  box-shadow: 0 0 5px black;
 }
+
 a {
   text-decoration: none;
+  color: black;
+  position: absolute;
+  width: 1vw;
+  height: 1vw;
+}
+
+a > img {
+  border: none;
+  width: 2vw;
+  height: 2vw;
+  box-shadow: none;
+}
+
+a:hover {
+  transform: scale(1.1);
+  transition: transform 0.25s;
 }
 p {
   text-align: center;
+  margin-left: 2rem;
+}
+
+.mail {
+  bottom: 50%;
+  left: 20%;
+}
+
+.linkedin {
+  top: 10%;
+  left: 19%;
+}
+
+.github {
+  top: 10%;
+  right: 24.5%;
+}
+
+.cv {
+  bottom: 42%;
+  right: 20%;
+  border: 4px solid black;
+  border-radius: 100%;
+  width: 2vw;
+  height: 2vw;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

@@ -186,6 +186,13 @@ const crtVisibility = ref('block')
   transition:
     color 0.75s ease,
     opacity 0.5s ease;
-  transform: skew(-15deg);
+}
+
+.usefulwrapper {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  margin-right: 3rem;
+  margin-top: 3rem;
 }
 </style>

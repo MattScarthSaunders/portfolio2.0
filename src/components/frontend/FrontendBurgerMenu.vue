@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { onBeforeUnmount, ref } from 'vue'
 import FrontendBEbutton from './FrontendBEButton.vue'
+import { useControlStore } from '@/stores/appControl'
+import { useFEProjStore } from '@/stores/frontendProjects'
+
+const store = useControlStore()
+const FEstore = useFEProjStore()
 
 const showMenu = ref(false)
 const burger = ref<HTMLElement | null>(null)
@@ -25,10 +30,24 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <button class="burger" @click.stop="handleClick">...</button>
-  <ul ref="burger" :class="{ showMenu: showMenu, hideMenu: !showMenu }">
+  <button class="burger" @click.stop="handleClick">
+    <span>.</span><span>.</span><span>.</span>
+  </button>
+  <ul ref="burger" :class="{ showMenu: showMenu, hideMenu: !showMenu, list: true }">
     <li>CV</li>
     <li>Contact</li>
+    <li>
+      <router-link
+        to="/"
+        @click="
+          () => {
+            store.chosen = ''
+            FEstore.isActive = ''
+          }
+        "
+        >Home</router-link
+      >
+    </li>
     <li><FrontendBEbutton></FrontendBEbutton></li>
   </ul>
 </template>
@@ -49,6 +68,46 @@ onBeforeUnmount(() => {
   font-size: 3rem;
 }
 
+.burger > span {
+  font-family: 'Tourney';
+  font-size: 3rem;
+}
+
+.burger:hover > span {
+  text-shadow:
+    0 0 2px white,
+    0 0 10px white,
+    0 0 15px white,
+    0 0 25px white;
+  transition: text-shadow 0.25s ease;
+}
+
+.burger:hover > span:nth-child(1) {
+  transition-delay: 0.25s;
+}
+.burger:hover > span:nth-child(2) {
+  transition-delay: 0.5s;
+}
+.burger:hover > span:nth-child(3) {
+  transition-delay: 1s;
+}
+
+.list {
+  font-size: 2rem;
+  font-family: 'Tourney';
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  position: absolute;
+  display: flex;
+  color: transparent;
+}
+
+a {
+  text-shadow: none;
+  text-decoration: none;
+  color: transparent;
+}
+
 .hideMenu {
   position: absolute;
   list-style: none;
@@ -58,33 +117,13 @@ onBeforeUnmount(() => {
   opacity: 0;
   box-shadow: inset -30vw 0 50vw -20vw black;
   pointer-events: none;
-  transition: opacity 1s ease;
+  transition: opacity 0.25s ease;
 }
 
-.hideMenu > li {
+.hideMenu > li,
+.hideMenu > li > a {
   opacity: 0;
   transition: opacity 1s ease;
-}
-
-.showMenu > li {
-  font-family: 'Tourney';
-  font-size: 2rem;
-  font-weight: 100;
-  width: 30%;
-  color: rgba(255, 255, 255, 0.149);
-  text-shadow:
-    0 0 2px rgba(255, 255, 255, 0.5),
-    0 0 5px rgba(255, 255, 255, 0.5);
-}
-
-.showMenu > li:hover {
-  color: white;
-  text-shadow:
-    0 0 2px white,
-    0 0 10px white,
-    0 0 20px white,
-    0 0 40px white;
-  cursor: pointer;
 }
 
 .showMenu {
@@ -104,5 +143,29 @@ onBeforeUnmount(() => {
     box-shadow 1s ease,
     opacity 1s ease;
   opacity: 1;
+}
+.showMenu > li,
+.showMenu > li > a {
+  text-decoration: none;
+  font-family: 'Tourney';
+  font-size: 2rem;
+  font-weight: 100;
+  opacity: 1;
+  width: 30%;
+  color: rgba(255, 255, 255, 0.149);
+  text-shadow:
+    0 0 2px rgba(255, 255, 255, 0.5),
+    0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.showMenu > li:hover,
+.showMenu > li > a:hover {
+  color: white;
+  text-shadow:
+    0 0 2px white,
+    0 0 10px white,
+    0 0 20px white,
+    0 0 40px white;
+  cursor: pointer;
 }
 </style>
