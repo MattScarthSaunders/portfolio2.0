@@ -5,11 +5,27 @@ import BackendLink from './BackendLink.vue'
 import type { AirtableProject } from '@/types'
 import BackendAPITool from './BackendAPITool.vue'
 import CRTLineWrapper from './CRTLineWrapper.vue'
+import { calculateAspectRatioUnitAgnostic } from '@/utils/calcs'
+import { computed, onMounted, ref, watchEffect } from 'vue'
 
 const props = defineProps<{
   project?: AirtableProject
   isProjectSelected: boolean
 }>()
+const width = ref('0')
+const height = ref('0')
+
+onMounted(() => {
+  const { newWidth, newHeight } = calculateAspectRatioUnitAgnostic(
+    props.project?.Assets![0].width ? props.project?.Assets[0].width : 1920,
+    props.project?.Assets![0].height ? props.project?.Assets[0].height : 1080,
+    55,
+    50
+  )
+
+  width.value = newWidth + 'vw'
+  height.value = newHeight + 'vw'
+})
 </script>
 
 <template>
@@ -45,6 +61,8 @@ const props = defineProps<{
       props.project?.Assets
     "
     :lineNum="5"
+    :height="height"
+    :width="width"
   >
     <img class="dataEngImg" :src="props.project?.Assets![0].url"
   /></CRTLineWrapper>
@@ -52,13 +70,18 @@ const props = defineProps<{
 
 <style scoped>
 .dataEngImg {
-  height: 60vh;
+  height: v-bind(height);
+  width: v-bind(width);
 }
 .dataEngDiagram {
   border: var(--BE-bg-border);
   box-shadow: var(--BE-bg-border-shadow);
   justify-self: center;
   align-self: center;
+  height: v-bind(height);
+  width: v-bind(width);
+  object-fit: contain;
+  overflow: hidden;
 }
 
 .linkWrapper {
@@ -72,13 +95,15 @@ const props = defineProps<{
   padding: 0.5rem;
   gap: 0.5rem;
   width: 100%;
+  height: 10rem;
   margin-bottom: 0.5rem;
 }
 .projectDescription {
   color: var(--BE-color);
   font-size: 1.25rem;
   width: 100%;
-  height: 2.5rem;
+  min-height: 1.25rem;
+  height: max-content;
 }
 .projectInfoWrapper {
   display: flex;

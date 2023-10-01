@@ -1,24 +1,17 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import type { AirtableProject } from '@/types'
 
 export const useFEProjStore = defineStore('FEProj', () => {
   const isActive = ref('info')
-
-  const dummyInfoProject = {
-    Name: 'info',
-    Description: '',
-    Synopsis:
-      'Hover over a card to see a synopsis of the project, and click on a card for full detail.',
-    Tech: [''],
-    Plurality: 'Solo',
-    Status: 'Done',
-    Type: 'info',
-    Id: 999
-  }
-
+  const project = ref<AirtableProject | null>(null)
   function setActive(name: string) {
     isActive.value = name
   }
 
-  return { isActive, setActive }
+  function setSelectedProject(selected: AirtableProject | null) {
+    project.value = selected
+  }
+
+  return { isActive, project, setActive, setSelectedProject }
 })

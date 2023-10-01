@@ -2,7 +2,6 @@
 import type { AirtableProject } from '@/types'
 import { computed, onMounted, ref } from 'vue'
 import FrontendHighlightSection from './FrontendHighlightSection.vue'
-import FrontendActiveSection from './FrontendActiveSection.vue'
 import { useFEProjStore } from '@/stores/frontendProjects'
 import { calculateLeftValue, calculateYValue } from '../../utils/calcs'
 
@@ -12,6 +11,8 @@ const props = defineProps<{
   index: number
   length: number
 }>()
+const transitionDelay = computed(() => (props.index + 1) * 0.5 * 100)
+const rise = ref('99vh')
 
 const store = useFEProjStore()
 
@@ -22,7 +23,6 @@ const yValue = ref(0)
 const yTranslate = computed(() => yValue.value + 'vw')
 
 const leftNum = ref(0)
-const leftValue = computed(() => leftNum.value + 'vw')
 
 const isHovered = ref('')
 const isOnGlass = ref(false)
@@ -30,8 +30,10 @@ const isOnGlass = ref(false)
 const handleClick = (name: string) => {
   if (store.isActive === name) {
     store.setActive('')
+    store.setSelectedProject(null)
   } else {
     store.isActive = name
+    store.setSelectedProject(props.project)
   }
 }
 
@@ -40,9 +42,7 @@ const handleMouseOver = (name: string) => {
 }
 
 const handleMouseLeave = () => {
-  setTimeout(() => {
-    if (!isOnGlass.value) isHovered.value = ''
-  }, 150)
+  isHovered.value = ''
 }
 
 onMounted(() => {
@@ -50,11 +50,14 @@ onMounted(() => {
 
   yValue.value = calculateYValue(props.length, props.index)
   leftNum.value = calculateLeftValue(props.length, props.index)
+
+  console.log(transitionDelay.value)
+  setTimeout(() => (rise.value = '0'), transitionDelay.value)
 })
 </script>
 
 <template>
-  <div class="FEprojectItem">
+  <div v-if="props.project" class="FEprojectItem">
     <h2
       @mouseenter="handleMouseOver(Name)"
       @mouseleave="handleMouseLeave"
@@ -87,42 +90,10 @@ onMounted(() => {
         :project="project"
       ></FrontendHighlightSection>
     </Transition>
-    <Transition name="full">
-      <FrontendActiveSection
-        v-if="store.isActive === Name"
-        @click="handleClick(Name)"
-        :project="project"
-        :isActive="store.isActive"
-        :isHovered="isHovered"
-        :flickerFrequencySeconds="flickerFrequencySeconds"
-        :yValue="yValue"
-        :leftValue="leftValue"
-      ></FrontendActiveSection>
-    </Transition>
   </div>
 </template>
 
 <style scoped>
-.full-enter-active {
-  transition:
-    opacity 1.25s ease,
-    height 1s ease,
-    transform 0s ease;
-  transition-delay: 0.3s;
-}
-
-.full-leave-active {
-  transition:
-    opacity 0s,
-    height 0.25s ease,
-    transform 0s ease;
-}
-.full-enter-from,
-.full-leave-to {
-  opacity: 0;
-  height: 0;
-  transform: rotate(-90deg) skew(15deg) translateX(v-bind(leftValue));
-}
 .highlights-enter-active {
   transition:
     opacity 1s ease,
@@ -153,7 +124,6 @@ onMounted(() => {
   position: relative;
   /* size+space */
   rotate: -15deg;
-  transform: skew(-15deg);
   padding: 1rem;
   height: 4rem;
   width: 30rem;
@@ -163,6 +133,7 @@ onMounted(() => {
   font-size: 2.5rem;
   /* color */
   color: rgba(255, 255, 255, 0.1);
+  transform: skew(-15deg) translateX(v-bind(rise));
   text-shadow:
     0 0 2px rgba(255, 255, 255, 0.5),
     0 0 10px rgba(255, 255, 255, 0.5),
@@ -174,6 +145,7 @@ onMounted(() => {
     opacity 0.5s ease,
     transform 0.5s ease;
   animation: flickerLoad v-bind(flickerFrequencySeconds) infinite;
+  cursor: pointer;
 }
 
 .FEprojectName:hover,

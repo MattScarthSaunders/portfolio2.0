@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { AirtableProject } from '@/types'
-import FrontendLinkButtons from './FrontendLinkButtons.vue'
 import { computed, onMounted, ref } from 'vue'
 
 const props = defineProps<{
@@ -23,7 +22,7 @@ onMounted(() => {
   <section class="highlights">
     <p class="Synopsis">{{ props.project.Synopsis }}</p>
     <ul class="techStackMini">
-      <li v-for="tech in props.project.Tech">{{ tech }}</li>
+      <li v-for="(tech, index) in props.project.Tech" :key="tech + index">{{ tech }}</li>
     </ul>
   </section>
 </template>
@@ -32,7 +31,7 @@ onMounted(() => {
 .highlights {
   position: absolute;
   top: -3vw;
-  left: -15vh;
+  left: -16vh;
   /* flex */
   display: flex;
   flex-direction: column;
@@ -50,6 +49,10 @@ onMounted(() => {
     -2px 2px 0px 1px rgba(0, 0, 0, 0.3);
   transform: rotate(-90deg) skew(15deg) translateX(4vh);
   overflow: hidden;
+  color: white;
+  text-shadow:
+    0 0 2px white,
+    0 0 10px white;
 }
 
 .techStackMini {

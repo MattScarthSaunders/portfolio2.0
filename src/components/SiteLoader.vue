@@ -1,19 +1,34 @@
 <script setup lang="ts">
 import { TypeFlow } from 'typeflow-vue'
+import { ref, watchEffect } from 'vue'
 
-const load = `LOAD   `
+const props = defineProps<{ loaded: boolean }>()
+
+const speed = ref(1)
+
+const load = `LOA    `
 const ding = `   DING`
+
+watchEffect(() => {
+  speed.value = props.loaded ? 1 : 500
+})
 </script>
 
 <template>
   <div class="loadingWrapper">
     <h2 class="loadingAnimFE">
-      <TypeFlow :charDelay="500" :characterMultipliers="{ '?': 1, '!': 1, '.': 1, ',': 1, ' ': 1 }">
+      <TypeFlow
+        :charDelay="speed"
+        :characterMultipliers="{ '?': 1, '!': 1, '.': 1, ',': 1, ' ': 1 }"
+      >
         <pre class="load">{{ load }}</pre>
       </TypeFlow>
     </h2>
     <h2 class="loadingAnimBE">
-      <TypeFlow :charDelay="500" :characterMultipliers="{ '?': 1, '!': 1, '.': 1, ',': 1, ' ': 1 }">
+      <TypeFlow
+        :charDelay="speed"
+        :characterMultipliers="{ '?': 1, '!': 1, '.': 1, ',': 1, ' ': 1 }"
+      >
         <pre class="ding">{{ ding }}</pre>
       </TypeFlow>
     </h2>
@@ -64,9 +79,9 @@ h2 {
 .loadingAnimBE {
   color: rgba(0, 255, 0, 0.491);
   border-radius: 0;
-  box-shadow:
-    3px -3px 5px 0.5px rgba(0, 128, 0, 0.668),
-    50px -50px 50px 10px var(--BE-bg-color);
+  border-right: 1px solid green;
+  border-top: 1px solid green;
+
   background: linear-gradient(
     45deg,
     rgba(255, 255, 255, 0),
@@ -78,16 +93,16 @@ h2 {
     rgba(255, 255, 255, 0),
     rgba(255, 255, 255, 0),
     rgba(255, 255, 255, 0),
-    black,
-    black,
-    black,
-    black,
-    black,
-    black,
-    black,
-    black,
-    black
+    var(--BE-bg-color),
+    var(--BE-bg-color),
+    var(--BE-bg-color),
+    var(--BE-bg-color),
+    var(--BE-bg-color),
+    var(--BE-bg-color),
+    var(--BE-bg-color),
+    var(--BE-bg-color),
+    var(--BE-bg-color)
   );
-  animation: crtLines;
+  animation: beglow 5s infinite;
 }
 </style>

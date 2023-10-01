@@ -15,6 +15,11 @@
   font-family: 'Inconsolata', monospace;
 }
 
+body {
+  overflow: hidden;
+  background-color: black;
+}
+
 @font-face {
   src: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/86186/terminal_copy.ttf);
   font-family: 'Terminal';
@@ -351,5 +356,44 @@
   }
   100% {
     box-shadow: inset 00px 0px 75px rgba(0, 20, 20, 0.5);
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes beglow {
+  0% {
+    box-shadow:
+      3px -3px 5px 0.5px rgba(0, 128, 0, 0.668),
+      50px -50px 20px 10px rgba(0, 128, 0, 0.457);
+  }
+  50% {
+    box-shadow:
+      3px -3px 5px 0.5px rgba(0, 128, 0, 0.668),
+      50px -50px 50px 10px rgba(0, 128, 0, 0.457);
+  }
+  100% {
+    box-shadow:
+      3px -3px 5px 0.5px rgba(0, 128, 0, 0.668),
+      50px -50px 20px 10px rgba(0, 128, 0, 0.457);
+  }
+}
+
+@keyframes rise {
+  0% {
+    transform: skew(-15deg) translateX(99vh);
+  }
+  90% {
+    transform: skew(-15deg) translateX(-2vh);
+  }
+  100% {
+    transform: skew(-15deg) translateX(0);
   }
 }

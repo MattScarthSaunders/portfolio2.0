@@ -1,5 +1,7 @@
 import axios from 'axios'
 import type { Ref } from 'vue'
+import Airtable from 'airtable'
+import { AirtableProjectSchema, type AirtableData, AirtablePersonalDataSchema } from '../types'
 
 export const replaceParams = (endpoint: string) => {
   if (endpoint.includes(':')) {
@@ -92,10 +94,66 @@ export const handleBoardgameRequests = async (
 
 export const handleDownloadFile = async (path: string) => {
   try {
-    const res = await axios.get(path)
-
+    await axios.get(path)
     return true
   } catch (err) {
     if (err instanceof Error) return false
+  }
+}
+
+export const getRecords = async (dbType: string): Promise<AirtableData[]> => {
+  return new Promise((resolve, reject) => {
+    const base = new Airtable({ apiKey: import.meta.env.VITE_AIRTABLE_PAT }).base(
+      dbType === 'PersonalData' ? 'appHIK7Nm2aUuRCS0' : 'apppSwXbYj1F2aElq'
+    )
+
+    const recordsData: AirtableData[] = []
+    base(dbType)
+      .select({
+        view: 'Grid view'
+      })
+      .eachPage(
+        function page(records, fetchNextPage) {
+          recordsData.push(
+            ...records.map((record) => ({ ...record.fields }) as unknown as AirtableData)
+          )
+          fetchNextPage()
+        },
+        function done(err) {
+          if (err) {
+            console.error(err)
+            reject(err)
+          } else {
+            resolve(recordsData)
+          }
+        }
+      )
+  })
+}
+
+export const getProjects = async () => {
+  const projects = await getRecords('Projects')
+  if (projects) {
+    const validatedProjects = projects.map((proj) => AirtableProjectSchema.parse(proj))
+
+    const FEProj = validatedProjects.filter((proj) => proj.Type === 'Frontend')
+    const BEProj = validatedProjects.filter((proj) => proj.Type.includes('Backend'))
+    return { FEProj, BEProj }
+  } else {
+    throw new Error('No projects')
+  }
+}
+
+export const getPersonalData = async () => {
+  const personalData = await getRecords('PersonalData')
+  if (personalData) {
+    const validatedPD = personalData.map((pd) => AirtablePersonalDataSchema.parse(pd))
+
+    const CV = validatedPD[0]
+    const Bio = validatedPD[1]
+
+    return { CV, Bio }
+  } else {
+    throw new Error('No Personal Data')
   }
 }

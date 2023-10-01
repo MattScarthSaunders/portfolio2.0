@@ -9,15 +9,6 @@ const store = useNavStore()
       <li
         @click="
           () => {
-            store.setSelected('about', 'be')
-          }
-        "
-      >
-        About
-      </li>
-      <li
-        @click="
-          () => {
             store.setSelected('cv', 'be')
           }
         "

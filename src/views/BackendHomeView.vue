@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import BackendButton from '@/components/backend/BackendButton.vue'
-import BackendProjectContainer from '@/components/backend/BackendProjectContainer.vue'
+import BackendButton from '@/components/Backend/BackendButton.vue'
+import BackendProjectContainer from '@/components/Backend/BackendProjectContainer.vue'
 import { TypeFlow } from 'typeflow-vue'
 import { ref, watchEffect } from 'vue'
 import { useNavStore } from '@/stores/nav'
-import BackendNavDock from '@/components/backend/BackendNavDock.vue'
-import type { AirtableProject } from '@/types'
+import { useControlStore } from '@/stores/appControl'
+import BackendNavDock from '@/components/Backend/BackendNavDock.vue'
+import BackendFEbutton from '@/components/Backend/BackendFEbutton.vue'
 
 const store = useNavStore()
-const props = defineProps<{ backendChosen: boolean; projects: AirtableProject[] }>()
+const controlStore = useControlStore()
 
 const buttonPressedId = ref(0)
 const isProjectSelected = ref(false)
@@ -21,7 +22,7 @@ date2.setSeconds(date2.getSeconds() + 3)
 date3.setSeconds(date3.getSeconds() + 6)
 
 const greeting = `
-${date.toLocaleString('en-GB')} [admin] </guest/greeting> Welcome to the backend section of my site!
+${date.toLocaleString('en-GB')} [admin] </guest/greeting> Welcome to the Backend section of my site!
 ${date2.toLocaleString(
   'en-GB'
 )} [admin] </guest/explanation> If you want to view a particular project, click on one of the buttons at the top...
@@ -37,12 +38,12 @@ watchEffect(() => {
 </script>
 
 <template>
-  <section class="backendBase">
+  <main class="BackendBase">
     <div class="crt">
-      <nav class="backendNav">
-        <TypeFlow v-if="!props.projects"><p>LOADING...</p></TypeFlow>
+      <nav class="BackendNav">
+        <TypeFlow v-if="!controlStore.BEProjects"><p>LOADING...</p></TypeFlow>
         <BackendButton
-          v-for="(proj, i) in props.projects"
+          v-for="(proj, i) in controlStore.BEProjects"
           v-bind:key="proj.Name"
           :name="proj.Name"
           :projectIndex="i"
@@ -54,17 +55,21 @@ watchEffect(() => {
           "
         ></BackendButton>
       </nav>
-      <TypeFlow v-if="!isProjectSelected && backendChosen && !navSelected" :char-delay="15">
+      <TypeFlow
+        v-if="!isProjectSelected && controlStore.chosen === 'Backend' && !navSelected"
+        :char-delay="15"
+      >
         <pre class="greeting">{{ greeting }}</pre>
       </TypeFlow>
       <BackendProjectContainer
         v-if="isProjectSelected"
-        :project="props.projects[buttonPressedId]"
+        :project="controlStore.BEProjects[buttonPressedId]"
         :isProjectSelected="isProjectSelected"
       ></BackendProjectContainer>
     </div>
     <BackendNavDock></BackendNavDock>
-  </section>
+    <BackendFEbutton></BackendFEbutton>
+  </main>
 </template>
 
 <style>
@@ -72,16 +77,18 @@ watchEffect(() => {
   color: var(--BE-color);
   font-size: 1.5rem;
 }
-.backendBase {
+
+.BackendBase {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background: var(--BE-bg-color);
-  height: 100%;
   overflow: hidden;
   position: relative;
+  height: 100vh;
   width: 100vw;
+  animation: fade-in 1s ease;
 }
 
 .crt {
@@ -127,7 +134,7 @@ watchEffect(() => {
   pointer-events: none;
 }
 
-.backendNav {
+.BackendNav {
   display: flex;
   gap: 1rem;
 }

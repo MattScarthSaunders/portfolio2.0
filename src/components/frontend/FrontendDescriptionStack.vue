@@ -27,7 +27,7 @@ onMounted(() => {
     </section>
     <div class="stackWrapper">
       <ul class="stack">
-        <li v-for="tech in project.Tech">{{ tech }}</li>
+        <li v-for="(tech, index) in project.Tech" :key="tech + index + 'd'">{{ tech }}</li>
       </ul>
     </div>
   </section>

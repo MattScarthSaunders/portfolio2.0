@@ -2,22 +2,22 @@
 import FrontendLinkImage from './FrontendLinkImage.vue'
 import FrontendLinkButtons from './FrontendLinkButtons.vue'
 import type { AirtableProject } from '@/types'
-import { computed } from 'vue'
 import FrontendDescriptionStack from './FrontendDescriptionStack.vue'
 
 const props = defineProps<{
   isActive: string
   project: AirtableProject
-  yValue: number
-  leftValue: string
 }>()
-
-const yTranslate = computed(() => -props.yValue - 1 + 'vw')
-const xTranslate = computed(() => props.yValue + 'vw')
 </script>
 
 <template>
-  <section class="fullProject">
+  <section
+    :class="{
+      fullProject: true,
+      isActive: isActive === project.Name,
+      isDisabled: isActive !== project.Name
+    }"
+  >
     <section class="imageLinks">
       <FrontendLinkImage
         v-if="props.project?.Assets"
@@ -35,15 +35,29 @@ const xTranslate = computed(() => props.yValue + 'vw')
 <style scoped>
 .fullProject {
   position: absolute;
-  top: v-bind(leftValue);
-  left: -80vh;
+  top: 20%;
+  left: 33vw;
   font-size: 1rem;
   width: 50vw;
   display: flex;
   margin-top: -1vw;
   gap: 1rem;
-  transform: translateX(v-bind(xTranslate)) rotate(-90deg) skew(15deg)
-    translateY(v-bind(yTranslate));
+  transform: translateX(10vw);
+  opacity: 0;
+}
+.isActive {
+  opacity: 1;
+  left: 35vw;
+  transform: skew(15deg);
+  transition:
+    left 1s ease,
+    opacity 1s ease;
+  transition-delay: 0.5s;
+}
+
+.isDisabled {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .imageLinks {

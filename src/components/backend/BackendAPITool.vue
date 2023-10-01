@@ -2,7 +2,7 @@
 import axios from 'axios'
 import { TypeFlow } from 'typeflow-vue'
 import { ref, watch, watchEffect } from 'vue'
-import backendButtonVue from './BackendButton.vue'
+import BackendButtonVue from './BackendButton.vue'
 import { handleBoardgameRequests } from '@/utils/api'
 import type { AirtableProject } from '@/types'
 import CRTLineWrapper from './CRTLineWrapper.vue'
@@ -87,11 +87,11 @@ watch(isInteractorFetching, (prev, current) => {
 </script>
 
 <template>
-  <section class="backendContainer">
+  <section class="BackendContainer">
     <TypeFlow v-if="isInteractorFetching && props.isProjectSelected" :charDelay="100"
       ><p class="loading">LOADING...</p>
     </TypeFlow>
-    <CRTLineWrapper :lineNum="5">
+    <CRTLineWrapper :lineNum="5" :height="interactorHeight" :width="interactorWidth">
       <section class="apiInteractor">
         <TypeFlow
           ><p class="subtleInstruction">{{ instructionToUser }}</p></TypeFlow
@@ -101,17 +101,17 @@ watch(isInteractorFetching, (prev, current) => {
         </TypeFlow>
         <ul v-else-if="props.isProjectSelected" class="apiCommandList">
           <li v-for="(command, i) in commands" v-bind:key="command[i]">
-            <backendButtonVue
+            <BackendButtonVue
               :name="command[0]"
               :projectIndex="i"
               @click="handleClick(command[0], command[1])"
-            ></backendButtonVue>
+            ></BackendButtonVue>
             <label class="apiButtonLabel">{{ command[1] }}</label>
           </li>
         </ul>
       </section></CRTLineWrapper
     >
-    <CRTLineWrapper :lineNum="5">
+    <CRTLineWrapper :lineNum="5" :height="visualiserHeight" :width="visualiserWidth">
       <section class="apiVisualiser">
         <TypeFlow v-if="isAPIFetching" :charDelay="100"><p>LOADING...</p></TypeFlow>
         <TypeFlow v-else :charDelay="2">
@@ -176,7 +176,7 @@ watch(isInteractorFetching, (prev, current) => {
   padding-left: 1rem;
 }
 
-.backendContainer {
+.BackendContainer {
   padding-top: 1rem;
   display: flex;
   gap: 2rem;

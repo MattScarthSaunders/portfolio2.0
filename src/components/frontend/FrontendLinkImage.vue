@@ -16,12 +16,10 @@ const bgSmUrl = computed(() => `url('${imgUrl}')`)
 const height = ref('')
 const width = ref('')
 
-const loadingPic = ref('')
 onMounted(() => {
-  console.log(imgUrl)
   const { newWidth, newHeight } = calculateAspectRatioUnitAgnostic(
-    props.img.width,
-    props.img.height,
+    props.img.width!,
+    props.img.height!,
     40,
     30
   )
@@ -50,6 +48,7 @@ onMounted(() => {
   border-radius: 5%;
   height: v-bind(height);
   width: v-bind(width);
+  z-index: 10;
 }
 .bg {
   position: absolute;
@@ -65,6 +64,7 @@ onMounted(() => {
   background-repeat: no-repeat;
   filter: blur(5px);
   border-radius: 5%;
+  cursor: pointer;
 }
 .projectImg {
   position: absolute;
@@ -79,9 +79,11 @@ onMounted(() => {
     -16px 16px 0px 1px rgba(0, 0, 0, 0.3);
   border-radius: 5%;
   object-fit: contain;
+  cursor: pointer;
 }
 
-.imageLink:active > img {
+.imageLink:active > img,
+.imageLink:active > .bg {
   box-shadow:
     inset 0px 0px 75px rgba(0, 20, 20, 0.5),
     -2px 2px 0px 1px rgba(0, 0, 0, 0.3),

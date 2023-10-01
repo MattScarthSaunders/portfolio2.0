@@ -1,25 +1,41 @@
-export interface AirtableProjectAsset {
-  filename: string
-  height: number
-  id: string
-  size: number
-  thumbnails: { small: any; large: any; full: any }
-  type: string
-  url: string
-  width: number
-}
+import { z } from 'zod'
 
-export interface AirtableProject {
-  Description: string
-  Name: string
-  Plurality: string
-  Status: string
-  Synopsis: string
-  Tech: string[]
-  Type: string
-  Github?: string
-  Id: number
-  Hosted?: string
-  Assets?: AirtableProjectAsset[]
-  Downloadables?: AirtableProjectAsset[]
-}
+export const AirtableProjectAssetSchema = z.object({
+  filename: z.string(),
+  height: z.number().optional(),
+  id: z.string(),
+  size: z.number(),
+  thumbnails: z.object({ small: z.any(), large: z.any(), full: z.any() }).optional(),
+  type: z.string(),
+  url: z.string(),
+  width: z.number().optional()
+})
+
+export type AirtableProjectAsset = z.infer<typeof AirtableProjectAssetSchema>
+
+export const AirtableProjectSchema = z.object({
+  Description: z.string(),
+  Name: z.string(),
+  Plurality: z.string(),
+  Status: z.string(),
+  Synopsis: z.string(),
+  Tech: z.string().array(),
+  Type: z.string(),
+  Github: z.string().optional(),
+  Id: z.number(),
+  Hosted: z.string().optional(),
+  Assets: AirtableProjectAssetSchema.array().optional(),
+  Downloadables: AirtableProjectAssetSchema.array().optional()
+})
+
+export type AirtableProject = z.infer<typeof AirtableProjectSchema>
+
+export const AirtablePersonalDataSchema = z.object({
+  Name: z.string(),
+  Downloads: AirtableProjectAssetSchema.array().optional(),
+  Info: z.string().optional()
+})
+
+export type AirtablePersonalData = z.infer<typeof AirtablePersonalDataSchema>
+
+export type AirtableData = AirtableProject | AirtablePersonalData

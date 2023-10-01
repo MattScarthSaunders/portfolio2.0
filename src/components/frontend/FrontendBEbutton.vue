@@ -1,37 +1,42 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { useControlStore } from '@/stores/appControl'
+import { useFEProjStore } from '@/stores/frontendProjects'
 
-const props = defineProps<{ frontendBETrigger: number }>()
-
-const buttonContent = ref('...')
+const store = useControlStore()
+const FEstore = useFEProjStore()
 </script>
 
 <template>
-  <button class="frontend-BE-trigger" @click="$emit('frontendBETriggered')">Backend >>></button>
+  <router-link
+    class="Frontend-BE-trigger"
+    to="/Backend"
+    @click="
+      () => {
+        store.chosen = 'Backend'
+        FEstore.isActive = ''
+      }
+    "
+    >Backend</router-link
+  >
 </template>
 
 <style scoped>
-.frontend-BE-trigger {
-  position: absolute;
-  bottom: 3%;
-  right: 2%;
-  opacity: v-bind(frontendBETrigger);
+.Frontend-BE-trigger {
   background: none;
   border: none;
   color: rgba(255, 255, 255, 0.149);
   text-shadow:
-    0 0 2px rgba(1, 150, 1, 0.5),
-    0 0 5px rgba(1, 150, 1, 0.5),
-    0 0 7px rgba(1, 150, 1, 0.5),
-    0 0 10px rgba(1, 150, 1, 0.5);
+    0 0 2px rgba(255, 255, 255, 0.5),
+    0 0 5px rgba(255, 255, 255, 0.5);
   font-size: 2rem;
   cursor: pointer;
   font-family: 'Tourney';
   font-weight: 100;
   transition: opacity 3s ease;
+  text-decoration: none;
 }
 
-.frontend-BE-trigger:hover {
+.Frontend-BE-trigger:hover {
   color: white;
   text-shadow:
     0 0 2px rgb(0, 255, 0),

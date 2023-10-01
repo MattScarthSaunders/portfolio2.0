@@ -1,27 +1,28 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { useControlStore } from '@/stores/appControl'
 
-const props = defineProps<{ backendFETrigger: number }>()
+const store = useControlStore()
 </script>
+
 <template>
-  <button class="backend-FE-trigger" @click="$emit('backendFETriggergered')">
-    <span class="a1">&lt;</span><span class="a2">&lt;</span><span class="a3">&lt;</span
+  <router-link class="Backend-FE-trigger" to="/Frontend" @click="store.chosen = 'Frontend'"
+    ><span class="a1">&lt;</span><span class="a2">&lt;</span><span class="a3">&lt;</span
     ><span class="f">f</span><span class="r">r</span><span class="o">o</span><span class="n">n</span
     ><span class="t">t</span><span class="e">e</span><span class="n2">n</span
     ><span class="d">d</span>
-  </button>
+  </router-link>
 </template>
 <style scoped>
-.backend-FE-trigger {
+.Backend-FE-trigger {
   position: absolute;
   bottom: 3%;
   left: 2%;
-  opacity: v-bind(backendFETrigger);
   background: none;
   border: none;
   color: -webkit-linear-gradient(green, pink);
   transition: opacity 2s ease;
   transition-delay: 1s;
+  text-decoration: none;
 }
 
 @keyframes blinking {
@@ -32,73 +33,72 @@ const props = defineProps<{ backendFETrigger: number }>()
     opacity: 1;
   }
 }
-.backend-FE-trigger > span {
+.Backend-FE-trigger > span {
   font-size: 2rem;
   font-family: 'Terminal';
   color: var(--BE-color);
   cursor: pointer;
-  opacity: v-bind(backendFETrigger);
   animation: textShadow 0.5s infinite;
 }
 
-.backend-FE-trigger:hover > span {
+.Backend-FE-trigger:hover > span {
   animation: blinking 1s infinite;
   color: rgb(1, 182, 1);
 
   transition: color 1s ease;
 }
-.backend-FE-trigger:hover > .a1 {
+.Backend-FE-trigger:hover > .a1 {
   color: teal;
   animation-delay: 0.1s;
   transition-delay: 0.1s;
 }
 
-.backend-FE-trigger:hover > .a2 {
+.Backend-FE-trigger:hover > .a2 {
   color: aqua;
   animation-delay: 0.2s;
   transition-delay: 0.2s;
 }
-.backend-FE-trigger:hover > .a3 {
+.Backend-FE-trigger:hover > .a3 {
   color: white;
   transition-delay: 0.3s;
   animation-delay: 0.3s;
 }
-.backend-FE-trigger:hover > .f {
+.Backend-FE-trigger:hover > .f {
   color: white;
   transition-delay: 0.4s;
   animation-delay: 0.4s;
 }
-.backend-FE-trigger:hover > .r {
+.Backend-FE-trigger:hover > .r {
   color: rgb(0, 255, 249);
   transition-delay: 0.5s;
   animation-delay: 0.5s;
 }
-.backend-FE-trigger:hover > .o {
+.Backend-FE-trigger:hover > .o {
   color: rgb(0, 184, 255);
   transition-delay: 0.6s;
   animation-delay: 0.6s;
 }
-.backend-FE-trigger:hover > .n {
+.Backend-FE-trigger:hover > .n {
   color: rgb(73, 0, 255);
   transition-delay: 0.7s;
   animation-delay: 0.7s;
 }
-.backend-FE-trigger:hover > .t {
+.Backend-FE-trigger:hover > .t {
   color: rgb(150, 0, 255);
   transition-delay: 0.8s;
   animation-delay: 0.8s;
 }
-.backend-FE-trigger:hover > .e {
+.Backend-FE-trigger:hover > .e {
   color: rgb(255, 0, 193);
   transition-delay: 0.9s;
   animation-delay: 0.9s;
 }
-.backend-FE-trigger:hover > .n2 {
+.Backend-FE-trigger:hover > .n2 {
   color: rgb(251, 184, 248);
   transition-delay: 1s;
   animation-delay: 1s;
 }
-.backend-FE-trigger:hover > .d {
+.Backend-FE-trigger:hover > .d {
   color: white;
   transition-delay: 1.1s;
   animation-delay: 1.1s;
