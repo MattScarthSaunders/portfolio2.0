@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import ContactView from './ContactView.vue'
 
-const greeting = `[admin] </guest/contact> Get in touch!`
+const instruction = `[admin] </guest/contact> Get in touch!`
 </script>
 
 <template>
   <main>
-    <ContactView :greeting="greeting"></ContactView>
+    <ContactView :instruction="instruction" :typing="true"></ContactView>
   </main>
 </template>
 
@@ -173,5 +173,42 @@ main {
   font-family: 'Terminal';
   font-size: 2rem;
   color: var(--BE-color);
+}
+
+::v-deep(::-webkit-scrollbar) {
+  width: 6px;
+  height: 6px;
+}
+::v-deep(::-webkit-scrollbar-button) {
+  width: 0px;
+  height: 0px;
+}
+::v-deep(::-webkit-scrollbar-thumb) {
+  background: #00940a;
+  animation: textShadow 1.6s infinite;
+}
+::v-deep(::-webkit-scrollbar-thumb:hover) {
+  background: #00b30c;
+  animation: textShadow 1.6s infinite;
+}
+::v-deep(::-webkit-scrollbar-thumb:active) {
+  background: #0ba300;
+  animation: textShadow 1.6s infinite;
+}
+::v-deep(::-webkit-scrollbar-track) {
+  background: #0a3305;
+  animation: textShadow 1.6s infinite;
+}
+::v-deep(::-webkit-scrollbar-track:hover) {
+  background: #0a3305;
+  animation: textShadow 1.6s infinite;
+}
+::v-deep(::-webkit-scrollbar-track:active) {
+  background: #0a3305;
+  animation: textShadow 1.6s infinite;
+}
+::v-deep(::-webkit-scrollbar-corner) {
+  background: transparent;
+  animation: textShadow 1.6s infinite;
 }
 </style>

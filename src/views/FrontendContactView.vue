@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import FrontendBEbutton from '@/components/Frontend/FrontendBEbutton.vue'
 import ContactView from './ContactView.vue'
 import FrontendBurgerMenu from '@/components/Frontend/FrontendBurgerMenu.vue'
 
-const greeting = `Get in touch!`
+const instruction = `Get in touch!`
 </script>
 
 <template>
   <main>
-    <ContactView :greeting="greeting"></ContactView>
+    <ContactView :instruction="instruction" :typing="false"></ContactView>
     <FrontendBurgerMenu></FrontendBurgerMenu>
   </main>
 </template>
@@ -33,7 +32,7 @@ main {
 ::v-deep(.crt) {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
   height: 100%;
@@ -56,52 +55,76 @@ main {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  box-shadow:
-    inset 00px 0px 75px rgba(0, 20, 20, 0.5),
-    -2px 2px 0px 1px rgba(0, 0, 0, 0.3);
   transform: skew(15deg);
-  padding: 2rem;
   border-radius: 2%;
+  width: 35vw;
+  padding-top: 3vh;
 }
 
 ::v-deep(label) {
   color: var(--BE-color);
-  font-size: 2rem;
+  font-size: 1.5rem;
+  text-align: left;
+  color: white;
+  text-shadow:
+    0 0 4px rgba(255, 255, 255, 1),
+    0 0 20px rgba(255, 255, 255, 1);
+  width: 100%;
+  box-shadow:
+    inset 00px 0px 75px rgba(0, 20, 20, 0.5),
+    -2px 2px 0px 1px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(-45deg, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient 60s infinite;
+  padding: 0.5rem;
 }
 
 ::v-deep(input),
 ::v-deep(textarea),
-::v-deep(button) {
-  font-size: 2rem;
+::v-deep(form > button) {
+  font-size: 1.5rem;
   border: none;
   background: transparent;
   color: white;
   text-shadow: 0 0 2px white;
+  border-radius: 2%;
 }
 
 ::v-deep(input:focus),
 ::v-deep(textarea:focus) {
   outline: none !important;
+  box-shadow: inset 0 0 10px white;
+}
+
+::v-deep(input:hover),
+::v-deep(textarea:hover) {
+  outline: none !important;
+  box-shadow: inset 0 0 10px white;
 }
 
 ::v-deep(.wrapper) {
   display: flex;
-  gap: 1vw;
+  flex-direction: column;
   position: relative;
+  box-shadow:
+    inset 00px 0px 75px rgba(0, 20, 20, 0.5),
+    -2px 2px 0px 1px rgba(0, 0, 0, 0.3);
+  border-radius: 2%;
 }
 
-::v-deep(button) {
+::v-deep(form > button) {
   width: 10vw;
   height: 5vh;
-  margin-left: 10vw;
   box-shadow:
     inset 0px 0px 75px rgba(0, 20, 20, 0.5),
     -2px 2px 0px 1px rgba(0, 0, 0, 0.3),
     -6px 6px 0px 1px rgba(0, 0, 0, 0.3),
     -12px 12px 0px 1px rgba(0, 0, 0, 0.3);
+  align-self: flex-end;
 }
 
-::v-deep(button:hover, button:focus) {
+::v-deep(form > button:hover),
+::v-deep(form > button:focus) {
   cursor: pointer;
   box-shadow:
     inset 0 0 2px 1px white,
@@ -114,7 +137,7 @@ main {
     0 0 10px white;
 }
 
-::v-deep(button:active) {
+::v-deep(form > button:active) {
   box-shadow:
     inset 0 0 2px 1px white,
     inset 00px 0px 75px rgba(0, 20, 20, 0.5),
@@ -130,33 +153,53 @@ main {
     0 0 2px white,
     0 0 10px white;
 }
-::v-deep(label) {
-  width: 9vw;
-  text-align: right;
-  color: white;
-}
+
 ::v-deep(input) {
-  width: 20vw;
+  border-radius: 2%;
+  text-shadow: 0 0 4px rgba(255, 255, 255, 1);
+  width: 100%;
+  height: 5vh;
+  padding: 0.5rem 1rem;
 }
+
 ::v-deep(textarea) {
-  width: 20vw;
+  font-size: 1.2rem;
+  border-radius: 2%;
+  padding: 0.5rem 1rem;
   height: 20vh;
+  text-shadow: 0 0 4px rgba(255, 255, 255, 1);
+
+  width: 100%;
+  resize: none;
+  scrollbar-color: green rgb(11, 46, 22);
 }
 ::v-deep(input::placeholder),
 ::v-deep(textarea::placeholder) {
-  color: white;
+  color: rgba(255, 255, 255, 0.567);
+  text-shadow: none;
 }
+
 ::v-deep(.error::placeholder) {
   font-size: 1.5rem;
-  color: red;
+  color: rgb(255, 104, 104);
+  text-shadow: 0 0 4px rgb(255, 0, 0);
   align-self: center;
   position: absolute;
 }
 ::v-deep(.instruction) {
-  color: white;
-
-  padding-bottom: 3vh;
+  color: rgba(255, 255, 255, 1);
+  text-shadow:
+    0 0 2px rgba(255, 255, 255, 1),
+    0 0 10px rgba(255, 255, 255, 1),
+    0 0 20px rgba(255, 255, 255, 1),
+    0 0 40px rgba(255, 255, 255, 1);
+  font-family: 'Tourney';
+  transform: translateX(-15vw) skew(15deg);
   font-size: 2rem;
+  font-weight: 100;
+  animation: flickerLoad 10s infinite;
+  margin-bottom: -2vh;
+  margin-left: -2vw;
 }
 ::v-deep(.emailSent),
 ::v-deep(.sendingWrapper) {
@@ -164,43 +207,62 @@ main {
   bottom: 20vh;
   width: 100%;
   text-align: center;
-  margin-left: 1rem;
+  margin-left: 10vw;
   color: white;
   font-size: 1.5rem;
+  transform: skew(15deg);
 }
 ::v-deep(.emailError) {
   position: absolute;
   width: 100%;
   text-align: center;
   bottom: 20vh;
-  color: red;
+  color: rgb(255, 104, 104);
+  text-shadow: 0 0 4px rgb(255, 0, 0);
   font-size: 1.5rem;
-  margin-left: 1rem;
+  margin-left: 10vw;
+
+  transform: skew(15deg);
 }
 ::v-deep(nav) {
   display: none;
 }
-/* ::v-deep(ul) {
-  display: flex;
-  gap: 2rem;
-  list-style: none;
+
+::v-deep(::-webkit-scrollbar) {
+  width: 6px;
+  height: 6px;
 }
-::v-deep(li) {
-  font-family: 'Terminal';
-  font-size: 2rem;
-  color: var(--BE-color);
-  animation: textShadow 0.51s infinite;
+::v-deep(::-webkit-scrollbar-button) {
+  width: 0px;
+  height: 0px;
 }
-::v-deep(li:hover),
-::v-deep(a:hover) {
-  color: rgb(0, 255, 0);
-  animation: textShadow 0.51s infinite;
-  cursor: pointer;
+::v-deep(::-webkit-scrollbar-thumb) {
+  background: white;
+  border-radius: 15%;
+  animation: textShadow 1.6s infinite;
 }
-::v-deep(a) {
-  text-decoration: none;
-  font-family: 'Terminal';
-  font-size: 2rem;
-  color: var(--BE-color);
-} */
+::v-deep(::-webkit-scrollbar-thumb:hover) {
+  background: white;
+  animation: textShadow 1.6s infinite;
+}
+::v-deep(::-webkit-scrollbar-thumb:active) {
+  background: white;
+  animation: textShadow 1.6s infinite;
+}
+::v-deep(::-webkit-scrollbar-track) {
+  background: transparent;
+  animation: textShadow 1.6s infinite;
+}
+::v-deep(::-webkit-scrollbar-track:hover) {
+  background: transparent;
+  animation: textShadow 1.6s infinite;
+}
+::v-deep(::-webkit-scrollbar-track:active) {
+  background: transparent;
+  animation: textShadow 1.6s infinite;
+}
+::v-deep(::-webkit-scrollbar-corner) {
+  background: transparent;
+  animation: textShadow 1.6s infinite;
+}
 </style>

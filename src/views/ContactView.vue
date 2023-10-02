@@ -6,7 +6,7 @@ import { useControlStore } from '@/stores/appControl'
 import { useBEProjStore } from '@/stores/backendProjects'
 import { useFEProjStore } from '@/stores/frontendProjects'
 
-const props = defineProps<{ greeting: string }>()
+const props = defineProps<{ instruction: string; typing: boolean }>()
 
 const controlStore = useControlStore()
 const BEstore = useBEProjStore()
@@ -86,16 +86,15 @@ const formHandler = async () => {
     }
   }
 }
-
-const greeting = `[admin] </guest/contact> Get in touch!`
 </script>
 
 <template>
   <main>
     <div class="crt">
-      <TypeFlow :charDelay="50">
-        <pre class="instruction">{{ greeting }}</pre>
+      <TypeFlow :charDelay="50" v-if="typing">
+        <pre class="instruction">{{ instruction }}</pre>
       </TypeFlow>
+      <pre v-else class="instruction">{{ instruction }}</pre>
       <form @submit.prevent="formHandler">
         <div class="wrapper">
           <label htmlFor="nameInput">Full Name:</label>
