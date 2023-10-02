@@ -38,7 +38,7 @@ const props = defineProps<{
   top: 20%;
   left: 33vw;
   font-size: 1rem;
-  width: 50vw;
+  max-width: 50vw;
   display: flex;
   margin-top: -1vw;
   gap: 1rem;
@@ -52,7 +52,7 @@ const props = defineProps<{
   transition:
     left 1s ease,
     opacity 1s ease;
-  transition-delay: 0.5s;
+  transition-delay: 0.3s;
 }
 
 .isDisabled {

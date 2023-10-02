@@ -2,7 +2,7 @@
 import BackendButton from '@/components/Backend/BackendButton.vue'
 import BackendProjectContainer from '@/components/Backend/BackendProjectContainer.vue'
 import { TypeFlow } from 'typeflow-vue'
-import { ref, watchEffect } from 'vue'
+import { onMounted, ref, watchEffect } from 'vue'
 import { useControlStore } from '@/stores/appControl'
 import BackendNavDock from '@/components/Backend/BackendNavDock.vue'
 
@@ -10,7 +10,6 @@ const controlStore = useControlStore()
 
 const buttonPressedId = ref(0)
 const isProjectSelected = ref(false)
-const navSelected = ref(false)
 
 const date = new Date()
 const date2 = new Date()
@@ -25,6 +24,10 @@ ${date2.toLocaleString(
 )} [admin] </guest/explanation> If you want to view a particular project, click on one of the buttons at the top...
 ${date3.toLocaleString('en-GB')} [admin] </guest/signoff> Thanks for stopping by!
 `
+
+onMounted(() => {
+  if (controlStore.chosen !== 'Backend') controlStore.chosen = 'Backend'
+})
 </script>
 
 <template>
@@ -45,10 +48,7 @@ ${date3.toLocaleString('en-GB')} [admin] </guest/signoff> Thanks for stopping by
           "
         ></BackendButton>
       </nav>
-      <TypeFlow
-        v-if="!isProjectSelected && controlStore.chosen === 'Backend' && !navSelected"
-        :char-delay="15"
-      >
+      <TypeFlow v-if="!isProjectSelected && controlStore.chosen === 'Backend'" :char-delay="15">
         <pre class="greeting">{{ greeting }}</pre>
       </TypeFlow>
       <BackendProjectContainer
