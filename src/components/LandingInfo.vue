@@ -13,7 +13,7 @@
       ><img src="../assets/icons/github.png"
     /></a>
     <a class="mail" href="mailto:m.scarsaund@gmail.com"><img src="../assets/icons/email.png" /></a>
-    <a class="cv" href="">CV</a>
+    <a class="cv" href=""><p>CV</p></a>
 
     <img src="../assets/images/profile.jpeg" />
     <p>Welcome! Pick a side to see my portfolio work. Use the links above to get in touch.</p>
@@ -70,33 +70,41 @@ p {
   margin-left: 2rem;
 }
 
-.mail {
-  bottom: 50%;
-  left: 20%;
-  animation-delay: 1s;
+a > p {
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 1.5rem;
+  margin: 0;
+  text-shadow: 0 0 1px black;
 }
 
 .linkedin {
-  top: 10%;
-  left: 19%;
+  top: 1vh;
+  left: 3.75vw;
   animation-delay: 1.1s;
 }
 
 .github {
-  top: 10%;
-  right: 24.5%;
+  top: 1vh;
+  right: 4.75vw;
   animation-delay: 1.2s;
 }
 
+.mail {
+  bottom: 12vh;
+  left: 3.75vw;
+  animation-delay: 1s;
+}
+
 .cv {
-  bottom: 42%;
-  right: 20%;
+  bottom: 10vh;
+  right: 3.75vw;
   border: 4px solid black;
   border-radius: 100%;
   width: 2vw;
   height: 2vw;
-  font-size: 1.5rem;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   animation-delay: 1.3s;
