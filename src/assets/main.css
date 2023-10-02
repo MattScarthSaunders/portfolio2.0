@@ -397,3 +397,18 @@ body {
     transform: skew(-15deg) translateX(0);
   }
 }
+
+@keyframes linkScale {
+  0% {
+    transform: scale(0);
+    transform-origin: center;
+  }
+  75% {
+    transform: scale(1.05);
+    transform-origin: center;
+  }
+  100% {
+    transform: scale(1);
+    transform-origin: center;
+  }
+}

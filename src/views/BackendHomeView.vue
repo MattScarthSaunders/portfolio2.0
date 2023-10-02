@@ -3,12 +3,9 @@ import BackendButton from '@/components/Backend/BackendButton.vue'
 import BackendProjectContainer from '@/components/Backend/BackendProjectContainer.vue'
 import { TypeFlow } from 'typeflow-vue'
 import { ref, watchEffect } from 'vue'
-import { useNavStore } from '@/stores/nav'
 import { useControlStore } from '@/stores/appControl'
 import BackendNavDock from '@/components/Backend/BackendNavDock.vue'
-import BackendFEbutton from '@/components/Backend/BackendFEbutton.vue'
 
-const store = useNavStore()
 const controlStore = useControlStore()
 
 const buttonPressedId = ref(0)
@@ -28,13 +25,6 @@ ${date2.toLocaleString(
 )} [admin] </guest/explanation> If you want to view a particular project, click on one of the buttons at the top...
 ${date3.toLocaleString('en-GB')} [admin] </guest/signoff> Thanks for stopping by!
 `
-
-watchEffect(() => {
-  if ((store.aboutSelected || store.cvSelected || store.contactSelected) && store.type === 'be') {
-    isProjectSelected.value = false
-    navSelected.value = true
-  }
-})
 </script>
 
 <template>
@@ -68,7 +58,6 @@ watchEffect(() => {
       ></BackendProjectContainer>
     </div>
     <BackendNavDock></BackendNavDock>
-    <BackendFEbutton></BackendFEbutton>
   </main>
 </template>
 

@@ -1,34 +1,50 @@
 <script setup lang="ts">
-import { useNavStore } from '@/stores/nav'
-const store = useNavStore()
+import { useControlStore } from '@/stores/appControl'
+import { useBEProjStore } from '@/stores/backendProjects'
+
+const controlStore = useControlStore()
+const BEstore = useBEProjStore()
 </script>
 
 <template>
   <nav>
     <ul>
-      <li
-        @click="
-          () => {
-            store.setSelected('cv', 'be')
-          }
-        "
-      >
-        CV
+      <li>
+        <router-link
+          to="/Frontend"
+          @click="
+            () => {
+              controlStore.chosen = 'FE'
+              BEstore.isActive = ''
+            }
+          "
+          >Frontend</router-link
+        >
       </li>
-      <li
-        @click="
-          () => {
-            store.setSelected('contact', 'be')
-          }
-        "
-      >
-        Contact
+      <li>
+        <router-link
+          to="/"
+          @click="
+            () => {
+              controlStore.chosen = ''
+              BEstore.isActive = ''
+            }
+          "
+          >Home</router-link
+        >
       </li>
+      <li>Contact</li>
     </ul>
   </nav>
 </template>
 
 <style scoped>
+a {
+  text-decoration: none;
+  font-family: 'Terminal';
+  font-size: 2rem;
+  color: var(--BE-color);
+}
 ul {
   display: flex;
   gap: 2rem;

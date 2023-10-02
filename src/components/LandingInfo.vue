@@ -14,8 +14,9 @@
     /></a>
     <a class="mail" href="mailto:m.scarsaund@gmail.com"><img src="../assets/icons/email.png" /></a>
     <a class="cv" href="">CV</a>
+
     <img src="../assets/images/profile.jpeg" />
-    <p>Welcome! Pick a side to see my portfolio work. Use the links below to get in touch.</p>
+    <p>Welcome! Pick a side to see my portfolio work. Use the links above to get in touch.</p>
   </section>
 </template>
 
@@ -44,6 +45,7 @@ a {
   position: absolute;
   width: 1vw;
   height: 1vw;
+  animation: linkScale 1s;
 }
 
 a > img {
@@ -57,6 +59,12 @@ a:hover {
   transform: scale(1.1);
   transition: transform 0.25s;
 }
+
+a:active {
+  transform: scale(0.8);
+  transition: transform 0.25s;
+}
+
 p {
   text-align: center;
   margin-left: 2rem;
@@ -65,16 +73,19 @@ p {
 .mail {
   bottom: 50%;
   left: 20%;
+  animation-delay: 1s;
 }
 
 .linkedin {
   top: 10%;
   left: 19%;
+  animation-delay: 1.1s;
 }
 
 .github {
   top: 10%;
   right: 24.5%;
+  animation-delay: 1.2s;
 }
 
 .cv {
@@ -88,5 +99,6 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
+  animation-delay: 1.3s;
 }
 </style>
