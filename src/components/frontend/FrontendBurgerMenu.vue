@@ -35,7 +35,18 @@ onBeforeUnmount(() => {
   </button>
   <ul ref="burger" :class="{ showMenu: showMenu, hideMenu: !showMenu, list: true }">
     <li>CV</li>
-    <li>Contact</li>
+    <li>
+      <router-link
+        to="/Frontend/Contact"
+        @click="
+          () => {
+            store.chosen = ''
+            FEstore.isActive = ''
+          }
+        "
+        >Contact</router-link
+      >
+    </li>
     <li>
       <router-link
         to="/"

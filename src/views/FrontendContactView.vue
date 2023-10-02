@@ -1,12 +1,15 @@
 <script setup lang="ts">
+import FrontendBEbutton from '@/components/Frontend/FrontendBEbutton.vue'
 import ContactView from './ContactView.vue'
+import FrontendBurgerMenu from '@/components/Frontend/FrontendBurgerMenu.vue'
 
-const greeting = `[admin] </guest/contact> Get in touch!`
+const greeting = `Get in touch!`
 </script>
 
 <template>
   <main>
     <ContactView :greeting="greeting"></ContactView>
+    <FrontendBurgerMenu></FrontendBurgerMenu>
   </main>
 </template>
 
@@ -18,93 +21,119 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: var(--BE-bg-color);
+  background: linear-gradient(-45deg, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation:
+    gradient 60s ease infinite,
+    fade-in 1s ease;
+  box-shadow: inset 0 -30vh 250px 0 black;
 }
 
+/* disable these as they're backend-only */
 ::v-deep(.crt) {
-  animation: textShadow 10.6s infinite;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
+  animation: none;
 }
+
 ::v-deep(.crt::after) {
-  content: ' ';
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: rgba(18, 16, 16, 0.1);
-  opacity: 0;
-  z-index: 2;
-  pointer-events: none;
-  animation: flicker 0.15s infinite;
-  box-shadow: inset 0 0 10rem black;
+  background: transparent;
+  animation: none;
 }
+
 ::v-deep(.crt::before) {
-  content: ' ';
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
-    linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-  z-index: 2;
-  background-size:
-    100% 2px,
-    3px 100%;
-  pointer-events: none;
+  background: transparent;
+  animation: none;
 }
+
+/* end of backend-only */
 
 ::v-deep(form) {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  box-shadow:
+    inset 00px 0px 75px rgba(0, 20, 20, 0.5),
+    -2px 2px 0px 1px rgba(0, 0, 0, 0.3);
+  transform: skew(15deg);
+  padding: 2rem;
+  border-radius: 2%;
 }
+
 ::v-deep(label) {
   color: var(--BE-color);
   font-size: 2rem;
 }
+
 ::v-deep(input),
 ::v-deep(textarea),
 ::v-deep(button) {
   font-size: 2rem;
-  color: var(--BE-color);
-  border: 1px solid green;
-  background-color: var(--BE-bg-color);
+  border: none;
+  background: transparent;
+  color: white;
+  text-shadow: 0 0 2px white;
 }
+
 ::v-deep(input:focus),
 ::v-deep(textarea:focus) {
   outline: none !important;
-  border: 1px solid rgb(0, 255, 0);
-  box-shadow: 0 0 10px green;
 }
+
 ::v-deep(.wrapper) {
   display: flex;
   gap: 1vw;
   position: relative;
 }
+
 ::v-deep(button) {
   width: 10vw;
   height: 5vh;
   margin-left: 10vw;
+  box-shadow:
+    inset 0px 0px 75px rgba(0, 20, 20, 0.5),
+    -2px 2px 0px 1px rgba(0, 0, 0, 0.3),
+    -6px 6px 0px 1px rgba(0, 0, 0, 0.3),
+    -12px 12px 0px 1px rgba(0, 0, 0, 0.3);
 }
+
 ::v-deep(button:hover, button:focus) {
   cursor: pointer;
-  background-color: rgb(23, 48, 9);
+  box-shadow:
+    inset 0 0 2px 1px white,
+    inset 00px 0px 75px rgba(0, 20, 20, 0.5),
+    -2px 2px 0px 1px rgba(79, 79, 79, 0.3),
+    -6px 6px 0px 1px rgba(66, 66, 66, 0.3),
+    -12px 12px 0px 1px rgba(53, 53, 53, 0.3);
+  text-shadow:
+    0 0 2px white,
+    0 0 10px white;
 }
+
 ::v-deep(button:active) {
-  border: 1px solid rgba(255, 255, 255, 0);
+  box-shadow:
+    inset 0 0 2px 1px white,
+    inset 00px 0px 75px rgba(0, 20, 20, 0.5),
+    -2px 2px 0px 1px rgba(79, 79, 79, 0.3),
+    -4px 4px 0px 1px rgba(66, 66, 66, 0.3),
+    -6px 6px 15px rgba(162, 162, 162, 0.3);
+  transform: translateX(-0.5rem) translateY(0.5rem);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+  animation: none;
+  text-shadow:
+    0 0 2px white,
+    0 0 10px white;
 }
 ::v-deep(label) {
   width: 9vw;
   text-align: right;
+  color: white;
 }
 ::v-deep(input) {
   width: 20vw;
@@ -115,7 +144,7 @@ main {
 }
 ::v-deep(input::placeholder),
 ::v-deep(textarea::placeholder) {
-  color: rgba(0, 128, 0, 0.527);
+  color: white;
 }
 ::v-deep(.error::placeholder) {
   font-size: 1.5rem;
@@ -124,7 +153,8 @@ main {
   position: absolute;
 }
 ::v-deep(.instruction) {
-  color: green;
+  color: white;
+
   padding-bottom: 3vh;
   font-size: 2rem;
 }
@@ -135,7 +165,7 @@ main {
   width: 100%;
   text-align: center;
   margin-left: 1rem;
-  color: rgb(0, 255, 0);
+  color: white;
   font-size: 1.5rem;
 }
 ::v-deep(.emailError) {
@@ -148,10 +178,9 @@ main {
   margin-left: 1rem;
 }
 ::v-deep(nav) {
-  position: absolute;
-  bottom: 4vh;
+  display: none;
 }
-::v-deep(ul) {
+/* ::v-deep(ul) {
   display: flex;
   gap: 2rem;
   list-style: none;
@@ -173,5 +202,5 @@ main {
   font-family: 'Terminal';
   font-size: 2rem;
   color: var(--BE-color);
-}
+} */
 </style>

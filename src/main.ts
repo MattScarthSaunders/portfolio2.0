@@ -8,11 +8,15 @@ import App from './App.vue'
 import FrontendHomeView from './views/FrontendHomeView.vue'
 import BackendHomeView from './views/BackendHomeView.vue'
 import LandingView from './views/LandingView.vue'
+import BackendContactView from './views/BackendContactView.vue'
+import FrontendContactView from './views/FrontendContactView.vue'
 
 const routes = [
   { path: '/', component: LandingView },
   { path: '/Frontend', component: FrontendHomeView, props: true },
-  { path: '/Backend', component: BackendHomeView, props: true }
+  { path: '/Backend', component: BackendHomeView, props: true },
+  { path: '/Backend/Contact', component: BackendContactView, props: true },
+  { path: '/Frontend/Contact', component: FrontendContactView, props: true }
 ]
 
 const router = VueRouter.createRouter({

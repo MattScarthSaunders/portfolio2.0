@@ -33,7 +33,18 @@ const BEstore = useBEProjStore()
           >Home</router-link
         >
       </li>
-      <li>Contact</li>
+      <li>
+        <router-link
+          to="/Backend/Contact"
+          @click="
+            () => {
+              controlStore.chosen = ''
+              BEstore.isActive = ''
+            }
+          "
+          >Contact</router-link
+        >
+      </li>
     </ul>
   </nav>
 </template>
@@ -45,6 +56,7 @@ a {
   font-size: 2rem;
   color: var(--BE-color);
 }
+
 ul {
   display: flex;
   gap: 2rem;
@@ -59,10 +71,10 @@ li {
   animation: textShadow 0.51s infinite;
 }
 
+a:hover,
 li:hover {
-  color: rgb(1, 182, 1);
+  color: rgb(0, 255, 0);
   animation: textShadow 0.51s infinite;
   cursor: pointer;
 }
 </style>
-@/stores/nav
