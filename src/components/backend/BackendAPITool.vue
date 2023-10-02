@@ -6,11 +6,14 @@ import BackendButtonVue from './BackendButton.vue'
 import { handleBoardgameRequests } from '@/utils/api'
 import type { AirtableProject } from '@/types'
 import CRTLineWrapper from './CRTLineWrapper.vue'
+import { useControlStore } from '@/stores/appControl'
 
 const props = defineProps<{
   isProjectSelected: boolean
   project: AirtableProject
 }>()
+
+const controlStore = useControlStore()
 
 const isAPIFetching = ref(false)
 const fetchedData = ref<{ [key: string]: any } | string | null>(null)
@@ -39,7 +42,11 @@ const handleClick = async (command: string, endpoint: string) => {
     const urlStub = props.project.Hosted || ''
     isAPIFetching.value = true
 
-    visualiserWidth.value = '60vw'
+    if (controlStore.windowWidth <= 1250) {
+      visualiserWidth.value = '40vw'
+    } else {
+      visualiserWidth.value = '60vw'
+    }
     visualiserHeight.value = maxHeight
     visualiserOverflow.value = 'scroll'
     visualiserPadding.value = '1rem'
@@ -68,7 +75,11 @@ watchEffect(async () => {
 
 watch(isInteractorFetching, (prev, current) => {
   if (current) {
-    interactorWidth.value = '30vw'
+    if (controlStore.windowWidth <= 1250) {
+      interactorWidth.value = '40vw'
+    } else {
+      interactorWidth.value = '30vw'
+    }
     interactorHeight.value = maxHeight
     interactorOverflow.value = 'scroll'
     interactorPadding.value = '3rem 1rem'
@@ -181,7 +192,7 @@ watch(isInteractorFetching, (prev, current) => {
 .BackendContainer {
   padding-top: 1rem;
   display: flex;
-  gap: 2rem;
+  gap: 3vw;
   font-size: 1.25rem;
 }
 

@@ -3,6 +3,7 @@ import type { AirtableProject } from '@/types'
 import { computed, onMounted, ref } from 'vue'
 import FrontendHighlightSection from './FrontendHighlightSection.vue'
 import { useFEProjStore } from '@/stores/frontendProjects'
+import { useControlStore } from '@/stores/appControl'
 import { calculateLeftValue, calculateYValue } from '../../utils/calcs'
 
 const props = defineProps<{
@@ -15,14 +16,19 @@ const transitionDelay = computed(() => (props.index + 1) * 0.5 * 100)
 const rise = ref('99vh')
 
 const store = useFEProjStore()
+const controlStore = useControlStore()
 
 const flickerFrequency = ref(0)
 const flickerFrequencySeconds = computed(() => flickerFrequency.value + 's')
 
 const yValue = ref(0)
-const yTranslate = computed(() => yValue.value + 'vw')
-
-const leftNum = ref(0)
+const yTranslate = computed(() => {
+  let offset = 0
+  if (controlStore.windowHeight <= 1550) {
+    offset = -5
+  }
+  return yValue.value + offset + 'vh'
+})
 
 const isHovered = ref('')
 const isOnGlass = ref(false)
@@ -49,9 +55,7 @@ onMounted(() => {
   flickerFrequency.value = Math.random() * 10 + 5
 
   yValue.value = calculateYValue(props.length, props.index)
-  leftNum.value = calculateLeftValue(props.length, props.index)
 
-  console.log(transitionDelay.value)
   setTimeout(() => (rise.value = '0'), transitionDelay.value)
 })
 </script>
@@ -167,6 +171,18 @@ onMounted(() => {
     0 0 10px rgba(255, 255, 255, 1),
     0 0 20px rgba(255, 255, 255, 1),
     0 0 40px rgba(255, 255, 255, 1);
-  transform: translateX(-55vh) skew(-15deg) translateY(v-bind(yTranslate));
+  transform: skew(-15deg) translateX(-55vh) translateY(v-bind(yTranslate));
+}
+
+@media screen and (max-width: 1550px) {
+  .FEprojectName:hover,
+  .isHovered {
+    transform: translateX(-8vh) skew(-15deg);
+  }
+
+  .isActive,
+  .isActive:hover {
+    transform: skew(-15deg) translateX(-53vh) translateY(v-bind(yTranslate));
+  }
 }
 </style>

@@ -133,15 +133,15 @@ const crtVisibility = ref('block')
   background: none;
   color: white;
   border: none;
-  font-size: 5rem;
+  font-size: calc(2 * calc(100vw / 10) / 4);
   font-family: Tourney;
   transition:
     color 0.5s ease,
     opacity 1s ease;
   z-index: 5;
   text-decoration: none;
-  margin-left: 5rem;
-  margin-bottom: 5rem;
+  margin-left: 5vw;
+  margin-bottom: 5vh;
   cursor: pointer;
 }
 
@@ -162,7 +162,7 @@ const crtVisibility = ref('block')
   background: none;
   color: white;
   border: none;
-  font-size: 5rem;
+  font-size: calc(2 * calc(100vw / 10) / 4);
   cursor: pointer;
   transition: opacity 1s ease;
   color: var(--BE-color);
@@ -194,5 +194,11 @@ const crtVisibility = ref('block')
   flex-direction: column;
   margin-right: 3rem;
   margin-top: 3rem;
+}
+
+@media screen and (max-width: 1550px) {
+  .overlayFE {
+    box-shadow: inset 0 -12vh 150px 20px black;
+  }
 }
 </style>

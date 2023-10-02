@@ -265,4 +265,10 @@ main {
   background: transparent;
   animation: textShadow 1.6s infinite;
 }
+
+@media screen and (max-width: 1550px) {
+  main {
+    box-shadow: inset 0 -12vh 150px 20px black;
+  }
+}
 </style>

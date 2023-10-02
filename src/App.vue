@@ -11,7 +11,14 @@ const CVurl = ref('')
 const CVerr = ref(false)
 const BioData = ref('')
 
+const handleScreenSizeChange = () => {
+  store.windowWidth = window.innerWidth
+  store.windowHeight = window.innerHeight
+}
+
 onMounted(async () => {
+  window.addEventListener('resize', handleScreenSizeChange)
+
   try {
     const { FEProj, BEProj } = await getProjects()
     store.initialLoad = false

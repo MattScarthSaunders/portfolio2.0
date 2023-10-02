@@ -1,8 +1,8 @@
 export const calculateYValue = (length: number, index: number) => {
-  const gap = 2
+  const gap = 3
   const inverse = length - 1 - index
-  const height = 3
-  const base = inverse * (gap + height) + 1
+  const height = 8
+  const base = inverse * (gap + height)
   return base
 }
 

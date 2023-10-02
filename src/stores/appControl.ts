@@ -9,6 +9,17 @@ export const useControlStore = defineStore('control', () => {
   const initialLoad = ref(true)
   const initialLoadError = ref('')
   const disableLoadError = ref(true)
+  const windowWidth = ref(0)
+  const windowHeight = ref(0)
 
-  return { chosen, FEProjects, BEProjects, initialLoad, initialLoadError, disableLoadError }
+  return {
+    chosen,
+    FEProjects,
+    BEProjects,
+    initialLoad,
+    initialLoadError,
+    disableLoadError,
+    windowWidth,
+    windowHeight
+  }
 })

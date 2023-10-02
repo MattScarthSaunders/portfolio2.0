@@ -6,27 +6,42 @@ import type { AirtableProject } from '@/types'
 import BackendAPITool from './BackendAPITool.vue'
 import CRTLineWrapper from './CRTLineWrapper.vue'
 import { calculateAspectRatioUnitAgnostic } from '@/utils/calcs'
-import { computed, onMounted, ref, watchEffect } from 'vue'
+import { onMounted, ref, watchEffect } from 'vue'
+import { useControlStore } from '@/stores/appControl'
 
 const props = defineProps<{
   project?: AirtableProject
   isProjectSelected: boolean
 }>()
+
+const store = useControlStore()
+
 const width = ref('0vh')
 const height = ref('0vh')
+
+const unit = ref('vh')
+
+watchEffect(() => {
+  if (store.windowWidth < store.windowHeight) {
+    unit.value = 'vw'
+  } else {
+    unit.value = 'vh'
+  }
+  width.value = width.value.slice(0, width.value.length - 2) + unit.value
+  height.value = height.value.slice(0, height.value.length - 2) + unit.value
+})
 
 onMounted(() => {
   if (props.project?.Assets![0].width && props.project?.Assets![0].height) {
     const { newWidth, newHeight } = calculateAspectRatioUnitAgnostic(
       props.project?.Assets[0].width,
       props.project?.Assets[0].height,
-      100,
+      90,
       60
     )
 
-    // todo: redo for vw if vw > vh
-    width.value = newWidth + 'vh'
-    height.value = newHeight + 'vh'
+    width.value = newWidth + unit.value
+    height.value = newHeight + unit.value
   }
 })
 </script>

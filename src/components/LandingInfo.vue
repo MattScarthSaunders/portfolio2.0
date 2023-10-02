@@ -109,4 +109,41 @@ a > p {
   align-items: center;
   animation-delay: 1.3s;
 }
+
+@media screen and (max-width: 1550px) {
+  .cv > p {
+    font-size: 1.25rem;
+  }
+}
+
+@media screen and (max-width: 1250px) {
+  .mail,
+  .github,
+  .linkedin {
+    width: 2.5vw;
+    height: 2.5vw;
+  }
+  .cv > p {
+    font-size: 1rem;
+  }
+
+  .mail {
+    bottom: 11.25vh;
+    left: 4vw;
+  }
+
+  .cv {
+    bottom: 12vh;
+    right: 4vw;
+  }
+
+  .github {
+    top: 0.5vh;
+    right: 3.3vw;
+  }
+
+  .linkedin {
+    top: 0.5vh;
+  }
+}
 </style>
