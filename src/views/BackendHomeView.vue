@@ -57,7 +57,7 @@ onMounted(() => {
         :isProjectSelected="isProjectSelected"
       ></BackendProjectContainer>
     </div>
-    <BackendNavDock></BackendNavDock>
+    <BackendNavDock class="dock"></BackendNavDock>
   </main>
 </template>
 
@@ -78,6 +78,8 @@ onMounted(() => {
   height: 100vh;
   width: 100vw;
   animation: fade-in 1s ease;
+  padding-top: 1rem;
+  padding-bottom: 5rem;
 }
 
 .crt {
@@ -126,5 +128,10 @@ onMounted(() => {
 .BackendNav {
   display: flex;
   gap: 1rem;
+}
+
+.dock {
+  position: absolute;
+  bottom: 0;
 }
 </style>

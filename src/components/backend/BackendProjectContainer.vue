@@ -12,19 +12,22 @@ const props = defineProps<{
   project?: AirtableProject
   isProjectSelected: boolean
 }>()
-const width = ref('0')
-const height = ref('0')
+const width = ref('0vh')
+const height = ref('0vh')
 
 onMounted(() => {
-  const { newWidth, newHeight } = calculateAspectRatioUnitAgnostic(
-    props.project?.Assets![0].width ? props.project?.Assets[0].width : 1920,
-    props.project?.Assets![0].height ? props.project?.Assets[0].height : 1080,
-    55,
-    50
-  )
+  if (props.project?.Assets![0].width && props.project?.Assets![0].height) {
+    const { newWidth, newHeight } = calculateAspectRatioUnitAgnostic(
+      props.project?.Assets[0].width,
+      props.project?.Assets[0].height,
+      100,
+      60
+    )
 
-  width.value = newWidth + 'vw'
-  height.value = newHeight + 'vw'
+    // todo: redo for vw if vw > vh
+    width.value = newWidth + 'vh'
+    height.value = newHeight + 'vh'
+  }
 })
 </script>
 
@@ -73,6 +76,7 @@ onMounted(() => {
   height: v-bind(height);
   width: v-bind(width);
 }
+
 .dataEngDiagram {
   border: var(--BE-bg-border);
   box-shadow: var(--BE-bg-border-shadow);
@@ -80,7 +84,6 @@ onMounted(() => {
   align-self: center;
   height: v-bind(height);
   width: v-bind(width);
-  object-fit: contain;
   overflow: hidden;
 }
 

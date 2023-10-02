@@ -32,13 +32,15 @@ const interactorBorder = ref('none')
 const instructionToUser = ref('[admin] </guest/instruction> load instruction-to-user...')
 const commands = ref<string[][]>([['', '']])
 
+const maxHeight = '50vh'
+
 const handleClick = async (command: string, endpoint: string) => {
   if (props.project) {
     const urlStub = props.project.Hosted || ''
     isAPIFetching.value = true
 
     visualiserWidth.value = '60vw'
-    visualiserHeight.value = '60vh'
+    visualiserHeight.value = maxHeight
     visualiserOverflow.value = 'scroll'
     visualiserPadding.value = '1rem'
     visualiserBorder.value = 'var(--BE-bg-border)'
@@ -67,7 +69,7 @@ watchEffect(async () => {
 watch(isInteractorFetching, (prev, current) => {
   if (current) {
     interactorWidth.value = '30vw'
-    interactorHeight.value = '60vh'
+    interactorHeight.value = maxHeight
     interactorOverflow.value = 'scroll'
     interactorPadding.value = '3rem 1rem'
     interactorBorder.value = 'var(--BE-bg-border)'
