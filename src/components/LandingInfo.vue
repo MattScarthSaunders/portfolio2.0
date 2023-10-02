@@ -16,7 +16,7 @@
     <a class="cv" href=""><p>CV</p></a>
 
     <img src="../assets/images/profile.jpeg" />
-    <p>Welcome! Pick a side to see my portfolio work. Use the links above to get in touch.</p>
+    <p>Welcome! Pick a side to see my portfolio projects. Use the links above to get in touch.</p>
   </section>
 </template>
 

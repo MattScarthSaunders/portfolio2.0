@@ -10,7 +10,7 @@ const FEstore = useFEProjStore()
   <router-link
     class="Frontend-BE-trigger"
     to="/Backend"
-    @click="
+    @click.stop="
       () => {
         store.chosen = 'Backend'
         FEstore.isActive = ''

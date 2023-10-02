@@ -11,7 +11,7 @@ const showMenu = ref(false)
 const burger = ref<HTMLElement | null>(null)
 
 const handleClickOutside = (event: any) => {
-  if (burger.value && !burger.value.contains(event.target)) {
+  if (burger.value) {
     showMenu.value = false
     window.removeEventListener('click', handleClickOutside)
   }
@@ -38,7 +38,7 @@ onBeforeUnmount(() => {
     <li>
       <router-link
         to="/Frontend/Contact"
-        @click="
+        @click.stop="
           () => {
             store.chosen = ''
             FEstore.isActive = ''
@@ -50,7 +50,7 @@ onBeforeUnmount(() => {
     <li>
       <router-link
         to="/"
-        @click="
+        @click.stop="
           () => {
             store.chosen = ''
             FEstore.isActive = ''
@@ -144,7 +144,7 @@ a {
   right: 0;
   height: 100vh;
   width: 40vw;
-  bottom: 10vh;
+  padding-bottom: 10vh;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
