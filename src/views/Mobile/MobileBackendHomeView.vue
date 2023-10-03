@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import BackendButton from '@/components/Backend/BackendButton.vue'
-import BackendProjectContainer from '@/components/Backend/BackendProjectContainer.vue'
+import BackendProjectContainer from '@/components/Backend/Mobile/MobileBackendProjectContainer.vue'
 import { TypeFlow } from 'typeflow-vue'
 import { onMounted, ref } from 'vue'
 import { useControlStore } from '@/stores/appControl'
-import BackendNavDock from '@/components/Backend/BackendNavDock.vue'
+import MobileBackendNavDock from '@/components/Backend/Mobile/MobileBackendNavDock.vue'
+import MobileBackendButton from '@/components/Backend/Mobile/MobileBackendButton.vue'
 
 const controlStore = useControlStore()
 
@@ -18,11 +18,13 @@ date2.setSeconds(date2.getSeconds() + 3)
 date3.setSeconds(date3.getSeconds() + 6)
 
 const greeting = `
-${date.toLocaleString('en-GB')} [admin] </guest/greeting> Welcome to the Backend section of my site!
-${date2.toLocaleString(
+${date.toLocaleDateString(
   'en-GB'
-)} [admin] </guest/explanation> If you want to view a particular project, click on one of the buttons at the top...
-${date3.toLocaleString('en-GB')} [admin] </guest/signoff> Thanks for stopping by!
+)} [admin] </guest/greeting>\nWelcome to the Backend section of my site!\n
+${date2.toLocaleDateString(
+  'en-GB'
+)} [admin] </guest/explanation>\nIf you want to view a particular project, click on one in the drawer below...\n
+${date3.toLocaleDateString('en-GB')} [admin] </guest/signoff>\nThanks for stopping by!
 `
 
 onMounted(() => {
@@ -33,9 +35,10 @@ onMounted(() => {
 <template>
   <main class="BackendBase">
     <div class="crt">
+      <p class="swipe">&lt; swipe &gt;</p>
       <nav class="BackendNav">
         <TypeFlow v-if="!controlStore.BEProjects"><p>LOADING...</p></TypeFlow>
-        <BackendButton
+        <MobileBackendButton
           v-for="(proj, i) in controlStore.BEProjects"
           v-bind:key="proj.Name"
           :name="proj.Name"
@@ -46,7 +49,9 @@ onMounted(() => {
               isProjectSelected = true
             }
           "
-        ></BackendButton>
+          :height="'10vh'"
+          :width="'12vh'"
+        ></MobileBackendButton>
       </nav>
       <TypeFlow v-if="!isProjectSelected && controlStore.chosen === 'Backend'" :char-delay="15">
         <pre class="greeting">{{ greeting }}</pre>
@@ -57,14 +62,19 @@ onMounted(() => {
         :isProjectSelected="isProjectSelected"
       ></BackendProjectContainer>
     </div>
-    <BackendNavDock class="dock"></BackendNavDock>
+    <MobileBackendNavDock></MobileBackendNavDock>
   </main>
 </template>
 
 <style scoped>
 .greeting {
   color: var(--BE-color);
-  font-size: 1.5rem;
+  font-size: 1rem;
+  width: 100vw;
+  height: 10vw;
+  position: absolute;
+  text-wrap: wrap;
+  padding-right: 5vh;
 }
 
 .BackendBase {
@@ -78,19 +88,13 @@ onMounted(() => {
   height: 100vh;
   width: 100vw;
   animation: fade-in 1s ease;
-  padding-top: 1rem;
-  padding-bottom: 5rem;
 }
 
 .crt {
   animation: textShadow 10.6s infinite;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
   width: 100%;
   height: 100%;
-  padding: 2rem 5rem;
+  padding: 4vh 3vh;
 }
 
 .crt::after {
@@ -127,11 +131,26 @@ onMounted(() => {
 
 .BackendNav {
   display: flex;
+  align-self: center;
+  align-items: center;
+  justify-content: flex-start;
   gap: 1rem;
+  width: 88vw;
+  height: 20vh;
+  position: absolute;
+  bottom: 6vh;
+  overflow: scroll;
 }
 
-.dock {
+.swipe {
   position: absolute;
-  bottom: 0;
+  font-family: 'Terminal';
+  bottom: 25vh;
+  font-size: 1.5rem;
+  color: green;
+  animation: fade-in 10s ease reverse;
+  opacity: 0;
+  width: 85vw;
+  text-align: center;
 }
 </style>

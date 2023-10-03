@@ -16,5 +16,6 @@ defineProps<{ lineNum?: number; height: string; width: string }>()
   position: relative;
   animation: flickerLoad 10s infinite;
   height: v-bind(height);
+  overflow: hidden;
 }
 </style>

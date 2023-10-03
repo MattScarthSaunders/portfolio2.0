@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// import BackendHomeView from './views/BackendHomeView.vue'
 import { ref } from 'vue'
 import { useControlStore } from '@/stores/appControl'
 import DividerSection from '@/components/DividerSection.vue'

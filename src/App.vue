@@ -82,7 +82,6 @@ onMounted(async () => {
       </p>
     </div>
   </Transition>
-
   <RouterView
     :FrontendChosen="store.chosen"
     :projects="store.chosen === 'Backend' ? store.BEProjects : store.FEProjects"
