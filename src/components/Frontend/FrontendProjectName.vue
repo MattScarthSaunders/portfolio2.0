@@ -4,7 +4,7 @@ import { computed, onMounted, ref } from 'vue'
 import FrontendHighlightSection from './FrontendHighlightSection.vue'
 import { useFEProjStore } from '@/stores/frontendProjects'
 import { useControlStore } from '@/stores/appControl'
-import { calculateLeftValue, calculateYValue } from '../../utils/calcs'
+import { calculateYValue } from '../../utils/calcs'
 
 const props = defineProps<{
   Name: string

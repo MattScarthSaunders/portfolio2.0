@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useControlStore } from '@/stores/appControl'
 import MobileDividerSection from '@/components/Mobile/MobileDividerSection.vue'
-import MobileBurgerMenu from '@/components/Frontend/Mobile/MobileBurgerMenu.vue'
+import MobileBurgerMenu from '@/components/Mobile/MobileBurgerMenu.vue'
 
 const store = useControlStore()
 </script>

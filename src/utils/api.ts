@@ -1,12 +1,7 @@
 import axios from 'axios'
 import type { Ref } from 'vue'
-import Airtable, { type AirtableOptions } from 'airtable'
-import {
-  AirtableProjectSchema,
-  type AirtableData,
-  AirtablePersonalDataSchema,
-  type AirtablePersonalData
-} from '../types'
+import Airtable from 'airtable'
+import { AirtableProjectSchema, type AirtableData, type AirtablePersonalData } from '../types'
 
 export const replaceParams = (endpoint: string) => {
   if (endpoint.includes(':')) {

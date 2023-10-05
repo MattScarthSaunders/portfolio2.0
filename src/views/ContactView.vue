@@ -64,7 +64,7 @@ const formHandler = async () => {
 
   if (message.value && name.value && email.value) {
     sending.value = true
-    const endpoint = 'https://formspree.io/f/mqkjzjoz'
+    const endpoint = import.meta.env.VITE_FORMSPREE_URL
 
     const data = {
       from: email.value,

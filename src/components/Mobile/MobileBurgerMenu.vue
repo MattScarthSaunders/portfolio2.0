@@ -11,7 +11,7 @@ const BEstore = useBEProjStore()
 const showMenu = ref(false)
 const burger = ref<HTMLElement | null>(null)
 
-const handleClickOutside = (event: any) => {
+const handleClickOutside = () => {
   if (burger.value) {
     showMenu.value = false
     window.removeEventListener('click', handleClickOutside)

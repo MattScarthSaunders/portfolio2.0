@@ -1,14 +1,10 @@
 <script setup lang="ts">
 import type { AirtableProject } from '@/types'
-import { computed, onMounted, ref } from 'vue'
-
-const props = defineProps<{
+import { onMounted, ref } from 'vue'
+defineProps<{
   project: AirtableProject
 }>()
 const flickerFrequency = ref(0)
-
-const flickerFrequencySeconds = computed(() => flickerFrequency.value + 's')
-const scrollTime = computed(() => props.project.Tech.length * 2 + 's')
 
 onMounted(() => {
   flickerFrequency.value = Math.random() * 10 + 5
@@ -25,11 +21,6 @@ onMounted(() => {
         {{ project.Synopsis }}
       </p>
     </section>
-    <!-- <div class="stackWrapper">
-      <ul class="stack">
-        <li v-for="(tech, index) in project.Tech" :key="tech + index + 'd'">{{ tech }}</li>
-      </ul>
-    </div> -->
   </section>
 </template>
 

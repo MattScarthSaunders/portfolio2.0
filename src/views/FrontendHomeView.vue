@@ -43,7 +43,7 @@ const handleClick = (name: string) => {
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Arizonia&family=Cormorant+Unicase:wght@300&family=Faustina:wght@300&family=Jacques+Francois+Shadow&family=Montserrat:wght@100;300;500;800&family=Raleway:wght@200;800&family=Tourney&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tourney&display=swap');
 
 .FrontendBase {
   height: 100vh;
