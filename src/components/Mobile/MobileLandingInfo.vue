@@ -1,4 +1,8 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useControlStore } from '@/stores/appControl'
+
+const store = useControlStore()
+</script>
 
 <template>
   <section>
@@ -12,7 +16,7 @@
         href="https://www.linkedin.com/in/matthew-scarth-saunders/"
         target="_blank"
         rel="noreferrer"
-        ><img src="../../assets/icons/linkedin.png"
+        ><img src="../../assets/icons/linkedIn.png"
       /></a>
       <a
         class="github"
@@ -24,7 +28,7 @@
       <a class="mail" href="mailto:m.scarsaund@gmail.com"
         ><img src="../../assets/icons/email.png"
       /></a>
-      <a class="cv" href=""><p>CV</p></a>
+      <a class="cv" :href="store.cvUrl"><p>CV</p></a>
     </div>
   </section>
 </template>
@@ -88,6 +92,7 @@ a > p {
   font-size: 1.5rem;
   margin: 0;
   text-shadow: 0 0 1px black;
+  padding: 0;
 }
 
 .linkedin {
@@ -110,7 +115,6 @@ a > p {
 
 .cv {
   bottom: 10vh;
-  right: 3.75vw;
   border: 4px solid black;
   border-radius: 100%;
   width: 10vw;

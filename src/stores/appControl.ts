@@ -11,6 +11,8 @@ export const useControlStore = defineStore('control', () => {
   const disableLoadError = ref(true)
   const windowWidth = ref(0)
   const windowHeight = ref(0)
+  const cvUrl = ref('')
+  const bio = ref('')
 
   return {
     chosen,
@@ -20,6 +22,8 @@ export const useControlStore = defineStore('control', () => {
     initialLoadError,
     disableLoadError,
     windowWidth,
-    windowHeight
+    windowHeight,
+    cvUrl,
+    bio
   }
 })

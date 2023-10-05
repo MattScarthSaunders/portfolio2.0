@@ -1,4 +1,8 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useControlStore } from '@/stores/appControl'
+
+const store = useControlStore()
+</script>
 
 <template>
   <section>
@@ -7,13 +11,13 @@
       href="https://www.linkedin.com/in/matthew-scarth-saunders/"
       target="_blank"
       rel="noreferrer"
-      ><img src="../assets/icons/linkedin.png"
+      ><img src="../assets/icons/linkedIn.png"
     /></a>
     <a class="github" href="https://github.com/MattScarthSaunders" target="_blank" rel="noreferrer"
       ><img src="../assets/icons/github.png"
     /></a>
     <a class="mail" href="mailto:m.scarsaund@gmail.com"><img src="../assets/icons/email.png" /></a>
-    <a class="cv" href=""><p>CV</p></a>
+    <a class="cv" :href="store.cvUrl" target="_blank" rel="noopener noreferrer"><p>CV</p></a>
 
     <img src="../assets/images/profile.jpeg" />
     <p>Welcome! Pick a side to see my portfolio projects. Use the links above to get in touch.</p>

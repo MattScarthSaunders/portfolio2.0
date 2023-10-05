@@ -25,6 +25,12 @@ const handleClick = () => {
   showMenu.value = !showMenu.value
 }
 
+const resetStores = () => {
+  store.chosen = ''
+  FEstore.isActive = ''
+  BEstore.isActive = ''
+}
+
 onBeforeUnmount(() => {
   window.removeEventListener('click', handleClickOutside)
 })
@@ -33,32 +39,11 @@ onBeforeUnmount(() => {
 <template>
   <button class="burger" @click.stop="handleClick"><span></span><span></span><span></span></button>
   <ul ref="burger" :class="{ showMenu: showMenu, hideMenu: !showMenu, list: true }">
-    <li>CV</li>
     <li>
-      <router-link
-        to="/Frontend"
-        @click.stop="
-          () => {
-            store.chosen = ''
-            FEstore.isActive = ''
-            BEstore.isActive = ''
-          }
-        "
-        >Frontend</router-link
-      >
+      <router-link to="/Frontend" @click.stop="resetStores">Frontend</router-link>
     </li>
     <li>
-      <router-link
-        to="/Backend"
-        @click.stop="
-          () => {
-            store.chosen = ''
-            FEstore.isActive = ''
-            BEstore.isActive = ''
-          }
-        "
-        >Backend</router-link
-      >
+      <router-link to="/Backend" @click.stop="resetStores">Backend</router-link>
     </li>
   </ul>
 </template>
@@ -156,7 +141,7 @@ a {
     opacity 1s ease;
   opacity: 1;
   padding-top: 5vh;
-  padding-right: 15vw;
+  padding-right: 10vw;
 }
 
 .showMenu > li,
@@ -167,8 +152,8 @@ a {
   font-size: 2rem;
   font-weight: 100;
   opacity: 1;
-  width: 30%;
-  color: rgba(255, 255, 255, 0.149);
+  width: max-content;
+  color: white;
   text-shadow:
     0 0 2px rgba(255, 255, 255, 0.5),
     0 0 5px rgba(255, 255, 255, 0.5);

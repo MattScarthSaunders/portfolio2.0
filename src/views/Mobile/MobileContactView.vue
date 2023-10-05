@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ContactView from '../ContactView.vue'
-import FrontendBurgerMenu from '@/components/Frontend/FrontendBurgerMenu.vue'
+import MobileFrontendBurgerMenu from '@/components/Frontend/Mobile/MobileFrontendBurgerMenu.vue'
 
 const instruction = `Get in touch!`
 </script>
@@ -8,7 +8,7 @@ const instruction = `Get in touch!`
 <template>
   <main>
     <ContactView :instruction="instruction" :typing="false"></ContactView>
-    <FrontendBurgerMenu></FrontendBurgerMenu>
+    <MobileFrontendBurgerMenu></MobileFrontendBurgerMenu>
   </main>
 </template>
 
@@ -55,10 +55,9 @@ main {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  transform: skew(15deg);
   border-radius: 2%;
-  width: 35vw;
-  padding-top: 3vh;
+  width: 90vw;
+  padding-top: 5vh;
 }
 
 ::v-deep(label) {
@@ -113,14 +112,14 @@ main {
 }
 
 ::v-deep(form > button) {
-  width: 10vw;
+  width: 30vw;
   height: 5vh;
   box-shadow:
     inset 0px 0px 75px rgba(0, 20, 20, 0.5),
     -2px 2px 0px 1px rgba(0, 0, 0, 0.3),
-    -6px 6px 0px 1px rgba(0, 0, 0, 0.3),
-    -12px 12px 0px 1px rgba(0, 0, 0, 0.3);
-  align-self: flex-end;
+    -6px 6px 0px 1px rgba(0, 0, 0, 0.3);
+  /* -12px 12px 0px 1px rgba(0, 0, 0, 0.3); */
+  align-self: center;
 }
 
 ::v-deep(form > button:hover),
@@ -187,6 +186,7 @@ main {
   align-self: center;
   position: absolute;
 }
+
 ::v-deep(.instruction) {
   color: rgba(255, 255, 255, 1);
   text-shadow:
@@ -195,13 +195,15 @@ main {
     0 0 20px rgba(255, 255, 255, 1),
     0 0 40px rgba(255, 255, 255, 1);
   font-family: 'Tourney';
-  transform: translateX(-15vw) skew(15deg);
   font-size: 2rem;
   font-weight: 100;
   animation: flickerLoad 10s infinite;
   margin-bottom: -2vh;
-  margin-left: -2vw;
+  align-self: flex-start;
+  margin-left: 6vw;
+  margin-top: 3vh;
 }
+
 ::v-deep(.emailSent),
 ::v-deep(.sendingWrapper) {
   position: absolute;
@@ -213,6 +215,7 @@ main {
   font-size: 1.5rem;
   transform: skew(15deg);
 }
+
 ::v-deep(.emailError) {
   position: absolute;
   width: 100%;
@@ -225,6 +228,7 @@ main {
 
   transform: skew(15deg);
 }
+
 ::v-deep(nav) {
   display: none;
 }

@@ -152,12 +152,13 @@ watch(isInteractorFetching, (prev, current) => {
   align-items: center;
   border-left: 1px solid green;
   border-right: 1px solid green;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
 }
 
 .apiButtonLabel {
   color: var(--BE-color);
   font-size: 0.85rem;
+  width: max-content;
 }
 
 .BackendContainer {

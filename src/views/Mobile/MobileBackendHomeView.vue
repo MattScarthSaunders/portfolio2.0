@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import BackendProjectContainer from '@/components/Backend/Mobile/MobileBackendProjectContainer.vue'
 import { TypeFlow } from 'typeflow-vue'
 import { onMounted, ref } from 'vue'
 import { useControlStore } from '@/stores/appControl'
-import MobileBackendNavDock from '@/components/Backend/Mobile/MobileBackendNavDock.vue'
+import BackendProjectContainer from '@/components/Backend/Mobile/MobileBackendProjectContainer.vue'
+import MobileBackendBurgerMenu from '@/components/Backend/Mobile/MobileBackendBurgerMenu.vue'
 import MobileBackendButton from '@/components/Backend/Mobile/MobileBackendButton.vue'
 
 const controlStore = useControlStore()
@@ -62,7 +62,7 @@ onMounted(() => {
         :isProjectSelected="isProjectSelected"
       ></BackendProjectContainer>
     </div>
-    <MobileBackendNavDock></MobileBackendNavDock>
+    <MobileBackendBurgerMenu></MobileBackendBurgerMenu>
   </main>
 </template>
 

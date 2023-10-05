@@ -6,7 +6,7 @@ import { useControlStore } from '@/stores/appControl'
 import { useBEProjStore } from '@/stores/backendProjects'
 import { useFEProjStore } from '@/stores/frontendProjects'
 
-const props = defineProps<{ instruction: string; typing: boolean }>()
+defineProps<{ instruction: string; typing: boolean }>()
 
 const controlStore = useControlStore()
 const BEstore = useBEProjStore()

@@ -7,9 +7,7 @@ import type { RouterView } from 'vue-router'
 
 const store = useControlStore()
 
-const CVurl = ref('')
 const CVerr = ref(false)
-const BioData = ref('')
 
 const handleScreenSizeChange = () => {
   store.windowWidth = window.innerWidth
@@ -18,6 +16,8 @@ const handleScreenSizeChange = () => {
 
 onMounted(async () => {
   window.addEventListener('resize', handleScreenSizeChange)
+  store.windowWidth = window.innerWidth
+  store.windowHeight = window.innerHeight
 
   try {
     const { FEProj, BEProj } = await getProjects()
@@ -36,11 +36,11 @@ onMounted(async () => {
 
   try {
     const { CV, Bio } = await getPersonalData()
-    CVurl.value = CV.Downloads![0].url
-    BioData.value = Bio.Info!
+    store.cvUrl = CV.Downloads![0].url
+    store.bio = Bio.Info!
   } catch (err) {
     if (err) {
-      CVerr.value = true
+      console.log('404: personal data not found')
     }
   }
 })

@@ -1,7 +1,12 @@
 import axios from 'axios'
 import type { Ref } from 'vue'
-import Airtable from 'airtable'
-import { AirtableProjectSchema, type AirtableData, AirtablePersonalDataSchema } from '../types'
+import Airtable, { type AirtableOptions } from 'airtable'
+import {
+  AirtableProjectSchema,
+  type AirtableData,
+  AirtablePersonalDataSchema,
+  type AirtablePersonalData
+} from '../types'
 
 export const replaceParams = (endpoint: string) => {
   if (endpoint.includes(':')) {
@@ -51,16 +56,22 @@ export const handleBoardgameRequests = async (
       let postbody = {}
       if (endpoint.includes('comments')) {
         postbody = {
-          username: 'portfolioVisitor',
+          username: 'visitor',
           body: 'This boardgame looks awesome! I cant wait to play again.'
+        }
+      } else if (endpoint.includes('categories')) {
+        postbody = {
+          slug: 'Recruitment Strategy',
+          description:
+            'If you like what you see on the site, make contact and potentially win a new developer.'
         }
       } else {
         postbody = {
-          owner: 'portfolioVisitor',
+          owner: 'visitor',
           title: 'A Site To Behold',
           review_body: 'I checked out Matts portfolio site and used his interactive API tool!',
           designer: 'Matt Scarth-Saunders',
-          category: 'self-advertisement'
+          category: 'strategy'
         }
       }
       const structuredEndpoint = replaceParams(endpoint)
@@ -144,13 +155,14 @@ export const getProjects = async () => {
   }
 }
 
-export const getPersonalData = async () => {
+export const getPersonalData = async (): Promise<{
+  CV: AirtablePersonalData
+  Bio: AirtablePersonalData
+}> => {
   const personalData = await getRecords('PersonalData')
   if (personalData) {
-    const validatedPD = personalData.map((pd) => AirtablePersonalDataSchema.parse(pd))
-
-    const CV = validatedPD[0]
-    const Bio = validatedPD[1]
+    const CV = personalData[0]
+    const Bio = personalData[1]
 
     return { CV, Bio }
   } else {

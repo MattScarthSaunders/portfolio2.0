@@ -24,7 +24,7 @@ const flickerFrequencySeconds = computed(() => flickerFrequency.value + 's')
 const yValue = ref(0)
 const yTranslate = computed(() => {
   let offset = 0
-  if (controlStore.windowHeight <= 1550) {
+  if (controlStore.windowWidth <= 1550) {
     offset = -5
   }
   return yValue.value + offset + 'vh'

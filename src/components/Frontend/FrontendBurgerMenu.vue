@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import { onBeforeUnmount, ref } from 'vue'
+import FrontendBEbutton from './FrontendBEbutton.vue'
 import { useControlStore } from '@/stores/appControl'
 import { useFEProjStore } from '@/stores/frontendProjects'
-import { useBEProjStore } from '@/stores/backendProjects'
 
 const store = useControlStore()
 const FEstore = useFEProjStore()
-const BEstore = useBEProjStore()
 
 const showMenu = ref(false)
 const burger = ref<HTMLElement | null>(null)
 
-const handleClickOutside = (event: any) => {
+const handleClickOutside = () => {
   if (burger.value) {
     showMenu.value = false
     window.removeEventListener('click', handleClickOutside)
@@ -25,85 +24,60 @@ const handleClick = () => {
   showMenu.value = !showMenu.value
 }
 
+const resetStores = () => {
+  store.chosen = ''
+  FEstore.isActive = ''
+}
+
 onBeforeUnmount(() => {
   window.removeEventListener('click', handleClickOutside)
 })
 </script>
 
 <template>
-  <button class="burger" @click.stop="handleClick"><span></span><span></span><span></span></button>
+  <button class="burger" @click.stop="handleClick">
+    <span>.</span><span>.</span><span>.</span>
+  </button>
   <ul ref="burger" :class="{ showMenu: showMenu, hideMenu: !showMenu, list: true }">
+    <li>CV</li>
     <li>
-      <router-link
-        to="/"
-        @click.stop="
-          () => {
-            store.chosen = ''
-            FEstore.isActive = ''
-            BEstore.isActive = ''
-          }
-        "
-        >Home</router-link
-      >
+      <router-link to="/Frontend/Contact" @click.stop="resetStores">Contact</router-link>
     </li>
     <li>
-      <router-link
-        to="/Frontend"
-        @click.stop="
-          () => {
-            store.chosen = ''
-            FEstore.isActive = ''
-            BEstore.isActive = ''
-          }
-        "
-        >Frontend</router-link
-      >
+      <router-link to="/" @click.stop="resetStores">Home</router-link>
     </li>
-    <li>
-      <router-link
-        to="/Contact"
-        @click.stop="
-          () => {
-            store.chosen = ''
-            FEstore.isActive = ''
-            BEstore.isActive = ''
-          }
-        "
-        >Contact</router-link
-      >
-    </li>
+    <li><FrontendBEbutton></FrontendBEbutton></li>
   </ul>
 </template>
 
 <style scoped>
 .burger {
   position: absolute;
-  top: 0;
-  right: 0;
+  bottom: 3%;
+  right: 2%;
   background: none;
   border: none;
-  width: 10vh;
-  height: 7vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  margin-right: 5px;
+  border: none;
+  color: white;
+  text-shadow:
+    0 0 2px white,
+    0 0 10px white;
+  font-family: 'Tourney';
+  font-size: 3rem;
 }
 
 .burger > span {
-  height: 1vh;
-  width: 1vh;
-  border: 1px solid rgb(0, 255, 0);
-  background: rgb(0, 255, 0);
-  border-radius: 100%;
-  line-height: 2rem;
-  box-shadow: 0 0 0.5vh rgb(0, 255, 0);
+  font-family: 'Tourney';
+  font-size: 3rem;
 }
 
 .burger:hover > span {
-  box-shadow: 0 0 10px 5px rgb(0, 255, 0);
-  transition: box-shadow 0.25s ease;
+  text-shadow:
+    0 0 2px white,
+    0 0 10px white,
+    0 0 15px white,
+    0 0 25px white;
+  transition: text-shadow 0.25s ease;
 }
 
 .burger:hover > span:nth-child(1) {
@@ -118,6 +92,7 @@ onBeforeUnmount(() => {
 
 .list {
   font-size: 2rem;
+  font-family: 'Tourney';
   opacity: 0;
   transition: opacity 0.25s ease;
   position: absolute;
@@ -135,15 +110,12 @@ a {
   position: absolute;
   list-style: none;
   right: 0;
-  top: 0;
-  bottom: 0;
-  left: 0;
+  height: 100vh;
+  width: 40vw;
   opacity: 0;
-  box-shadow: none;
+  box-shadow: inset -30vw 0 50vw -20vw black;
   pointer-events: none;
-  transition:
-    opacity 1s ease,
-    box-shadow 1s ease;
+  transition: opacity 0.25s ease;
 }
 
 .hideMenu > li,
@@ -157,36 +129,31 @@ a {
   list-style: none;
   position: absolute;
   right: 0;
-  top: 0;
-  bottom: 0;
-  left: 0;
+  height: 100vh;
+  width: 40vw;
+  padding-bottom: 10vh;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  justify-content: flex-start;
-  gap: 10px;
-  box-shadow: inset -20vw 35vh 60vw -20vw black;
+  justify-content: flex-end;
+  box-shadow: inset -30vw 0 50vw -20vw black;
   transition:
     box-shadow 1s ease,
     opacity 1s ease;
   opacity: 1;
-  padding-top: 5vh;
-  padding-right: 15vw;
 }
-
 .showMenu > li,
 .showMenu > li > a {
-  text-align: right;
   text-decoration: none;
-  font-family: 'Terminal';
+  font-family: 'Tourney';
   font-size: 2rem;
   font-weight: 100;
   opacity: 1;
   width: 30%;
-  color: rgba(38, 255, 0, 0.149);
+  color: rgba(255, 255, 255, 0.149);
   text-shadow:
-    0 0 2px rgba(119, 255, 0, 0.5),
-    0 0 5px rgba(89, 255, 0, 0.5);
+    0 0 2px rgba(255, 255, 255, 0.5),
+    0 0 5px rgba(255, 255, 255, 0.5);
 }
 
 .showMenu > li:hover,

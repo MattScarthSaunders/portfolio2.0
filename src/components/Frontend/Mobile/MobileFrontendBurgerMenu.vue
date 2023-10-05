@@ -11,7 +11,7 @@ const BEstore = useBEProjStore()
 const showMenu = ref(false)
 const burger = ref<HTMLElement | null>(null)
 
-const handleClickOutside = (event: any) => {
+const handleClickOutside = () => {
   if (burger.value) {
     showMenu.value = false
     window.removeEventListener('click', handleClickOutside)
@@ -25,6 +25,12 @@ const handleClick = () => {
   showMenu.value = !showMenu.value
 }
 
+const resetStores = () => {
+  store.chosen = ''
+  FEstore.isActive = ''
+  BEstore.isActive = ''
+}
+
 onBeforeUnmount(() => {
   window.removeEventListener('click', handleClickOutside)
 })
@@ -34,43 +40,13 @@ onBeforeUnmount(() => {
   <button class="burger" @click.stop="handleClick"><span></span><span></span><span></span></button>
   <ul ref="burger" :class="{ showMenu: showMenu, hideMenu: !showMenu, list: true }">
     <li>
-      <router-link
-        to="/"
-        @click.stop="
-          () => {
-            store.chosen = ''
-            FEstore.isActive = ''
-            BEstore.isActive = ''
-          }
-        "
-        >Home</router-link
-      >
+      <router-link to="/" @click.stop="resetStores">Home</router-link>
     </li>
     <li>
-      <router-link
-        to="/Backend"
-        @click.stop="
-          () => {
-            store.chosen = ''
-            FEstore.isActive = ''
-            BEstore.isActive = ''
-          }
-        "
-        >Backend</router-link
-      >
+      <router-link to="/Backend" @click.stop="resetStores">Backend</router-link>
     </li>
     <li>
-      <router-link
-        to="/Contact"
-        @click.stop="
-          () => {
-            store.chosen = ''
-            FEstore.isActive = ''
-            BEstore.isActive = ''
-          }
-        "
-        >Contact</router-link
-      >
+      <router-link to="/Contact" @click.stop="resetStores">Contact</router-link>
     </li>
   </ul>
 </template>
@@ -175,7 +151,7 @@ a {
     opacity 1s ease;
   opacity: 1;
   padding-top: 5vh;
-  padding-right: 15vw;
+  padding-right: 10vw;
   z-index: 12;
 }
 
@@ -187,7 +163,7 @@ a {
   font-size: 2rem;
   font-weight: 100;
   opacity: 1;
-  width: 30%;
+  width: max-content;
   color: rgba(255, 255, 255, 1);
   text-shadow:
     0 0 2px rgb(255, 255, 255),
