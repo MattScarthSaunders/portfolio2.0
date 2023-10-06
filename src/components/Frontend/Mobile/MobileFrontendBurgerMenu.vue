@@ -149,6 +149,7 @@ a {
   transition:
     box-shadow 1s ease,
     opacity 1s ease;
+  will-change: opacity;
   opacity: 1;
   padding-top: 5vh;
   padding-right: 10vw;
