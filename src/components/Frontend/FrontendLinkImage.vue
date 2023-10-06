@@ -2,6 +2,7 @@
 import type { AirtableProjectAsset } from '@/types'
 import { computed, onMounted, ref } from 'vue'
 import { calculateAspectRatioUnitAgnostic } from '../../utils/calcs'
+import { useControlStore } from '@/stores/appControl'
 
 const props = defineProps<{
   hostedLink?: string
@@ -10,11 +11,18 @@ const props = defineProps<{
   smImg: AirtableProjectAsset
 }>()
 
+const controlStore = useControlStore()
+
 const imgUrl = new URL(`../../assets/images/${props.smImg.filename}`, import.meta.url).href
 const bgSmUrl = computed(() => `url('${imgUrl}')`)
 
 const height = ref('')
 const width = ref('')
+
+const handleModal = () => {
+  controlStore.modalActive = true
+  controlStore.modalSource = props.img.url
+}
 
 onMounted(() => {
   const { newWidth, newHeight } = calculateAspectRatioUnitAgnostic(
@@ -30,16 +38,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <a
-    class="imageLink"
-    @click.stop
-    :href="props.hostedLink || props.githubLink"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
+  <div class="imageLink">
     <div class="bg"></div>
-    <img class="projectImg" :src="props.img.url" />
-  </a>
+    <img class="projectImg" :src="props.img.url" @click.stop="handleModal" />
+  </div>
 </template>
 
 <style scoped>

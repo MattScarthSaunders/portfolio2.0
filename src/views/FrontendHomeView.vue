@@ -4,6 +4,7 @@ import FrontendProjectName from '@/components/Frontend/FrontendProjectName.vue'
 import FrontendActiveSection from '@/components/Frontend/FrontendActiveSection.vue'
 import { useFEProjStore } from '@/stores/frontendProjects'
 import FrontendBurgerMenu from '@/components/Frontend/FrontendBurgerMenu.vue'
+import ImageModal from '@/components/imageModal.vue'
 
 defineProps<{ projects: AirtableProject[]; FrontendChosen: boolean }>()
 const store = useFEProjStore()
@@ -39,6 +40,7 @@ const handleClick = (name: string) => {
       ></FrontendProjectName>
     </div>
     <FrontendBurgerMenu></FrontendBurgerMenu>
+    <ImageModal></ImageModal>
   </main>
 </template>
 

@@ -4,6 +4,7 @@ import MobileFrontendProjectName from '@/components/Frontend/Mobile/MobileFronte
 import MobileFrontendActiveSection from '@/components/Frontend/Mobile/MobileFrontendActiveSection.vue'
 import { useFEProjStore } from '@/stores/frontendProjects'
 import MobileFrontendBurgerMenu from '@/components/Frontend/Mobile/MobileFrontendBurgerMenu.vue'
+import ImageModal from '@/components/imageModal.vue'
 
 defineProps<{ projects: AirtableProject[]; FrontendChosen: boolean }>()
 const store = useFEProjStore()
@@ -39,6 +40,7 @@ const handleClick = (name: string) => {
         :length="projects.length"
       ></MobileFrontendProjectName>
     </div>
+    <ImageModal></ImageModal>
   </main>
 </template>
 

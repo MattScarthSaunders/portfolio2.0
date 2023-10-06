@@ -4,6 +4,8 @@ import type { AirtableProject } from '@/types'
 
 export const useControlStore = defineStore('control', () => {
   const chosen = ref('')
+  const modalActive = ref(false)
+  const modalSource = ref('')
   const FEProjects = ref<AirtableProject[]>([])
   const BEProjects = ref<AirtableProject[]>([])
   const initialLoad = ref(true)
@@ -16,6 +18,8 @@ export const useControlStore = defineStore('control', () => {
 
   return {
     chosen,
+    modalActive,
+    modalSource,
     FEProjects,
     BEProjects,
     initialLoad,
