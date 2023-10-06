@@ -76,7 +76,7 @@ const handleClick = (name: string) => {
   align-items: center;
   text-align: left;
   height: 10vh;
-  width: 90vw;
+  width: 100vw;
   overflow-y: scroll;
   padding-top: 20vh;
   margin-bottom: 10vh;
@@ -85,6 +85,5 @@ const handleClick = (name: string) => {
     inset 0 0 10px white,
     inset 00px 0px 75px rgba(0, 20, 20, 0.5),
     -2px 2px 0px 1px rgba(0, 0, 0, 0.3);
-  transform: skew(8deg);
 }
 </style>

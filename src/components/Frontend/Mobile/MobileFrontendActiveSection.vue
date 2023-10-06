@@ -86,7 +86,6 @@ const props = defineProps<{
 .isActive {
   opacity: 1;
   transition: opacity 1s ease;
-  /* transition-delay: 0.3s; */
   width: 100vw;
   height: 35vh;
 }
@@ -97,8 +96,8 @@ const props = defineProps<{
 }
 
 .imageLinks {
-  padding: 1rem 2rem;
-  padding-right: 1rem;
+  padding: 1rem 1rem;
+  margin-right: 2vw;
   opacity: 1;
   display: flex;
   justify-content: center;
