@@ -49,11 +49,10 @@ const handleClick = (name: string) => {
   height: 100vh;
   width: 100vw;
   background: linear-gradient(-45deg, #e73c7e, #23a6d5, #23d5ab);
-  background-size: 400% 400%;
+  background-size: 200% 200%;
   animation:
     gradient 60s ease infinite,
     fade-in 1s ease;
-  will-change: background-position;
   box-shadow: inset 0 -10vh 150px 10px black;
   display: flex;
   flex-direction: column;

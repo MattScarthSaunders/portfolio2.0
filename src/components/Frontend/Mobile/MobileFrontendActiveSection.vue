@@ -87,7 +87,6 @@ const props = defineProps<{
   opacity: 1;
   transition: opacity 1s ease;
   transition-delay: 0.3s;
-  will-change: opacity;
   width: 100vw;
   height: 35vh;
 }
