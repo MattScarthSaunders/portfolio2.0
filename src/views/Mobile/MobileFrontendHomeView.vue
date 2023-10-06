@@ -50,9 +50,7 @@ const handleClick = (name: string) => {
   width: 100vw;
   background: linear-gradient(-45deg, #e73c7e, #23a6d5, #23d5ab);
   background-size: 200% 200%;
-  animation:
-    gradient 60s ease infinite,
-    fade-in 1s ease;
+  animation: fade-in 1s ease;
   box-shadow: inset 0 -10vh 150px 10px black;
   display: flex;
   flex-direction: column;
@@ -80,7 +78,7 @@ const handleClick = (name: string) => {
   height: 10vh;
   width: 90vw;
   overflow-y: scroll;
-  padding-top: 15vh;
+  padding-top: 20vh;
   margin-bottom: 10vh;
   border-radius: 5%;
   box-shadow:

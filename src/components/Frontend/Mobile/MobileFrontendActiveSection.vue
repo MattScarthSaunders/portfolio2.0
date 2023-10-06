@@ -86,7 +86,7 @@ const props = defineProps<{
 .isActive {
   opacity: 1;
   transition: opacity 1s ease;
-  transition-delay: 0.3s;
+  /* transition-delay: 0.3s; */
   width: 100vw;
   height: 35vh;
 }

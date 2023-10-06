@@ -57,7 +57,6 @@ onMounted(() => {
   left: 0;
   height: v-bind(height);
   width: v-bind(width);
-  animation: loadingFEPic 3s infinite;
   box-shadow: inset 00px 0px 75px 50px rgba(0, 20, 20, 0.5);
   background-image: v-bind(bgSmUrl);
   background-size: contain;
@@ -77,7 +76,6 @@ onMounted(() => {
     inset 00px 0px 75px rgba(0, 20, 20, 0.5),
     -2px 2px 0px 1px rgba(0, 0, 0, 0.3),
     -6px 6px 0px 1px rgba(0, 0, 0, 0.3);
-  /* -16px 16px 0px 1px rgba(0, 0, 0, 0.3); */
   border-radius: 5%;
   object-fit: contain;
   cursor: pointer;

@@ -147,8 +147,7 @@ a {
   gap: 10px;
   box-shadow: inset -20vw 40vh 60vw -20vw black;
   transition:
-    box-shadow 1s ease,
-    opacity 1s ease;
+    /* box-shadow 1s ease, */ opacity 1s ease;
   opacity: 1;
   padding-top: 5vh;
   padding-right: 10vw;

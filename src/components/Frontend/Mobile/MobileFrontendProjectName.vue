@@ -49,7 +49,7 @@ onMounted(() => {
   background: none;
   border: none;
   text-align: left;
-  padding: 1.5rem 0;
+  margin: 0.5rem 0;
   /* font */
   font-family: 'Tourney';
   font-weight: 100;
