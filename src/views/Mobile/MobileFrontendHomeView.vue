@@ -53,6 +53,7 @@ const handleClick = (name: string) => {
   animation:
     gradient 60s ease infinite,
     fade-in 1s ease;
+  will-change: background-position;
   box-shadow: inset 0 -10vh 150px 10px black;
   display: flex;
   flex-direction: column;
