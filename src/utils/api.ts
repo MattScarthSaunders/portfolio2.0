@@ -19,7 +19,7 @@ export const replaceParams = (endpoint: string) => {
   }
 }
 
-export const handleBoardgameRequests = async (
+export const handleGenericApiRequest = async (
   command: string,
   endpoint: string,
   urlStub: string,
@@ -30,56 +30,35 @@ export const handleBoardgameRequests = async (
       }
     | null
   >,
-  isAPIFetching: Ref<boolean>
+  isAPIFetching: Ref<boolean>,
+  apiInfo: { [key: string]: any }
 ) => {
+  const structuredUrl = urlStub.slice(0, urlStub.length - 4) + replaceParams(endpoint)
+  const apiProperty = apiInfo[command + ' ' + endpoint]
+
   try {
+    if (command === 'POST') {
+      const exampleBody = apiProperty['example body']
+      const res = await axios.post(structuredUrl, exampleBody)
+      fetchedData.value = res.data
+    }
+
     if (command === 'GET') {
-      let structuredEndpoint = ''
-      if (endpoint.includes('username')) {
-        structuredEndpoint = '/api/users'
-        const url = urlStub.slice(0, urlStub.length - 4) + structuredEndpoint
-        const res = await axios.get(url)
-        fetchedData.value = res.data.users[Math.ceil((Math.random() * 10) / 2)]
+      if (endpoint.includes(':') && !endpoint.includes('_id')) {
+        const exampleResponse = apiProperty['example response']
+        fetchedData.value = exampleResponse
       } else {
-        structuredEndpoint = replaceParams(endpoint)
-        const url = urlStub.slice(0, urlStub.length - 4) + structuredEndpoint
-        const res = await axios.get(url)
+        const res = await axios.get(structuredUrl)
         fetchedData.value = res.data
       }
     }
-    if (command === 'POST') {
-      let postbody = {}
-      if (endpoint.includes('comments')) {
-        postbody = {
-          username: 'visitor',
-          body: 'This boardgame looks awesome! I cant wait to play again.'
-        }
-      } else if (endpoint.includes('categories')) {
-        postbody = {
-          slug: 'Recruitment Strategy',
-          description:
-            'If you like what you see on the site, make contact and potentially win a new developer.'
-        }
-      } else {
-        postbody = {
-          owner: 'visitor',
-          title: 'A Site To Behold',
-          review_body: 'I checked out Matts portfolio site and used his interactive API tool!',
-          designer: 'Matt Scarth-Saunders',
-          category: 'strategy'
-        }
-      }
-      const structuredEndpoint = replaceParams(endpoint)
-      const url = urlStub.slice(0, urlStub.length - 4) + structuredEndpoint
-      const res = await axios.post(url, postbody)
-      fetchedData.value = res.data
-    }
+
     if (command === 'PATCH') {
-      const structuredEndpoint = replaceParams(endpoint)
-      const url = urlStub.slice(0, urlStub.length - 4) + structuredEndpoint
-      const res = await axios.patch(url, { inc_votes: 1 })
+      const exampleBody = apiProperty['example body']
+      const res = await axios.patch(structuredUrl, exampleBody)
       fetchedData.value = res.data
     }
+
     if (command === 'DELETE') {
       fetchedData.value = {
         deleted: {
@@ -87,13 +66,21 @@ export const handleBoardgameRequests = async (
         }
       }
     }
+
     isAPIFetching.value = false
   } catch (err) {
     isAPIFetching.value = false
 
-    fetchedData.value = {
-      error:
-        'Apologies, something must have happened with the database! Try this request again and it will try to serve you up something different.'
+    if (command === 'POST') {
+      fetchedData.value = {
+        error:
+          'Looks like someone has already done this today! This db gets reseeded daily, so try again tomorrow.'
+      }
+    } else {
+      fetchedData.value = {
+        error:
+          'Apologies, something must have happened with the database! Try this request again and it will try to serve you up something different.'
+      }
     }
   }
 }

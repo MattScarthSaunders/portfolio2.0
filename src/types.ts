@@ -25,7 +25,8 @@ export const AirtableProjectSchema = z.object({
   Id: z.number(),
   Hosted: z.string().optional(),
   Assets: AirtableProjectAssetSchema.array().optional(),
-  Downloadables: AirtableProjectAssetSchema.array().optional()
+  Downloadables: AirtableProjectAssetSchema.array().optional(),
+  Endpoints: z.string().optional()
 })
 
 export type AirtableProject = z.infer<typeof AirtableProjectSchema>

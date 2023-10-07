@@ -3,7 +3,7 @@ import axios from 'axios'
 import { TypeFlow } from 'typeflow-vue'
 import { ref, watch, watchEffect } from 'vue'
 import BackendButtonVue from './BackendButton.vue'
-import { handleBoardgameRequests } from '@/utils/api'
+import { handleGenericApiRequest } from '@/utils/api'
 import type { AirtableProject } from '@/types'
 import CRTLineWrapper from './CRTLineWrapper.vue'
 import { useControlStore } from '@/stores/appControl'
@@ -40,6 +40,7 @@ const maxHeight = '50vh'
 const handleClick = async (command: string, endpoint: string) => {
   if (props.project) {
     const urlStub = props.project.Hosted || ''
+    const apiInfo = JSON.parse(props.project.Endpoints!)
     isAPIFetching.value = true
 
     if (controlStore.windowWidth <= 1250) {
@@ -52,7 +53,7 @@ const handleClick = async (command: string, endpoint: string) => {
     visualiserPadding.value = '1rem'
     visualiserBorder.value = 'var(--BE-bg-border)'
 
-    await handleBoardgameRequests(command, endpoint, urlStub, fetchedData, isAPIFetching)
+    await handleGenericApiRequest(command, endpoint, urlStub, fetchedData, isAPIFetching, apiInfo)
   }
 }
 
