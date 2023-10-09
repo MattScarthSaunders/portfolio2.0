@@ -39,7 +39,6 @@ onBeforeUnmount(() => {
     <span>.</span><span>.</span><span>.</span>
   </button>
   <ul ref="burger" :class="{ showMenu: showMenu, hideMenu: !showMenu, list: true }">
-    <li>CV</li>
     <li>
       <router-link to="/Frontend/Contact" @click.stop="resetStores">Contact</router-link>
     </li>
