@@ -47,7 +47,7 @@ onBeforeUnmount(() => {
     </li>
     <li><FrontendBEbutton></FrontendBEbutton></li>
     <li>
-      <router-link to="/Frontend" @click.stop="resetStores">Contact</router-link>
+      <router-link to="/Frontend" @click.stop="resetStores">Frontend</router-link>
     </li>
   </ul>
 </template>

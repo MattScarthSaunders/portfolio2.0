@@ -43,10 +43,13 @@ onBeforeUnmount(() => {
       <router-link to="/" @click.stop="resetStores">Home</router-link>
     </li>
     <li>
+      <router-link to="/Contact" @click.stop="resetStores">Contact</router-link>
+    </li>
+    <li>
       <router-link to="/Backend" @click.stop="resetStores">Backend</router-link>
     </li>
     <li>
-      <router-link to="/Contact" @click.stop="resetStores">Contact</router-link>
+      <router-link to="/Frontend" @click.stop="resetStores">Frontend</router-link>
     </li>
   </ul>
 </template>

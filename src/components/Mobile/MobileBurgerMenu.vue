@@ -40,6 +40,9 @@ onBeforeUnmount(() => {
   <button class="burger" @click.stop="handleClick"><span></span><span></span><span></span></button>
   <ul ref="burger" :class="{ showMenu: showMenu, hideMenu: !showMenu, list: true }">
     <li>
+      <router-link to="/Contact" @click.stop="resetStores">Contact</router-link>
+    </li>
+    <li>
       <router-link to="/Frontend" @click.stop="resetStores">Frontend</router-link>
     </li>
     <li>
