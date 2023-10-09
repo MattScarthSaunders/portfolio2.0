@@ -28,7 +28,7 @@ const store = useControlStore()
       <a class="mail" href="mailto:m.scarsaund@gmail.com"
         ><img src="../../assets/icons/email.png"
       /></a>
-      <a class="cv" :href="store.cvUrl"><p>CV</p></a>
+      <a class="cv" :href="store.cvUrl" target="_blank" rel="noopener noreferrer"><p>CV</p></a>
     </div>
   </section>
 </template>
