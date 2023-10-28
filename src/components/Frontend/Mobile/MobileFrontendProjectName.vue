@@ -53,7 +53,7 @@ onMounted(() => {
   /* font */
   font-family: 'Tourney';
   font-weight: 100;
-  font-size: 2.5rem;
+  font-size: 2.25rem;
   height: 2.5rem;
   width: 80vw;
   /* color */

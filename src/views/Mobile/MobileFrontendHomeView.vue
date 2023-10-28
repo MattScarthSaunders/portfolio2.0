@@ -74,13 +74,12 @@ const handleClick = (name: string) => {
   bottom: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   text-align: left;
-  height: 10vh;
+  height: 20vh;
   width: 100vw;
   overflow-y: scroll;
-  padding-top: 20vh;
   margin-bottom: 10vh;
   border-radius: 5%;
   box-shadow:
