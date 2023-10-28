@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, watchEffect } from 'vue'
 import { getProjects, getPersonalData } from './utils/api'
 import SiteLoader from './components/SiteLoader.vue'
 import { useControlStore } from '@/stores/appControl'
@@ -14,8 +14,7 @@ const handleScreenSizeChange = () => {
 
 onMounted(async () => {
   window.addEventListener('resize', handleScreenSizeChange)
-  store.windowWidth = window.innerWidth
-  store.windowHeight = window.innerHeight
+  handleScreenSizeChange()
 
   try {
     const { FEProj, BEProj } = await getProjects()

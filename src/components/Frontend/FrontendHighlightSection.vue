@@ -75,7 +75,16 @@ onMounted(() => {
 
 @media screen and (max-width: 1550px) {
   .highlights {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
+    width: 15vw;
+    height: 10vh;
+    gap: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .highlights {
+    opacity: 0;
   }
 }
 </style>

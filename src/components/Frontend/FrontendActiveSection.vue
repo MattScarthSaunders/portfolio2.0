@@ -42,15 +42,15 @@ const props = defineProps<{
   display: flex;
   margin-top: -1vw;
   gap: 1rem;
-  transform: translateX(10vw);
   opacity: 0;
 }
 .isActive {
   opacity: 1;
-  left: 35vw;
+  left: 20vw;
+  translate: 13vw 0;
   transform: skew(15deg);
   transition:
-    left 1s ease,
+    translate 1s ease,
     opacity 1s ease;
   transition-delay: 0.3s;
 }
