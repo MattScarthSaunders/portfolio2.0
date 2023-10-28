@@ -72,4 +72,10 @@ onMounted(() => {
     scrollText v-bind(scrollTime) infinite linear;
   gap: 0.5rem;
 }
+
+@media screen and (max-width: 1550px) {
+  .highlights {
+    font-size: 0.8rem;
+  }
+}
 </style>
