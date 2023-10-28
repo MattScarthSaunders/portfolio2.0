@@ -47,7 +47,7 @@ const props = defineProps<{
 .isActive {
   opacity: 1;
   left: 20vw;
-  translate: 13vw 0;
+  translate: 10vw 0;
   transform: skew(15deg);
   transition:
     translate 1s ease,
