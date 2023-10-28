@@ -1,68 +1,30 @@
 # portfolio2.0
 
-This template should help get you started developing with Vue 3 in Vite.
+This is my latest iteration on my portfolio site. Build in Vue.js with Vite and Typescript, with vanilla CSS. I'm using airtable to serve the site with my project data. The site is hosted [here](mattscarthsaunders.netlify.app).
 
-## Recommended IDE Setup
+## Run it locally
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+To run this locally, just run:
 
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
-
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
 ```
-
-### Compile and Hot-Reload for Development
-
-```sh
+npm i
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+## Why this tech?
 
-```sh
-npm run build
-```
+## Vue + Vite
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+I've gone with Vue/Vite because I'm a fan of the way Vue handles component structuring and user interactivity events. It has a large number of useful in-built features like mouseover built into template elements and the presence of transition elements makes handling animation of elements entering/leaving the DOM much nicer. The separation of Template, Script and Style sections within a component also greatly enhance code readability compared to something like React, in my opinion. If I'm to maintain this site long-term, I want to be able to come back in many months time and pick up easily what exactly I thought I was playing at!
 
-```sh
-npm run test:unit
-```
+# Typescript
 
-### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
+I'm using typescript for a similar reason - I want to know immediately what my components are doing (in particular what the props all are), and I want to have all the handy QOL features that comes with it such as autocomplete. When I want to know what properties my portfolio project has on it, it's a keypress away rather than clicking through screens.
 
-```sh
-npm run test:e2e:dev
-```
+# Vanilla CSS
 
-This runs the end-to-end tests against the Vite development server.
-It is much faster than the production build.
+While I've used and come to appreciate some of the benefits of CSS frameworks like Tailwind, I'm a big fan of plain old CSS. Especially contained within a scoped style block on a Vue component, it's very easy to manage.
 
-But it's still recommended to test the production build with `test:e2e` before deploying (e.g. in CI environments):
+# Other
 
-```sh
-npm run build
-npm run test:e2e
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+I'm using eslint and prettier for code quality/consistency purposes.

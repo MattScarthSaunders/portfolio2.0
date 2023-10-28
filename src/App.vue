@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, watchEffect } from 'vue'
+import { onMounted } from 'vue'
 import { getProjects, getPersonalData } from './utils/api'
 import SiteLoader from './components/SiteLoader.vue'
 import { useControlStore } from '@/stores/appControl'
