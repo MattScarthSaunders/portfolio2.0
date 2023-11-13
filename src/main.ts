@@ -25,7 +25,7 @@ const mobileRoutes = [
 ]
 
 const mobileRouter = VueRouter.createRouter({
-  history: VueRouter.createWebHashHistory(),
+  history: VueRouter.createWebHistory(),
   routes: mobileRoutes
 })
 
@@ -38,7 +38,7 @@ const routes = [
 ]
 
 const router = VueRouter.createRouter({
-  history: VueRouter.createWebHashHistory(),
+  history: VueRouter.createWebHistory(),
   routes
 })
 

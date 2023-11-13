@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { getProjects, getPersonalData } from './utils/api'
 import SiteLoader from './components/SiteLoader.vue'
 import { useControlStore } from '@/stores/appControl'
-import type { RouterView } from 'vue-router'
+import { useRoute, type RouterView } from 'vue-router'
 
 const store = useControlStore()
+const route = useRoute()
 
 const handleScreenSizeChange = () => {
   store.windowWidth = window.innerWidth
@@ -41,6 +42,13 @@ onMounted(async () => {
     }
   }
 })
+
+watch(
+  () => route.path,
+  async (newPath, oldPath) => {
+    if (newPath === '/') location.reload()
+  }
+)
 </script>
 
 <template>
